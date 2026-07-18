@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lasso — Marketing for the Age of AI | AEO, GEO &amp; Agentic Commerce for Consumer Brands</title>
+<meta name="description" content="Lasso helps D2C and e-commerce brands get discovered, recommended, and bought by AI. Answer Engine Optimization (AEO/GEO), agentic commerce readiness, and hands-on execution — starting with a free AI visibility audit.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Lasso",
+  "description": "AI-era marketing agency specializing in Answer Engine Optimization (AEO), Generative Engine Optimization (GEO), AI discovery, and agentic commerce for consumer brands.",
+  "email": "rishavjani@gmail.com",
+  "knowsAbout": ["Answer Engine Optimization", "Generative Engine Optimization", "AI Search Visibility", "Agentic Commerce", "Digital PR", "E-commerce Marketing"]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is Answer Engine Optimization (AEO)?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Answer Engine Optimization (AEO), also called Generative Engine Optimization (GEO), is the practice of making a brand visible and recommended inside AI-generated answers — in ChatGPT, Perplexity, Claude, Gemini, and Google AI Overviews. Where SEO optimizes for a list of links, AEO optimizes for being the answer itself: mentioned, cited, and recommended when a shopper asks an AI what to buy."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is Lasso different from AI visibility monitoring tools?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Monitoring platforms show you a dashboard of where your brand stands in AI answers. Lasso does the work that changes the number: earning real reviews, placing citations through digital PR, engaging communities, fixing structured data and entity signals, and building AI-readable content. Tools diagnose; Lasso executes."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How long does AEO take to show results?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Retrieval-augmented AI systems like Perplexity and search-enabled ChatGPT index new content within days, so early movement is often visible in the first 30 days. Durable, compounding gains — citations, review depth, entity authority — typically build over 90 days to 6 months. Lasso measures against retrieval-based engines first, because base model updates are infrequent and outside anyone's control."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is agentic commerce?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Agentic commerce is shopping done by AI agents on a customer's behalf — researching, comparing, and increasingly completing purchases. It requires brands to be transactable by machines: clean product feeds, accurate structured data, machine-readable policies, and checkout paths agents can complete. Lasso prepares consumer brands for this shift."
+      }
+    }
+  ]
+}
+</script>
+<style>
+  :root {
+    --bg: #FAFAF7;
+    --surface: #FFFFFF;
+    --ink: #14120F;
+    --ink-soft: #55524B;
+    --ink-faint: #8A867D;
+    --accent: #E8450A;
+    --accent-soft: #FFF0E9;
+    --line: #E4E1D8;
+    --line-dark: #14120F;
+    --good: #1A7F4E;
+    --mono: 'IBM Plex Mono', ui-monospace, monospace;
+    --sans: 'Space Grotesk', system-ui, sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+    font-size: 17px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+  .mono { font-family: var(--mono); }
+
+  /* ---------- Nav ---------- */
+  header {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(250,250,247,0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  nav { display: flex; align-items: center; justify-content: space-between; height: 68px; }
+  .logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 22px; letter-spacing: -0.5px; text-decoration: none; color: var(--ink); }
+  .logo-mark {
+    width: 30px; height: 30px; border-radius: 50%;
+    border: 2.5px solid var(--ink); position: relative; flex-shrink: 0;
+  }
+  .logo-mark::after {
+    content: ''; position: absolute; width: 12px; height: 12px;
+    border-radius: 50%; background: var(--accent);
+    bottom: -4px; right: -4px; border: 2.5px solid var(--bg);
+  }
+  .nav-links { display: flex; gap: 28px; align-items: center; }
+  .nav-links a { text-decoration: none; color: var(--ink-soft); font-size: 15px; font-weight: 500; }
+  .nav-links a:hover { color: var(--ink); }
+  .btn {
+    display: inline-block; text-decoration: none; font-weight: 600;
+    padding: 12px 22px; border-radius: 6px; font-size: 15px;
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+    cursor: pointer; border: none; font-family: var(--sans);
+  }
+  .btn:hover { transform: translateY(-1px); }
+  .btn-primary { background: var(--ink); color: #fff; }
+  .btn-primary:hover { box-shadow: 0 4px 14px rgba(20,18,15,0.25); }
+  .btn-accent { background: var(--accent); color: #fff; }
+  .btn-accent:hover { box-shadow: 0 4px 14px rgba(232,69,10,0.35); }
+  .btn-ghost { background: transparent; color: var(--ink); border: 1.5px solid var(--line-dark); }
+  .btn-lg { padding: 15px 28px; font-size: 16px; }
+
+  /* ---------- Section scaffolding ---------- */
+  section { padding: 88px 0; border-bottom: 1px solid var(--line); }
+  .kicker {
+    font-family: var(--mono); font-size: 12.5px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--accent); font-weight: 500;
+    display: block; margin-bottom: 16px;
+  }
+  h1 { font-size: clamp(38px, 5.6vw, 62px); line-height: 1.06; letter-spacing: -0.025em; font-weight: 700; }
+  h2 { font-size: clamp(28px, 3.6vw, 40px); line-height: 1.12; letter-spacing: -0.02em; font-weight: 700; margin-bottom: 18px; }
+  h3 { font-size: 19px; font-weight: 600; letter-spacing: -0.01em; }
+  .lede { font-size: 19px; color: var(--ink-soft); max-width: 640px; }
+
+  /* ---------- Hero ---------- */
+  .hero { padding: 84px 0 72px; border-bottom: 1px solid var(--line); }
+  .hero-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 56px; align-items: center; }
+  .hero h1 .hl { color: var(--accent); }
+  .hero .lede { margin: 22px 0 30px; }
+  .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+  .hero-note { font-family: var(--mono); font-size: 12.5px; color: var(--ink-faint); margin-top: 14px; }
+
+  /* Chat mock */
+  .chat-card {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 14px; box-shadow: 0 18px 50px rgba(20,18,15,0.08);
+    overflow: hidden; font-size: 14.5px;
+  }
+  .chat-head {
+    display: flex; align-items: center; gap: 8px; padding: 12px 16px;
+    border-bottom: 1px solid var(--line); font-family: var(--mono); font-size: 12px; color: var(--ink-faint);
+  }
+  .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--line); }
+  .dot.active { background: var(--good); }
+  .chat-body { padding: 20px; }
+  .chat-q {
+    background: var(--bg); border: 1px solid var(--line); border-radius: 10px 10px 10px 2px;
+    padding: 12px 14px; font-weight: 500; margin-bottom: 16px; max-width: 88%;
+  }
+  .chat-a { color: var(--ink-soft); }
+  .chat-a p { margin-bottom: 12px; }
+  .rec {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; margin-bottom: 8px;
+    background: var(--surface); color: var(--ink-soft);
+  }
+  .rec.win {
+    border: 1.5px solid var(--accent); background: var(--accent-soft); color: var(--ink);
+    font-weight: 600;
+  }
+  .rec .tag { font-family: var(--mono); font-size: 11px; color: var(--ink-faint); }
+  .rec.win .tag { color: var(--accent); font-weight: 500; }
+  .cite-row { display: flex; gap: 6px; margin-top: 14px; flex-wrap: wrap; }
+  .cite {
+    font-family: var(--mono); font-size: 10.5px; padding: 4px 9px;
+    border: 1px solid var(--line); border-radius: 99px; color: var(--ink-faint);
+  }
+
+  /* ---------- Stat bar ---------- */
+  .stats { padding: 44px 0; border-bottom: 1px solid var(--line); background: var(--surface); }
+  .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+  .stat .num { font-size: 38px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; }
+  .stat .num span { color: var(--accent); }
+  .stat .lab { color: var(--ink-soft); font-size: 14.5px; margin-top: 6px; }
+  .stat .src { font-family: var(--mono); font-size: 11px; color: var(--ink-faint); margin-top: 8px; }
+
+  /* ---------- Shift cards ---------- */
+  .card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 44px; }
+  .card {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+    padding: 28px 26px;
+  }
+  .card .idx { font-family: var(--mono); font-size: 12px; color: var(--accent); display: block; margin-bottom: 14px; }
+  .card h3 { margin-bottom: 10px; }
+  .card p { color: var(--ink-soft); font-size: 15.5px; }
+
+  /* ---------- Services ---------- */
+  .svc-list { margin-top: 44px; border-top: 1px solid var(--line-dark); }
+  .svc {
+    display: grid; grid-template-columns: 72px 1fr 1.3fr; gap: 28px;
+    padding: 34px 0; border-bottom: 1px solid var(--line);
+    align-items: start;
+  }
+  .svc .n { font-family: var(--mono); font-size: 14px; color: var(--ink-faint); padding-top: 4px; }
+  .svc h3 { font-size: 22px; }
+  .svc .sub { font-family: var(--mono); font-size: 12px; color: var(--accent); margin-top: 6px; letter-spacing: 0.06em; text-transform: uppercase; }
+  .svc p { color: var(--ink-soft); font-size: 16px; }
+
+  /* ---------- Signals table ---------- */
+  .signals { background: var(--surface); }
+  .sig-table { width: 100%; border-collapse: collapse; margin-top: 40px; font-size: 15.5px; }
+  .sig-table th {
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
+    text-align: left; color: var(--ink-faint); font-weight: 500;
+    padding: 0 16px 14px 0; border-bottom: 1.5px solid var(--line-dark);
+  }
+  .sig-table td { padding: 20px 16px 20px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .sig-table td:first-child { font-weight: 600; white-space: nowrap; }
+  .sig-table td:nth-child(2) { color: var(--ink-soft); }
+  .sig-table .why { font-family: var(--mono); font-size: 12.5px; color: var(--ink-faint); }
+
+  /* ---------- Wedge ---------- */
+  .wedge-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 44px; }
+  .wedge-col { border-radius: 12px; padding: 32px 30px; }
+  .wedge-col.them { background: var(--surface); border: 1px dashed var(--line-dark); }
+  .wedge-col.us { background: var(--ink); color: #fff; }
+  .wedge-col .tag { font-family: var(--mono); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; display: block; margin-bottom: 18px; }
+  .wedge-col.them .tag { color: var(--ink-faint); }
+  .wedge-col.us .tag { color: var(--accent); }
+  .wedge-col ul { list-style: none; }
+  .wedge-col li { padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 16px; }
+  .wedge-col.us li { border-bottom: 1px solid rgba(255,255,255,0.14); }
+  .wedge-col li:last-child { border-bottom: none; }
+  .wedge-col li::before { content: '→ '; font-family: var(--mono); color: var(--ink-faint); }
+  .wedge-col.us li::before { color: var(--accent); }
+
+  /* ---------- Evidence ---------- */
+  .ev-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 44px; }
+  .ev {
+    border: 1px solid var(--line); border-left: 3px solid var(--accent);
+    background: var(--surface); border-radius: 0 10px 10px 0; padding: 26px 24px;
+  }
+  .ev .fig { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; }
+  .ev p { color: var(--ink-soft); font-size: 15px; margin-top: 8px; }
+  .ev .src { font-family: var(--mono); font-size: 11.5px; color: var(--ink-faint); margin-top: 12px; }
+
+  /* ---------- Process ---------- */
+  .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 48px; border-top: 1.5px solid var(--line-dark); }
+  .step { padding: 28px 22px 0 0; position: relative; }
+  .step::before {
+    content: ''; position: absolute; top: -6px; left: 0;
+    width: 11px; height: 11px; border-radius: 50%;
+    background: var(--bg); border: 2.5px solid var(--ink);
+  }
+  .step:first-child::before { background: var(--accent); border-color: var(--accent); }
+  .step .when { font-family: var(--mono); font-size: 12px; color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase; display: block; margin-bottom: 10px; }
+  .step h3 { margin-bottom: 8px; font-size: 17.5px; }
+  .step p { color: var(--ink-soft); font-size: 14.5px; }
+
+  /* ---------- FAQ ---------- */
+  .faq details {
+    border-bottom: 1px solid var(--line); padding: 4px 0;
+  }
+  .faq details:first-of-type { border-top: 1.5px solid var(--line-dark); margin-top: 40px; }
+  .faq summary {
+    cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center;
+    font-weight: 600; font-size: 18px; padding: 22px 0;
+  }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: '+'; font-family: var(--mono); font-size: 22px; color: var(--accent); transition: transform 0.2s; }
+  .faq details[open] summary::after { transform: rotate(45deg); }
+  .faq .a { color: var(--ink-soft); padding: 0 0 24px; max-width: 780px; font-size: 16px; }
+  .faq .a p { margin-bottom: 12px; }
+  .faq .a p:last-child { margin-bottom: 0; }
+
+  /* ---------- Contact ---------- */
+  .contact { background: var(--ink); color: #fff; border-bottom: none; }
+  .contact .kicker { color: var(--accent); }
+  .contact h2 { color: #fff; }
+  .contact .lede { color: rgba(255,255,255,0.65); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
+  .form-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.14); border-radius: 14px; padding: 32px; }
+  .form-card label { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.6); display: block; margin: 18px 0 8px; }
+  .form-card label:first-of-type { margin-top: 0; }
+  .form-card input, .form-card select {
+    width: 100%; padding: 13px 14px; border-radius: 7px;
+    border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.07);
+    color: #fff; font-family: var(--sans); font-size: 15.5px;
+  }
+  .form-card input::placeholder { color: rgba(255,255,255,0.35); }
+  .form-card select option { color: var(--ink); }
+  .form-card .btn { width: 100%; margin-top: 26px; text-align: center; }
+  .form-note { font-family: var(--mono); font-size: 12px; color: rgba(255,255,255,0.45); margin-top: 14px; text-align: center; }
+  .deliver { list-style: none; margin-top: 28px; }
+  .deliver li { padding: 13px 0; border-bottom: 1px solid rgba(255,255,255,0.12); font-size: 16px; color: rgba(255,255,255,0.85); }
+  .deliver li::before { content: '✓  '; color: var(--accent); font-weight: 700; }
+
+  /* ---------- Footer ---------- */
+  footer { background: var(--ink); color: rgba(255,255,255,0.5); padding: 36px 0 44px; border-top: 1px solid rgba(255,255,255,0.12); }
+  .foot { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; font-size: 14px; }
+  .foot .logo { color: #fff; font-size: 18px; }
+  .foot .logo-mark { border-color: #fff; width: 24px; height: 24px; }
+  .foot .logo-mark::after { border-color: var(--ink); width: 10px; height: 10px; }
+  .foot-tag { font-family: var(--mono); font-size: 12px; }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 900px) {
+    .hero-grid, .contact-grid, .wedge-grid { grid-template-columns: 1fr; }
+    .stat-grid, .card-grid, .ev-grid { grid-template-columns: 1fr; gap: 18px; }
+    .steps { grid-template-columns: 1fr 1fr; row-gap: 32px; }
+    .svc { grid-template-columns: 1fr; gap: 10px; }
+    .svc .n { padding-top: 0; }
+    .nav-links a:not(.btn) { display: none; }
+    section { padding: 64px 0; }
+    .sig-table .why-col { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <nav>
+      <a class="logo" href="#top"><span class="logo-mark"></span>Lasso</a>
+      <div class="nav-links">
+        <a href="#shift">The shift</a>
+        <a href="#services">What we do</a>
+        <a href="#signals">Method</a>
+        <a href="#faq">FAQ</a>
+        <a href="#audit" class="btn btn-accent">Get your free audit</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="kicker">AEO · GEO · Agentic Commerce</span>
+      <h1>Your next customer is asking AI.<br><span class="hl">Be the answer.</span></h1>
+      <p class="lede">Lasso makes consumer brands visible, recommended, and buyable in ChatGPT, Perplexity, Claude, Gemini, and Google AI Overviews. Not a dashboard — a team that does the work.</p>
+      <div class="hero-ctas">
+        <a href="#audit" class="btn btn-accent btn-lg">Get your free AI visibility audit</a>
+        <a href="mailto:rishavjani@gmail.com?subject=Intro%20call%20with%20Lasso" class="btn btn-ghost btn-lg">Book a call</a>
+      </div>
+      <p class="hero-note">// Real prompts. Real screenshots. Yours in days, free.</p>
+    </div>
+
+    <div class="chat-card" aria-hidden="true">
+      <div class="chat-head">
+        <span class="dot active"></span><span class="dot"></span><span class="dot"></span>
+        <span style="margin-left:8px;">ai-assistant — consumer query</span>
+      </div>
+      <div class="chat-body">
+        <div class="chat-q">What's the best vitamin-C serum for sensitive skin under $40?</div>
+        <div class="chat-a">
+          <p>Based on ingredient transparency, verified reviews, and dermatologist citations, here are the strongest options:</p>
+          <div class="rec win"><span>1. Your brand</span><span class="tag">recommended · cited 4×</span></div>
+          <div class="rec"><span>2. Category incumbent</span><span class="tag">mentioned</span></div>
+          <div class="rec"><span>3. Legacy brand</span><span class="tag">mentioned</span></div>
+          <div class="cite-row">
+            <span class="cite">reddit.com/r/SkincareAddiction</span>
+            <span class="cite">verified reviews</span>
+            <span class="cite">youtube.com</span>
+            <span class="cite">press citation</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= STATS ================= -->
+<section class="stats">
+  <div class="wrap stat-grid">
+    <div class="stat">
+      <div class="num">100<span>M+</span></div>
+      <div class="lab">people search with AI every day — and rising.</div>
+      <div class="src">// industry usage data, 2026</div>
+    </div>
+    <div class="stat">
+      <div class="num">~<span>115%</span></div>
+      <div class="lab">AI visibility gain achievable by lower-ranked brands through citation tactics.</div>
+      <div class="src">// Princeton GEO study (Aggarwal et al., KDD 2024)</div>
+    </div>
+    <div class="stat">
+      <div class="num">0<span> clicks</span></div>
+      <div class="lab">AI answers the question. If you're not in the answer, you don't exist.</div>
+      <div class="src">// the zero-click reality</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= THE SHIFT ================= -->
+<section id="shift">
+  <div class="wrap">
+    <span class="kicker">01 / The shift</span>
+    <h2>Product discovery has moved.<br>The old playbook can't follow.</h2>
+    <p class="lede">Shoppers used to Google, scroll, and click. Now they ask an AI and act on its answer. That answer is assembled from signals most brands have never managed.</p>
+    <div class="card-grid">
+      <div class="card">
+        <span class="idx">A</span>
+        <h3>AI is the new shelf</h3>
+        <p>When someone asks ChatGPT or Perplexity "what's the best…", a handful of brands get named. Everyone else is invisible — no page two, no retargeting, no second chance.</p>
+      </div>
+      <div class="card">
+        <span class="idx">B</span>
+        <h3>Recognition is a fragile monopoly</h3>
+        <p>AI defaults to big, familiar names — but only in an information vacuum. Research shows even modest distinguishing signals let challengers break in. That's the opening.</p>
+      </div>
+      <div class="card">
+        <span class="idx">C</span>
+        <h3>Agents are starting to buy</h3>
+        <p>AI agents now research, compare, and increasingly complete purchases. Brands whose catalogs, data, and checkout aren't machine-readable will be skipped — silently.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SERVICES ================= -->
+<section id="services">
+  <div class="wrap">
+    <span class="kicker">02 / What we do</span>
+    <h2>From invisible to recommended to transacted.</h2>
+    <p class="lede">Built for D2C and e-commerce brands — beauty, wellness, supplements, consumer electronics — that are winning with customers but losing in AI answers.</p>
+
+    <div class="svc-list">
+      <div class="svc">
+        <div class="n">S.01</div>
+        <div>
+          <h3>AI Visibility Audit</h3>
+          <div class="sub">Free · The starting point</div>
+        </div>
+        <p>We run the real questions your customers ask across ChatGPT, Claude, Perplexity, and Google AI Overviews — with screenshots. You see exactly where you show up, where competitors are cited instead, which sources drive those answers, and why. Findings in plain business language, not jargon.</p>
+      </div>
+      <div class="svc">
+        <div class="n">S.02</div>
+        <div>
+          <h3>AEO / GEO Execution</h3>
+          <div class="sub">The Five Signals · Core engagement</div>
+        </div>
+        <p>Hands-on optimization of the signals AI engines actually weigh: reviews and reputation, citations and digital PR, community presence, structural and entity data, and video content. We do the work — collection programs, journalist placement, schema fixes, content engineering — and measure the movement.</p>
+      </div>
+      <div class="svc">
+        <div class="n">S.03</div>
+        <div>
+          <h3>Agentic Commerce Readiness</h3>
+          <div class="sub">Transactability</div>
+        </div>
+        <p>Make your store buyable by machines, not just people. Agent-readable product feeds, accurate structured data, machine-parsable policies and specs, and checkout paths AI shopping agents can actually complete. Discovery gets you named; transactability gets you bought.</p>
+      </div>
+      <div class="svc">
+        <div class="n">S.04</div>
+        <div>
+          <h3>Measurement &amp; Reporting</h3>
+          <div class="sub">Proof, not vanity metrics</div>
+        </div>
+        <p>Monthly tracking of brand mentions, citation share, and answer position across engines — benchmarked against competitors, tied to the work shipped that month. We measure retrieval-based engines first, because that's where new signals land in days, not model-update cycles.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FIVE SIGNALS ================= -->
+<section class="signals" id="signals">
+  <div class="wrap">
+    <span class="kicker">03 / Method</span>
+    <h2>The Five Signals framework.</h2>
+    <p class="lede">AI engines don't rank pages — they weigh trust signals across the open web. Lasso engineers all five, because each engine weighs them differently.</p>
+
+    <table class="sig-table">
+      <thead>
+        <tr>
+          <th style="width:22%">Signal</th>
+          <th>What we do</th>
+          <th class="why-col" style="width:30%">Why it moves AI answers</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1 · Reviews &amp; reputation</td>
+          <td>Accelerate real, compliant review acquisition on the platforms AI trusts. Fully FTC-compliant — no gating, no incentivized shortcuts.</td>
+          <td class="why-col why">Review depth and sentiment feed directly into "best X" recommendations.</td>
+        </tr>
+        <tr>
+          <td>2 · Citations &amp; digital PR</td>
+          <td>Earn mentions and quotable placements in publications AI engines cite, via journalist request platforms and data-led pitches.</td>
+          <td class="why-col why">Verbatim-quotable citations outperform plain mentions in AI retrieval.</td>
+        </tr>
+        <tr>
+          <td>3 · Community presence</td>
+          <td>Authentic, disclosed participation where your category is discussed — especially Reddit. No astroturfing, ever.</td>
+          <td class="why-col why">Perplexity and search-enabled engines heavily favor community sources.</td>
+        </tr>
+        <tr>
+          <td>4 · Structure &amp; entity</td>
+          <td>Schema markup, entity consistency, crawlable pages, and content architected in self-contained, quotable answer blocks.</td>
+          <td class="why-col why">If AI can't parse you, AI can't recommend you. Table stakes, often broken.</td>
+        </tr>
+        <tr>
+          <td>5 · Video &amp; transcript</td>
+          <td>YouTube strategy built around transcripts — the one social surface AI engines actually read and cite.</td>
+          <td class="why-col why">Google AI Overviews correlate strongly with YouTube presence.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ================= WEDGE ================= -->
+<section>
+  <div class="wrap">
+    <span class="kicker">04 / Why Lasso</span>
+    <h2>Dashboards tell you what's wrong.<br>We make it right.</h2>
+    <p class="lede">A wave of well-funded tools now monitors AI visibility. Monitoring is useful — and it's the easy half. The score only changes when someone does the work.</p>
+    <div class="wedge-grid">
+      <div class="wedge-col them">
+        <span class="tag">Monitoring platforms</span>
+        <ul>
+          <li>Show you a visibility score</li>
+          <li>List the sources AI cites</li>
+          <li>Suggest "get more reviews" and "invest in digital PR"</li>
+          <li>Leave execution to your team</li>
+        </ul>
+      </div>
+      <div class="wedge-col us">
+        <span class="tag">Lasso</span>
+        <ul>
+          <li>Runs the review acquisition program</li>
+          <li>Places the citations and press mentions</li>
+          <li>Fixes the schema, entities, and content structure</li>
+          <li>Reports the score moving — and what moved it</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= EVIDENCE ================= -->
+<section>
+  <div class="wrap">
+    <span class="kicker">05 / Evidence</span>
+    <h2>We work from research, not vibes.</h2>
+    <p class="lede">Our methods are grounded in published studies and our own cross-engine testing — and we'll show you the receipts.</p>
+    <div class="ev-grid">
+      <div class="ev">
+        <div class="fig">+115%</div>
+        <p>Visibility gain available to a fifth-ranked site through citation optimization — the biggest gains go to challengers, not incumbents.</p>
+        <div class="src">// Princeton GEO study, KDD 2024</div>
+      </div>
+      <div class="ev">
+        <div class="fig">+41%</div>
+        <p>Lift from verbatim-quotable source content vs. +28% for plain attributed citations. How you write determines whether AI can reuse you.</p>
+        <div class="src">// GEO study, citation-format findings</div>
+      </div>
+      <div class="ev">
+        <div class="fig">Days</div>
+        <p>Time for retrieval-based engines like Perplexity to index new signals. AEO compounds — but it starts moving fast.</p>
+        <div class="src">// retrieval vs. parametric model behavior</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PROCESS ================= -->
+<section>
+  <div class="wrap">
+    <span class="kicker">06 / How it works</span>
+    <h2>Audit first. Then earn the retainer.</h2>
+    <p class="lede">We show you real findings before you spend anything. Honest timelines: early movement in weeks, compounding authority over months.</p>
+    <div class="steps">
+      <div class="step">
+        <span class="when">Week 0 · Free</span>
+        <h3>Audit</h3>
+        <p>Real consumer prompts across four AI engines, citation analysis, community and schema review. Screenshots included.</p>
+      </div>
+      <div class="step">
+        <span class="when">Week 1–2</span>
+        <h3>Roadmap</h3>
+        <p>Findings ranked by impact across the Five Signals, with cost and expected return stated up front.</p>
+      </div>
+      <div class="step">
+        <span class="when">Days 1–30</span>
+        <h3>Quick wins</h3>
+        <p>Schema and entity fixes, quotable answer blocks, review program launch — the signals retrieval engines pick up first.</p>
+      </div>
+      <div class="step">
+        <span class="when">Days 30–180</span>
+        <h3>Compounding</h3>
+        <p>Citations land, reviews deepen, community presence matures. Monthly reporting ties every gain to work shipped.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section class="faq" id="faq">
+  <div class="wrap">
+    <span class="kicker">07 / FAQ</span>
+    <h2>Straight answers.</h2>
+
+    <details open>
+      <summary>What is Answer Engine Optimization (AEO)?</summary>
+      <div class="a">
+        <p>Answer Engine Optimization — also called Generative Engine Optimization (GEO) — is the practice of making your brand visible and recommended inside AI-generated answers on ChatGPT, Perplexity, Claude, Gemini, and Google AI Overviews. Where SEO optimizes for a list of links, AEO optimizes for being the answer itself: named, cited, and recommended when a shopper asks an AI what to buy.</p>
+      </div>
+    </details>
+    <details>
+      <summary>How is this different from SEO? Do I still need SEO?</summary>
+      <div class="a">
+        <p>They overlap but aren't the same. SEO earns rankings on a results page; AEO earns mentions and citations inside a synthesized answer, drawing on sources SEO mostly ignores — reviews, Reddit threads, press citations, YouTube transcripts, entity data. Good SEO fundamentals still help (AI engines crawl the same web), but they're no longer sufficient. Most of our clients keep their SEO efforts and add AEO on top.</p>
+      </div>
+    </details>
+    <details>
+      <summary>How long until we see results?</summary>
+      <div class="a">
+        <p>Honestly: it depends on the engine. Retrieval-based systems (Perplexity, search-enabled ChatGPT, AI Overviews) index new content within days, so early movement typically shows inside the first 30 days. Durable gains — citation authority, review depth, community trust — compound over 90 days to 6 months. Anyone promising to "rank you #1 in ChatGPT" in two weeks is selling you something that doesn't exist.</p>
+      </div>
+    </details>
+    <details>
+      <summary>How do you measure success?</summary>
+      <div class="a">
+        <p>Brand mention rate and answer position across a fixed panel of real consumer prompts, citation share (how often your content is the source behind an answer), and sentiment — benchmarked against named competitors, tracked monthly, and tied to the specific work shipped. We measure retrieval-based engines first because they respond to new signals in days; base-model updates are infrequent and outside anyone's control, so we don't sell them as a KPI.</p>
+      </div>
+    </details>
+    <details>
+      <summary>Is any of this against platform rules? Do you buy reviews or run fake accounts?</summary>
+      <div class="a">
+        <p>No. Fake and AI-generated reviews are explicitly illegal under the FTC's Consumer Review Rule, and astroturfed community posts get brands banned and blacklisted. Everything Lasso does is white-hat: accelerating <em>real</em> review acquisition, earning <em>real</em> press citations, disclosed community participation, and technical work on your own properties. The durable advantage comes from legitimate signals — which is exactly why they're worth building.</p>
+      </div>
+    </details>
+    <details>
+      <summary>What does an engagement cost?</summary>
+      <div class="a">
+        <p>The audit is free — genuinely, with no obligation. Ongoing engagements are monthly retainers scoped to the levers your audit says will move the needle, with cost and expected return stated before you commit. We'd rather show you findings first and let the work make the case.</p>
+      </div>
+    </details>
+    <details>
+      <summary>What is agentic commerce, and why should I care now?</summary>
+      <div class="a">
+        <p>Agentic commerce is shopping done by AI agents on a customer's behalf — researching, comparing, and increasingly completing purchases end to end. It demands that your store be transactable by machines: clean product feeds, accurate structured data, machine-readable policies, and checkout paths an agent can complete. Adoption is early but moving fast, and the brands that are agent-ready first inherit the same advantage early SEO adopters had. Discovery work (AEO) and transactability work compound — we build both.</p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ================= CONTACT / AUDIT ================= -->
+<section class="contact" id="audit">
+  <div class="wrap">
+    <div class="contact-grid">
+      <div>
+        <span class="kicker">08 / Start here</span>
+        <h2>See what AI says about your brand.</h2>
+        <p class="lede">Free audit, real findings, plain language. If the findings aren't useful, you've lost nothing but ten minutes.</p>
+        <ul class="deliver">
+          <li>Your visibility across ChatGPT, Claude, Perplexity &amp; AI Overviews — with screenshots</li>
+          <li>The sources and citations driving your competitors' recommendations</li>
+          <li>Your Reddit &amp; community footprint vs. the category</li>
+          <li>Schema &amp; structured-data validation on your store</li>
+          <li>The top gaps, ranked by impact</li>
+        </ul>
+      </div>
+      <div class="form-card">
+        <form id="auditForm">
+          <label for="f-name">Name</label>
+          <input id="f-name" type="text" placeholder="Jane Founder" required>
+          <label for="f-brand">Brand / website</label>
+          <input id="f-brand" type="text" placeholder="yourbrand.com" required>
+          <label for="f-email">Work email</label>
+          <input id="f-email" type="email" placeholder="jane@yourbrand.com" required>
+          <label for="f-cat">Category</label>
+          <select id="f-cat">
+            <option>Beauty &amp; skincare</option>
+            <option>Health &amp; supplements</option>
+            <option>Consumer electronics</option>
+            <option>Food &amp; beverage</option>
+            <option>Apparel &amp; accessories</option>
+            <option>Other consumer</option>
+          </select>
+          <label for="f-heard">How did you hear about us?</label>
+          <select id="f-heard">
+            <option>AI platform (ChatGPT, Perplexity, etc.)</option>
+            <option>Web search</option>
+            <option>Referral / word of mouth</option>
+            <option>Social media</option>
+            <option>Other</option>
+          </select>
+          <button type="submit" class="btn btn-accent btn-lg">Request my free audit</button>
+          <p class="form-note">// No spam. No obligation. Findings in ~5 business days.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <a class="logo" href="#top"><span class="logo-mark"></span>Lasso</a>
+    <span class="foot-tag">// marketing for the age of AI — AEO · GEO · agentic commerce</span>
+    <span>© 2026 Lasso. All rights reserved.</span>
+  </div>
+</footer>
+
+<script>
+  // Audit form → opens a pre-filled email (no backend required).
+  // Swap the address below for your company inbox when ready.
+  document.getElementById('auditForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var name = document.getElementById('f-name').value;
+    var brand = document.getElementById('f-brand').value;
+    var email = document.getElementById('f-email').value;
+    var cat = document.getElementById('f-cat').value;
+    var heard = document.getElementById('f-heard').value;
+    var body = 'Name: ' + name +
+      '%0D%0ABrand: ' + brand +
+      '%0D%0AEmail: ' + email +
+      '%0D%0ACategory: ' + cat +
+      '%0D%0AHeard via: ' + heard;
+    window.location.href = 'mailto:rishavjani@gmail.com?subject=Free%20AI%20Visibility%20Audit%20Request%20—%20' +
+      encodeURIComponent(brand) + '&body=' + body;
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,101 @@
+---
+const { title, description, date, isPost = false, url } = Astro.props;
+const fmtDate = date ? new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : null;
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{title} | Lasso</title>
+<meta name="description" content={description}>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="alternate" type="application/rss+xml" title="Lasso Blog" href="/rss.xml">
+{isPost && (
+  <script type="application/ld+json" set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: title,
+    description: description,
+    datePublished: date,
+    author: { '@type': 'Organization', name: 'Lasso' },
+    publisher: { '@type': 'Organization', name: 'Lasso' },
+    mainEntityOfPage: url,
+  })} />
+)}
+<style is:global>
+  :root {
+    --bg: #FAFAF7; --surface: #FFFFFF; --ink: #14120F; --ink-soft: #55524B;
+    --ink-faint: #8A867D; --accent: #E8450A; --accent-soft: #FFF0E9;
+    --line: #E4E1D8; --line-dark: #14120F;
+    --mono: 'IBM Plex Mono', ui-monospace, monospace;
+    --sans: 'Space Grotesk', system-ui, sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: var(--sans); background: var(--bg); color: var(--ink); line-height: 1.7; font-size: 17px; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+  header.site { position: sticky; top: 0; z-index: 100; background: rgba(250,250,247,0.92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+  nav.site { display: flex; align-items: center; justify-content: space-between; height: 68px; max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+  .logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 22px; letter-spacing: -0.5px; text-decoration: none; color: var(--ink); }
+  .logo-mark { width: 30px; height: 30px; border-radius: 50%; border: 2.5px solid var(--ink); position: relative; flex-shrink: 0; }
+  .logo-mark::after { content: ''; position: absolute; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); bottom: -4px; right: -4px; border: 2.5px solid var(--bg); }
+  .nav-links { display: flex; gap: 28px; align-items: center; }
+  .nav-links a { text-decoration: none; color: var(--ink-soft); font-size: 15px; font-weight: 500; }
+  .nav-links a:hover { color: var(--ink); }
+  .btn-accent { background: var(--accent); color: #fff !important; padding: 12px 22px; border-radius: 6px; font-weight: 600; }
+  main { padding: 64px 0 96px; }
+  .kicker { font-family: var(--mono); font-size: 12.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); font-weight: 500; display: block; margin-bottom: 16px; }
+  h1 { font-size: clamp(32px, 4.5vw, 46px); line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 14px; }
+  .meta { font-family: var(--mono); font-size: 13px; color: var(--ink-faint); margin-bottom: 40px; }
+  article h2 { font-size: 26px; letter-spacing: -0.015em; margin: 44px 0 14px; }
+  article h3 { font-size: 20px; margin: 32px 0 10px; }
+  article p { margin-bottom: 18px; color: #2B2925; }
+  article ul, article ol { margin: 0 0 18px 22px; color: #2B2925; }
+  article li { margin-bottom: 8px; }
+  article blockquote { border-left: 3px solid var(--accent); padding: 8px 0 8px 20px; margin: 24px 0; color: var(--ink-soft); background: var(--accent-soft); border-radius: 0 8px 8px 0; }
+  article blockquote p { margin: 0; padding: 8px 12px 8px 0; }
+  article a { color: var(--accent); }
+  article code { font-family: var(--mono); font-size: 14.5px; background: var(--surface); border: 1px solid var(--line); border-radius: 4px; padding: 1px 6px; }
+  article strong { font-weight: 600; }
+  article table { border-collapse: collapse; width: 100%; margin: 0 0 18px; font-size: 15px; }
+  article th, article td { border: 1px solid var(--line); padding: 10px 12px; text-align: left; vertical-align: top; }
+  article th { font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-faint); }
+  .post-card { display: block; text-decoration: none; color: inherit; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 28px; margin-bottom: 18px; transition: transform .12s ease, box-shadow .12s ease; }
+  .post-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(20,18,15,0.08); }
+  .post-card h2 { font-size: 22px; margin: 6px 0 8px; letter-spacing: -0.015em; }
+  .post-card p { color: var(--ink-soft); font-size: 15.5px; }
+  .post-card .date { font-family: var(--mono); font-size: 12px; color: var(--ink-faint); }
+  .cta-box { margin-top: 64px; background: var(--ink); color: #fff; border-radius: 14px; padding: 36px; }
+  .cta-box h2 { color: #fff; margin: 0 0 8px; font-size: 24px; }
+  .cta-box p { color: rgba(255,255,255,0.65); margin-bottom: 20px; }
+  footer.site { border-top: 1px solid var(--line); padding: 32px 0; }
+  .foot { max-width: 1120px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-size: 14px; color: var(--ink-faint); }
+  .foot .mono { font-family: var(--mono); font-size: 12px; }
+</style>
+</head>
+<body>
+<header class="site">
+  <nav class="site">
+    <a class="logo" href="/"><span class="logo-mark"></span>Lasso</a>
+    <div class="nav-links">
+      <a href="/#services">What we do</a>
+      <a href="/blog/">Blog</a>
+      <a href="/#audit" class="btn-accent">Get your free audit</a>
+    </div>
+  </nav>
+</header>
+<main>
+  <div class="wrap">
+    <slot />
+  </div>
+</main>
+<footer class="site">
+  <div class="foot">
+    <span>© 2026 Lasso. All rights reserved.</span>
+    <span class="mono">// marketing for the age of AI — AEO · GEO · agentic commerce</span>
+  </div>
+</footer>
+</body>
+</html>

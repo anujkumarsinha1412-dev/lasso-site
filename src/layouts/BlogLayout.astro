@@ -7,12 +7,12 @@ const fmtDate = date ? new Date(date).toLocaleDateString('en-US', { year: 'numer
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{title} | Lasso</title>
+<title>{title} | AgenQuest</title>
 <meta name="description" content={description}>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="alternate" type="application/rss+xml" title="Lasso Blog" href="/rss.xml">
+<link rel="alternate" type="application/rss+xml" title="AgenQuest Blog" href="/rss.xml">
 {isPost && (
   <script type="application/ld+json" set:html={JSON.stringify({
     '@context': 'https://schema.org',
@@ -20,8 +20,8 @@ const fmtDate = date ? new Date(date).toLocaleDateString('en-US', { year: 'numer
     headline: title,
     description: description,
     datePublished: date,
-    author: { '@type': 'Organization', name: 'Lasso' },
-    publisher: { '@type': 'Organization', name: 'Lasso' },
+    author: { '@type': 'Organization', name: 'AgenQuest' },
+    publisher: { '@type': 'Organization', name: 'AgenQuest' },
     mainEntityOfPage: url,
   })} />
 )}
@@ -78,7 +78,7 @@ const fmtDate = date ? new Date(date).toLocaleDateString('en-US', { year: 'numer
 <body>
 <header class="site">
   <nav class="site">
-    <a class="logo" href="/"><span class="logo-mark"></span>Lasso</a>
+    <a class="logo" href="/"><span class="logo-mark"></span>AgenQuest</a>
     <div class="nav-links">
       <a href="/#shift">The shift</a>
       <a href="/#services">What we do</a>
@@ -96,7 +96,7 @@ const fmtDate = date ? new Date(date).toLocaleDateString('en-US', { year: 'numer
 </main>
 <footer class="site">
   <div class="foot">
-    <span>© 2026 Lasso. All rights reserved.</span>
+    <span>© 2026 AgenQuest. All rights reserved.</span>
     <span class="mono">// marketing for the age of AI — AEO · GEO · agentic commerce</span>
   </div>
 </footer>

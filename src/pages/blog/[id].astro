@@ -10,9 +10,9 @@ const { post } = Astro.props;
 const { Content } = await render(post);
 ---
 <BlogLayout title={post.data.title} description={post.data.description} date={post.data.date.toISOString()} isPost={true} url={new URL(`/blog/${post.id}/`, Astro.site).href}>
-  <span class="kicker">Lasso Blog</span>
+  <span class="kicker">AgenQuest Blog</span>
   <h1>{post.data.title}</h1>
-  <p class="meta">{post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })} · Lasso</p>
+  <p class="meta">{post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })} · AgenQuest</p>
   <article>
     <Content />
   </article>

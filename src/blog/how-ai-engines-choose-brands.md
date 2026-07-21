@@ -49,4 +49,4 @@ If you run a consumer brand, three questions determine your AI visibility today:
 2. **Which sources feed those answers — and do you exist on them?**
 3. **Can a machine parse your site — schema, entities, quotable content — or is it a wall of unstructured brand copy?**
 
-You can check the first question yourself in ten minutes with ChatGPT and Perplexity. For the full picture — cross-engine, with citation analysis and competitor benchmarks — [Lasso runs a free AI visibility audit](/#audit) for D2C brands, with screenshots and findings ranked by impact.
+You can check the first question yourself in ten minutes with ChatGPT and Perplexity. For the full picture — cross-engine, with citation analysis and competitor benchmarks — [AgenQuest runs a free AI visibility audit](/#audit) for D2C brands, with screenshots and findings ranked by impact.

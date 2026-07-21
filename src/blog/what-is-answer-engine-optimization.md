@@ -47,4 +47,4 @@ Honest answer: it depends on the engine. Retrieval-augmented systems — Perplex
 
 ## Where to start
 
-Before optimizing anything, find out what AI currently says about you: run the real questions your customers ask across the major engines and look at which brands get named, which sources are cited, and where you appear — or don't. That audit *is* the strategy document. [Lasso runs this audit free for consumer brands](/#audit), with screenshots and findings in plain business language.
+Before optimizing anything, find out what AI currently says about you: run the real questions your customers ask across the major engines and look at which brands get named, which sources are cited, and where you appear — or don't. That audit *is* the strategy document. [AgenQuest runs this audit free for consumer brands](/#audit), with screenshots and findings in plain business language.

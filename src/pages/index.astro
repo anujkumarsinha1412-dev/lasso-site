@@ -315,6 +315,33 @@
     section { padding: 64px 0; }
     .sig-table .why-col { display: none; }
   }
+
+  /* ---------- Audit wizard ---------- */
+  .wstep[hidden]{display:none;}
+  .wtitle{font-weight:600;font-size:17px;margin-bottom:14px;color:#fff;}
+  .w-q{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px solid rgba(255,255,255,0.1);font-size:14.5px;color:rgba(255,255,255,0.85);}
+  .w-q input{margin-top:4px;accent-color:var(--accent);}
+  .w-add{display:flex;gap:8px;margin:14px 0;}
+  .w-add input{flex:1;}
+  .btn-ghost-light{background:transparent;color:#fff;border:1px solid rgba(255,255,255,0.3);}
+  #w-run,#w-unlock,#w-gen{width:100%;margin-top:14px;}
+  .w-spin{width:34px;height:34px;border:3px solid rgba(255,255,255,0.2);border-top-color:var(--accent);border-radius:50%;animation:wspin .9s linear infinite;margin:10px auto 18px;}
+  @keyframes wspin{to{transform:rotate(360deg)}}
+  #ws3{text-align:center;padding:20px 0;}
+  .w-blur{filter:blur(7px);pointer-events:none;user-select:none;}
+  #w-report{transition:filter .5s ease;margin-bottom:20px;}
+  .w-score{font-size:40px;font-weight:700;color:#fff;}
+  .w-score span{color:var(--accent);}
+  .w-sum{color:rgba(255,255,255,0.75);font-size:14.5px;margin:6px 0 16px;}
+  .w-row{padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.1);font-size:13.5px;}
+  .w-rq{color:#fff;font-weight:500;}
+  .w-rn{color:rgba(255,255,255,0.55);margin-top:3px;}
+  .w-badge{font-family:var(--mono);font-size:11px;padding:2px 8px;border-radius:99px;text-transform:uppercase;letter-spacing:.06em;}
+  .w-recommended{background:rgba(26,127,78,.25);color:#7BE0AE;}
+  .w-mentioned{background:rgba(183,121,31,.25);color:#F0C36D;}
+  .w-absent{background:rgba(197,48,48,.25);color:#F19999;}
+  .w-gapt{color:#fff;font-weight:600;margin-top:16px;}
+  .w-gaps{margin:8px 0 0 18px;color:rgba(255,255,255,0.75);font-size:14px;}
 </style>
 </head>
 <body>
@@ -663,16 +690,14 @@
           <li>The top gaps, ranked by impact</li>
         </ul>
       </div>
-      <div class="form-card">
-        <form id="auditForm">
-          <label for="f-name">Name</label>
-          <input id="f-name" type="text" placeholder="Jane Founder" required>
-          <label for="f-brand">Brand / website</label>
-          <input id="f-brand" type="text" placeholder="yourbrand.com" required>
-          <label for="f-email">Work email</label>
-          <input id="f-email" type="email" placeholder="jane@yourbrand.com" required>
-          <label for="f-cat">Category</label>
-          <select id="f-cat">
+      <div class="form-card" id="wiz">
+        <div class="wstep" id="ws1">
+          <label for="w-brand">Brand / product name</label>
+          <input id="w-brand" type="text" placeholder="e.g. GlowLabs" required>
+          <label for="w-site">Website</label>
+          <input id="w-site" type="text" placeholder="yourbrand.com">
+          <label for="w-cat">Category</label>
+          <select id="w-cat">
             <option>Beauty &amp; skincare</option>
             <option>Health &amp; supplements</option>
             <option>Consumer electronics</option>
@@ -680,17 +705,33 @@
             <option>Apparel &amp; accessories</option>
             <option>Other consumer</option>
           </select>
-          <label for="f-heard">How did you hear about us?</label>
-          <select id="f-heard">
-            <option>AI platform (ChatGPT, Perplexity, etc.)</option>
-            <option>Web search</option>
-            <option>Referral / word of mouth</option>
-            <option>Social media</option>
-            <option>Other</option>
-          </select>
-          <button type="submit" class="btn btn-accent btn-lg">Request my free audit</button>
-          <p class="form-note">// No spam. No obligation. Findings in ~5 business days.</p>
-        </form>
+          <button class="btn btn-accent btn-lg" id="w-gen" type="button">Generate my audit questions</button>
+          <p class="form-note">// Step 1 of 3 · live audit, ~60 seconds end to end</p>
+        </div>
+        <div class="wstep" id="ws2" hidden>
+          <p class="wtitle">These are the ChatGPT questions where your brand should show up. Untick any, add your own, then run it.</p>
+          <div id="w-list"></div>
+          <div class="w-add"><input id="w-custom" type="text" placeholder="Add your own question…"><button type="button" id="w-addbtn" class="btn btn-ghost-light">Add</button></div>
+          <button class="btn btn-accent btn-lg" id="w-run" type="button">Run my ChatGPT visibility audit</button>
+          <p class="form-note">// Step 2 of 3 · we query ChatGPT live with these exact questions</p>
+        </div>
+        <div class="wstep" id="ws3" hidden>
+          <div class="w-spin"></div>
+          <p class="wtitle" id="w-status">Asking ChatGPT your questions…</p>
+          <p class="form-note">// live queries take 20–60 seconds</p>
+        </div>
+        <div class="wstep" id="ws4" hidden>
+          <div id="w-report" class="w-blur"></div>
+          <div id="w-gate">
+            <p class="wtitle">Your report is ready.</p>
+            <label for="w-email">Email (we&#39;ll send your full report here)</label>
+            <input id="w-email" type="email" placeholder="you@yourbrand.com" required>
+            <label for="w-phone">Phone (optional)</label>
+            <input id="w-phone" type="tel" placeholder="+91…">
+            <button class="btn btn-accent btn-lg" id="w-unlock" type="button">Unlock my report</button>
+            <p class="form-note">// No spam. One report, one follow-up. That&#39;s it.</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -705,23 +746,70 @@
 </footer>
 
 <script is:inline>
-  // Audit form → opens a pre-filled email (no backend required).
-  // Swap the address below for your company inbox when ready.
-  document.getElementById('auditForm').addEventListener('submit', function (e) {
-    e.preventDefault();
-    var name = document.getElementById('f-name').value;
-    var brand = document.getElementById('f-brand').value;
-    var email = document.getElementById('f-email').value;
-    var cat = document.getElementById('f-cat').value;
-    var heard = document.getElementById('f-heard').value;
-    var body = 'Name: ' + name +
-      '%0D%0ABrand: ' + brand +
-      '%0D%0AEmail: ' + email +
-      '%0D%0ACategory: ' + cat +
-      '%0D%0AHeard via: ' + heard;
-    window.location.href = 'mailto:rishavjani@gmail.com?subject=Free%20AI%20Visibility%20Audit%20Request%20—%20' +
-      encodeURIComponent(brand) + '&body=' + body;
+(function(){
+  const $ = (id) => document.getElementById(id);
+  const show = (n) => { for (const i of [1,2,3,4]) $('ws'+i).hidden = i!==n; };
+  const escq = (s) => String(s).replace(/[<>&]/g, (c)=>({'<':'&lt;','>':'&gt;','&':'&amp;'}[c]));
+  let state = { brand:'', site:'', cat:'', queries:[], report:null };
+
+  $('w-gen').addEventListener('click', async () => {
+    const brand = $('w-brand').value.trim();
+    if (!brand) { $('w-brand').focus(); return; }
+    state.brand = brand; state.site = $('w-site').value.trim(); state.cat = $('w-cat').value;
+    $('w-gen').disabled = true; $('w-gen').textContent = 'Generating…';
+    try {
+      const r = await fetch('/api/suggest', {method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({brand: state.brand, website: state.site, category: state.cat})});
+      const d = await r.json();
+      state.queries = d.queries || [];
+      renderList(); show(2);
+    } catch(e){ alert('Could not generate questions — please try again.'); }
+    $('w-gen').disabled = false; $('w-gen').textContent = 'Generate my audit questions';
   });
+
+  function renderList(){
+    $('w-list').innerHTML = state.queries.map((q,i)=>'<label class="w-q"><input type="checkbox" checked data-i="'+i+'"> <span>'+escq(q)+'</span></label>').join('');
+  }
+
+  $('w-addbtn').addEventListener('click', () => {
+    const v = $('w-custom').value.trim();
+    if (!v) return;
+    state.queries.push(v); $('w-custom').value=''; renderList();
+  });
+
+  const STATUSES = ['Asking ChatGPT your questions…','Reading the answers…','Checking which brands get named…','Scoring your visibility…','Almost there…'];
+  $('w-run').addEventListener('click', async () => {
+    const selected = Array.from(document.querySelectorAll('#w-list input:checked')).map((el)=>state.queries[+el.dataset.i]);
+    if (!selected.length) { alert('Keep at least one question.'); return; }
+    show(3);
+    let si=0; const t = setInterval(()=>{ si=(si+1)%STATUSES.length; $('w-status').textContent=STATUSES[si]; }, 6000);
+    try {
+      const r = await fetch('/api/audit', {method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({brand: state.brand, website: state.site, queries: selected})});
+      const d = await r.json();
+      clearInterval(t);
+      if (d.error) throw new Error(d.error);
+      state.report = d; renderReport(d); show(4);
+    } catch(e){ clearInterval(t); alert('The audit hit a snag — please try again in a minute.'); show(2); }
+  });
+
+  function renderReport(d){
+    const rows = (d.results||[]).map((r)=>'<div class="w-row"><div class="w-rq">'+escq(r.query)+'</div><div><span class="w-badge w-'+escq(r.prominence)+'">'+escq(r.prominence)+'</span></div><div class="w-rn">'+escq(r.note||'')+'</div></div>').join('');
+    const gaps = ((d.overall&&d.overall.gaps)||[]).map((g)=>'<li>'+escq(g)+'</li>').join('');
+    $('w-report').innerHTML = '<div class="w-score"><span>'+((d.overall&&d.overall.score)!=null?d.overall.score:'?')+'</span>/100</div>'
+      + '<p class="w-sum">'+escq((d.overall&&d.overall.summary)||'')+'</p>' + rows
+      + '<p class="w-gapt">Top gaps holding you back:</p><ul class="w-gaps">'+gaps+'</ul>';
+  }
+
+  $('w-unlock').addEventListener('click', async () => {
+    const email = $('w-email').value.trim();
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { $('w-email').focus(); return; }
+    $('w-unlock').disabled = true; $('w-unlock').textContent = 'Unlocking…';
+    try {
+      await fetch('/api/lead', {method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({email: email, phone: $('w-phone').value.trim(), brand: state.brand, website: state.site, report: state.report})});
+    } catch(e){}
+    $('w-report').classList.remove('w-blur');
+    $('w-gate').innerHTML = '<p class="wtitle">✓ Report unlocked — a copy is on its way to your inbox.</p><p class="form-note">// We will follow up with what it takes to close the gaps.</p>';
+  });
+})();
 </script>
 
 </body>

@@ -2,7 +2,7 @@ import rss from '@astrojs/rss';
 import { getCollection } from 'astro:content';
 
 export async function GET(context) {
-  const posts = await getCollection('blog');
+  const posts = (await getCollection('blog')).filter((p) => !p.data.draft);
   return rss({
     title: 'AgenQuest Blog',
     description: 'AEO, GEO, AI discovery and agentic commerce for consumer brands.',

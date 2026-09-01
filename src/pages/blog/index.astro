@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BlogLayout from '../../layouts/BlogLayout.astro';
-const posts = (await getCollection('blog')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const posts = (await getCollection('blog')).filter((p) => !p.data.draft).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
 <BlogLayout title="Blog — AI search, AEO & agentic commerce" description="Research-backed writing on Answer Engine Optimization, AI discovery, and agentic commerce for consumer brands, from the team at AgenQuest.">
   <span class="kicker">The AgenQuest Blog</span>

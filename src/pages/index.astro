@@ -696,19 +696,8 @@
       </div>
       <div class="form-card" id="wiz">
         <div class="wstep" id="ws1">
-          <label for="w-brand">Brand / product name</label>
-          <input id="w-brand" type="text" placeholder="e.g. GlowLabs" required>
-          <label for="w-site">Website</label>
-          <input id="w-site" type="text" placeholder="yourbrand.com">
-          <label for="w-cat">Category</label>
-          <select id="w-cat">
-            <option>Beauty &amp; skincare</option>
-            <option>Health &amp; supplements</option>
-            <option>Consumer electronics</option>
-            <option>Food &amp; beverage</option>
-            <option>Apparel &amp; accessories</option>
-            <option>Other consumer</option>
-          </select>
+          <label for="w-brand">Brand or website</label>
+          <input id="w-brand" type="text" placeholder="e.g. unbottled.com" required>
           <button class="btn btn-accent btn-lg" id="w-gen" type="button">Generate my audit questions</button>
           <p class="form-note">// Step 1 of 3 · live audit, ~60 seconds end to end</p>
         </div>
@@ -759,10 +748,11 @@
   $('w-gen').addEventListener('click', async () => {
     const brand = $('w-brand').value.trim();
     if (!brand) { $('w-brand').focus(); return; }
-    state.brand = brand; state.site = $('w-site').value.trim(); state.cat = $('w-cat').value;
+    const looksUrl = /\.[a-z]{2,}/i.test(brand);
+    state.site = looksUrl ? brand : ''; state.cat = '';
     $('w-gen').disabled = true; $('w-gen').textContent = 'Generating…';
     try {
-      const r = await fetch('/api/suggest', {method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({brand: state.brand, website: state.site, category: state.cat})});
+      const r = await fetch('/api/suggest', {method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({brand: state.brand, website: state.site})});
       const d = await r.json();
       state.queries = d.queries || [];
       renderList(); show(2);

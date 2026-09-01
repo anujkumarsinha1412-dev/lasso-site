@@ -3,7 +3,6 @@ title: "Why Did the Prompt Change Which Brand Came First: Webflow vs Framer?"
 description: "Webflow and Framer tied across 20 ChatGPT runs, but buyer context changed which came first. See the prompts, cited sources, outside evidence, and limits."
 date: 2026-08-31
 tags: ["Webflow", "Framer", "ChatGPT"]
-draft: true
 ---
 
 [Webflow](https://webflow.com/) and [Framer](https://www.framer.com/) produced a perfect aggregate tie in our ChatGPT recommendation panel. Both appeared in all 20 answers. Each appeared first ten times.

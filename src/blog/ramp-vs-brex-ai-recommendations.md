@@ -3,7 +3,6 @@ title: "Why Did Ramp Come First in Every Run When Brex Appeared Every Time?"
 description: "Ramp and Brex appeared in all 20 ChatGPT runs, but Ramp came first every time. See the prompts, cited sources, independent evidence, and limits for marketers."
 date: 2026-08-31
 tags: ["Ramp", "Brex", "ChatGPT"]
-draft: true
 ---
 
 [Ramp](https://ramp.com/) and [Brex](https://www.brex.com/) achieved the same inclusion result in our ChatGPT recommendation panel: 20 appearances in 20 answers. They did not receive the same narrative position. Ramp appeared before Brex in every answer.

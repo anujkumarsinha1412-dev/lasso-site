@@ -366,24 +366,57 @@
 
   /* ---------- Audit wizard ---------- */
   .wstep[hidden]{display:none;}
-  .wtitle{font-weight:600;font-size:17px;margin-bottom:14px;color:#fff;}
-  /* question list — these are <label>s, so undo the uppercase mono form styling */
-  .w-q{display:flex;gap:12px;align-items:flex-start;margin:0;padding:12px 0;
-       border-bottom:1px solid rgba(255,255,255,0.1);
-       font-family:var(--sans);font-size:15px;line-height:1.5;font-weight:400;
-       text-transform:none;letter-spacing:normal;color:rgba(255,255,255,0.88);cursor:pointer;}
-  .w-q:hover{color:#fff;}
-  .w-q input[type=checkbox]{width:17px;height:17px;min-width:17px;margin:3px 0 0;padding:0;
-       flex:0 0 auto;accent-color:var(--accent);cursor:pointer;}
-  .w-q input[type=checkbox]:not(:checked) + span{color:rgba(255,255,255,0.4);text-decoration:line-through;}
-  /* add-your-own row — stacked so the field is always full width */
-  .w-add{margin:22px 0 0;padding-top:20px;border-top:1px solid rgba(255,255,255,0.12);}
-  .w-add label{margin:0 0 8px;}
-  .w-add input[type=text]{width:100%;display:block;}
-  .w-add .btn{width:100%;margin-top:10px;padding:12px;font-size:15px;}
-  .w-found{font-size:14px;color:rgba(255,255,255,.7);margin:0 0 14px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.12);}
-  .w-found b{color:#fff;}
-  .w-hint{font-family:var(--mono);font-size:11.5px;color:rgba(255,255,255,0.4);margin-top:8px;}
+  .wtitle{font-weight:600;font-size:19px;letter-spacing:-0.02em;margin-bottom:5px;color:#fff;}
+  .w-sub{font-size:14px;color:rgba(255,255,255,0.45);margin-bottom:20px;}
+  /* ---------- question list (scoped inside .form-card to beat label styling) ---------- */
+  .form-card .w-q{
+    display:flex;gap:13px;align-items:flex-start;margin:0;padding:13px 2px;
+    font-family:var(--sans);font-size:15px;line-height:1.55;font-weight:400;
+    text-transform:none;letter-spacing:-0.005em;color:rgba(255,255,255,0.82);
+    cursor:pointer;border:0;border-radius:8px;transition:color .15s ease,background .15s ease;
+  }
+  .form-card .w-q:hover{color:#fff;background:rgba(255,255,255,0.035);}
+  .form-card .w-q + .w-q{border-top:1px solid rgba(255,255,255,0.07);}
+  /* custom checkbox */
+  .form-card .w-q input[type=checkbox]{
+    appearance:none;-webkit-appearance:none;
+    width:17px;height:17px;min-width:17px;margin:3px 0 0;padding:0;flex:0 0 auto;
+    border:1.5px solid rgba(255,255,255,0.28);border-radius:5px;background:transparent;
+    cursor:pointer;position:relative;transition:all .15s ease;
+  }
+  .form-card .w-q:hover input[type=checkbox]{border-color:rgba(255,255,255,0.5);}
+  .form-card .w-q input[type=checkbox]:checked{background:var(--accent);border-color:var(--accent);}
+  .form-card .w-q input[type=checkbox]:checked::after{
+    content:'';position:absolute;left:5px;top:1.5px;width:4px;height:9px;
+    border:solid #fff;border-width:0 2px 2px 0;transform:rotate(43deg);
+  }
+  .form-card .w-q input[type=checkbox]:not(:checked) ~ span{color:rgba(255,255,255,0.32);}
+  /* meta lines */
+  .w-found{font-size:13.5px;color:rgba(255,255,255,0.5);margin:0 0 16px;letter-spacing:-0.005em;}
+  .w-found b{color:rgba(255,255,255,0.9);font-weight:500;}
+  .w-count{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:rgba(255,255,255,0.3);
+    margin-top:14px;text-transform:uppercase;}
+  /* ---------- add your own ---------- */
+  .w-add{margin:26px 0 0;padding-top:22px;border-top:1px solid rgba(255,255,255,0.09);}
+  .form-card .w-add label{
+    margin:0 0 10px;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;
+    text-transform:uppercase;color:rgba(255,255,255,0.38);
+  }
+  .form-card .w-add input[type=text]{
+    width:100%;display:block;background:rgba(255,255,255,0.04);
+    border:1px solid rgba(255,255,255,0.13);border-radius:9px;padding:13px 15px;
+    font-size:15px;transition:border-color .15s ease,background .15s ease;
+  }
+  .form-card .w-add input[type=text]:focus{
+    outline:none;border-color:rgba(255,255,255,0.32);background:rgba(255,255,255,0.06);
+  }
+  .form-card .w-add .btn{
+    width:100%;margin-top:10px;padding:11px;font-size:14px;font-weight:500;
+    background:transparent;color:rgba(255,255,255,0.72);
+    border:1px solid rgba(255,255,255,0.16);border-radius:9px;transition:all .15s ease;
+  }
+  .form-card .w-add .btn:hover{color:#fff;border-color:rgba(255,255,255,0.38);transform:none;}
+  .w-hint{font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;color:rgba(255,255,255,0.3);margin-top:10px;}
   .btn-ghost-light{background:transparent;color:#fff;border:1px solid rgba(255,255,255,0.3);}
   #w-run,#w-unlock,#w-gen{width:100%;margin-top:14px;}
   .w-spin{width:34px;height:34px;border:3px solid rgba(255,255,255,0.2);border-top-color:var(--accent);border-radius:50%;animation:wspin .9s linear infinite;margin:10px auto 18px;}
@@ -514,12 +547,13 @@
           <p class="form-note">// Step 1 of 3 · we read your site and search the web first</p>
         </div>
         <div class="wstep" id="ws2" hidden>
-          <p class="wtitle">These are the ChatGPT questions where your brand should show up. Untick any, add your own, then run it.</p>
+          <p class="wtitle">The questions your buyers ask</p>
+          <p class="w-sub">Untick anything that doesn't fit. Add your own below.</p>
           <div id="w-list"></div>
           <div class="w-add">
             <label for="w-custom">Add your own question</label>
             <input id="w-custom" type="text" placeholder="e.g. Which water bottle keeps drinks cold longest?">
-            <button type="button" id="w-addbtn" class="btn btn-ghost-light">+ Add this question</button>
+            <button type="button" id="w-addbtn" class="btn btn-ghost-light">Add question</button>
             <p class="w-hint">// Press Enter to add. Untick any question above to skip it.</p>
           </div>
           <button class="btn btn-accent btn-lg" id="w-run" type="button">Run my AI visibility audit</button>
@@ -874,10 +908,10 @@
     const bits = [];
     if (m.research && m.research.site) bits.push('read your site');
     if (m.research && m.research.searched) bits.push('searched the web');
-    const head = m.category ? '<p class="w-found">Category identified: <b>'+escq(m.category)+'</b>'
-      + (bits.length ? ' <span class="w-hint" style="margin:0">// '+bits.join(' · ')+'</span>' : '') + '</p>' : '';
+    const head = m.category ? '<p class="w-found"><b>'+escq(m.category)+'</b>'
+      + (bits.length ? ' · ' + bits.join(', ') : '') + '</p>' : '';
     $('w-list').innerHTML = head + state.queries.map((q,i)=>'<label class="w-q"><input type="checkbox" checked data-i="'+i+'"> <span>'+escq(q)+'</span></label>').join('')
-      + '<p class="form-note" style="text-align:left;margin-top:10px;">// '+state.queries.length+' questions ready</p>';
+      + '<p class="w-count">'+state.queries.length+' questions ready</p>';
   }
 
   $('w-custom').addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); $('w-addbtn').click(); } });

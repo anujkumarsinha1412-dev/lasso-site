@@ -1,0 +1,32 @@
+---
+// Google Analytics 4 + AI-referrer tagging. Included on every page.
+const GA_ID = "G-DD18JLWTDD";
+---
+<script async is:inline src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}></script>
+<script is:inline define:vars={{ GA_ID }}>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  window.gtag = gtag;
+  gtag('js', new Date());
+
+  // Tag traffic arriving from AI assistants as its own channel
+  var aiSources = [
+    ['chatgpt.com','ChatGPT'], ['openai.com','ChatGPT'],
+    ['perplexity.ai','Perplexity'], ['gemini.google.com','Gemini'],
+    ['claude.ai','Claude'], ['copilot.microsoft.com','Copilot'],
+    ['you.com','You.com'], ['grok.com','Grok']
+  ];
+  var ref = document.referrer || '';
+  var qp = new URLSearchParams(location.search);
+  var utm = (qp.get('utm_source') || '').toLowerCase();
+  var aiSource = null;
+  for (var i = 0; i < aiSources.length; i++) {
+    if (ref.indexOf(aiSources[i][0]) !== -1 || utm.indexOf(aiSources[i][0]) !== -1) { aiSource = aiSources[i][1]; break; }
+  }
+
+  gtag('config', GA_ID, aiSource ? { ai_source: aiSource } : {});
+  if (aiSource) {
+    gtag('event', 'ai_referral', { ai_source: aiSource, page_location: location.href });
+    try { sessionStorage.setItem('aq_ai_source', aiSource); } catch (e) {}
+  }
+</script>

@@ -1,10 +1,12 @@
 ---
 const { title, description, date, isPost = false, url } = Astro.props;
 const fmtDate = date ? new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : null;
+import Analytics from '../components/Analytics.astro';
 ---
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<Analytics />
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{title} | AgenQuest</title>

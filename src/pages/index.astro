@@ -1,6 +1,10 @@
+---
+import Analytics from '../components/Analytics.astro';
+---
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<Analytics />
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AgenQuest — Marketing for the Age of AI | AEO, GEO &amp; Agentic Commerce for Consumer Brands</title>
@@ -884,6 +888,7 @@
 (function(){
   const $ = (id) => document.getElementById(id);
   const show = (n) => { for (const i of [1,2,3,4]) $('ws'+i).hidden = i!==n; };
+  const track = (name, params) => { try { if (window.gtag) window.gtag('event', name, params || {}); } catch(e){} };
   const escq = (s) => String(s).replace(/[<>&]/g, (c)=>({'<':'&lt;','>':'&gt;','&':'&amp;'}[c]));
   let state = { brand:'', site:'', cat:'', queries:[], report:null };
 
@@ -892,12 +897,14 @@
     if (!brand) { $('w-brand').focus(); return; }
     const looksUrl = /\.[a-z]{2,}/i.test(brand);
     state.brand = brand; state.site = looksUrl ? brand : ''; state.cat = '';
+    track('audit_started', {brand: state.brand});
     $('w-gen').disabled = true; $('w-gen').textContent = 'Researching your brand…';
     try {
       const r = await fetch('/api/suggest', {method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({brand: state.brand, website: state.site})});
       const d = await r.json();
       if (!r.ok || !d.queries || !d.queries.length) throw new Error(d.error || 'no questions returned');
       state.queries = d.queries; state.meta = d;
+      track('audit_prompts_generated', {brand: state.brand, category: d.category || '', question_count: d.queries.length});
       renderList(); show(2);
     } catch(e){ alert('Could not generate questions — please check the name and try again.'); }
     $('w-gen').disabled = false; $('w-gen').textContent = 'Research my brand & build prompts';
@@ -919,12 +926,14 @@
     const v = $('w-custom').value.trim();
     if (!v) return;
     state.queries.push(v); $('w-custom').value=''; renderList();
+    track('audit_question_added', {brand: state.brand});
   });
 
   const STATUSES = ['Asking ChatGPT your questions…','Reading the answers…','Checking which brands get named…','Scoring your visibility…','Almost there…'];
   $('w-run').addEventListener('click', async () => {
     const selected = Array.from(document.querySelectorAll('#w-list input:checked')).map((el)=>state.queries[+el.dataset.i]);
     if (!selected.length) { alert('Keep at least one question.'); return; }
+    track('audit_run', {brand: state.brand, question_count: selected.length});
     show(3);
     let si=0; const t = setInterval(()=>{ si=(si+1)%STATUSES.length; $('w-status').textContent=STATUSES[si]; }, 6000);
     try {
@@ -933,6 +942,7 @@
       clearInterval(t);
       if (d.error) throw new Error(d.error);
       state.report = d; renderReport(d); show(4);
+      track('audit_completed', {brand: state.brand, score: (d.overall && d.overall.score) || 0});
     } catch(e){ clearInterval(t); alert('The audit hit a snag — please try again in a minute.'); show(2); }
   });
 
@@ -951,6 +961,8 @@
     try {
       await fetch('/api/lead', {method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({email: email, phone: $('w-phone').value.trim(), brand: state.brand, website: state.site, report: state.report})});
     } catch(e){}
+    track('generate_lead', {brand: state.brand, score: (state.report && state.report.overall && state.report.overall.score) || 0,
+      ai_source: (function(){ try { return sessionStorage.getItem('aq_ai_source') || 'none'; } catch(e){ return 'none'; } })()});
     $('w-report').classList.remove('w-blur');
     $('w-gate').innerHTML = '<p class="wtitle">✓ Report unlocked — a copy is on its way to your inbox.</p><p class="form-note">// We will follow up with what it takes to close the gaps.</p>';
   });

@@ -381,6 +381,8 @@
   .w-add label{margin:0 0 8px;}
   .w-add input[type=text]{width:100%;display:block;}
   .w-add .btn{width:100%;margin-top:10px;padding:12px;font-size:15px;}
+  .w-found{font-size:14px;color:rgba(255,255,255,.7);margin:0 0 14px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.12);}
+  .w-found b{color:#fff;}
   .w-hint{font-family:var(--mono);font-size:11.5px;color:rgba(255,255,255,0.4);margin-top:8px;}
   .btn-ghost-light{background:transparent;color:#fff;border:1px solid rgba(255,255,255,0.3);}
   #w-run,#w-unlock,#w-gen{width:100%;margin-top:14px;}
@@ -508,8 +510,8 @@
         <div class="wstep" id="ws1">
           <label for="w-brand">Brand or website</label>
           <input id="w-brand" type="text" placeholder="e.g. unbottled.com" required>
-          <button class="btn btn-accent btn-lg" id="w-gen" type="button">Build my prompt set</button>
-          <p class="form-note">// Step 1 of 3 · no account and no sales call required</p>
+          <button class="btn btn-accent btn-lg" id="w-gen" type="button">Research my brand &amp; build prompts</button>
+          <p class="form-note">// Step 1 of 3 · we read your site and search the web first</p>
         </div>
         <div class="wstep" id="ws2" hidden>
           <p class="wtitle">These are the ChatGPT questions where your brand should show up. Untick any, add your own, then run it.</p>
@@ -856,19 +858,25 @@
     if (!brand) { $('w-brand').focus(); return; }
     const looksUrl = /\.[a-z]{2,}/i.test(brand);
     state.brand = brand; state.site = looksUrl ? brand : ''; state.cat = '';
-    $('w-gen').disabled = true; $('w-gen').textContent = 'Generating…';
+    $('w-gen').disabled = true; $('w-gen').textContent = 'Researching your brand…';
     try {
       const r = await fetch('/api/suggest', {method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({brand: state.brand, website: state.site})});
       const d = await r.json();
       if (!r.ok || !d.queries || !d.queries.length) throw new Error(d.error || 'no questions returned');
-      state.queries = d.queries;
+      state.queries = d.queries; state.meta = d;
       renderList(); show(2);
     } catch(e){ alert('Could not generate questions — please check the name and try again.'); }
-    $('w-gen').disabled = false; $('w-gen').textContent = 'Build my prompt set';
+    $('w-gen').disabled = false; $('w-gen').textContent = 'Research my brand & build prompts';
   });
 
   function renderList(){
-    $('w-list').innerHTML = state.queries.map((q,i)=>'<label class="w-q"><input type="checkbox" checked data-i="'+i+'"> <span>'+escq(q)+'</span></label>').join('')
+    const m = state.meta || {};
+    const bits = [];
+    if (m.research && m.research.site) bits.push('read your site');
+    if (m.research && m.research.searched) bits.push('searched the web');
+    const head = m.category ? '<p class="w-found">Category identified: <b>'+escq(m.category)+'</b>'
+      + (bits.length ? ' <span class="w-hint" style="margin:0">// '+bits.join(' · ')+'</span>' : '') + '</p>' : '';
+    $('w-list').innerHTML = head + state.queries.map((q,i)=>'<label class="w-q"><input type="checkbox" checked data-i="'+i+'"> <span>'+escq(q)+'</span></label>').join('')
       + '<p class="form-note" style="text-align:left;margin-top:10px;">// '+state.queries.length+' questions ready</p>';
   }
 

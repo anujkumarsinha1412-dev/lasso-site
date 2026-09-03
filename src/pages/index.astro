@@ -391,6 +391,15 @@
   .w-absent{background:rgba(197,48,48,.25);color:#F19999;}
   .w-gapt{color:#fff;font-weight:600;margin-top:16px;}
   .w-gaps{margin:8px 0 0 18px;color:rgba(255,255,255,0.75);font-size:14px;}
+
+  /* ---------- Stats bar ---------- */
+  .stats{padding:44px 0;border-bottom:1px solid var(--line);background:var(--surface,#fff);}
+  .stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;}
+  .stat .num{font-size:38px;font-weight:700;letter-spacing:-.02em;line-height:1.1;}
+  .stat .num span{color:var(--accent);}
+  .stat .lab{color:var(--ink-soft,#55524B);font-size:14.5px;margin-top:6px;}
+  .stat .src{font-family:var(--mono);font-size:11px;color:var(--ink-faint,#8A867D);margin-top:8px;}
+  @media(max-width:900px){.stat-grid{grid-template-columns:1fr;gap:18px;}}
 </style>
 </head>
 <body>
@@ -448,6 +457,79 @@
   </div>
 </section>
 
+<!-- ================= STATS ================= -->
+<section class="stats">
+  <div class="wrap stat-grid">
+    <div class="stat">
+      <div class="num">100<span>M+</span></div>
+      <div class="lab">people use AI assistants every day, and a growing share ask them what to buy.</div>
+      <div class="src">// industry usage reporting, 2026</div>
+    </div>
+    <div class="stat">
+      <div class="num">+<span>115%</span></div>
+      <div class="lab">AI visibility gain a fifth-ranked site achieved through citation optimization in controlled testing.</div>
+      <div class="src">// Princeton GEO study, KDD 2024</div>
+    </div>
+    <div class="stat">
+      <div class="num">0<span> clicks</span></div>
+      <div class="lab">The answer resolves the question. If you are not named in it, you are not considered.</div>
+      <div class="src">// the zero-click reality</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT / AUDIT ================= -->
+<section class="contact" id="audit">
+  <div class="wrap">
+    <div class="contact-grid">
+      <div>
+        <span class="kicker">01 / Start here</span>
+        <h2>See what AI says about your brand.</h2>
+        <p class="lede">Start with an instant ChatGPT visibility snapshot. It is free, specific to your category and does not require a sales call.</p>
+        <ul class="deliver">
+          <li>A prompt set built around your brand and buying category</li>
+          <li>A live check of which brands ChatGPT names in those answers</li>
+          <li>A visibility score with answer-by-answer notes</li>
+          <li>Three concrete evidence gaps to investigate next</li>
+          <li>A copy of the result by email</li>
+        </ul>
+      </div>
+      <div class="form-card" id="wiz">
+        <div class="wstep" id="ws1">
+          <label for="w-brand">Brand or website</label>
+          <input id="w-brand" type="text" placeholder="e.g. unbottled.com" required>
+          <button class="btn btn-accent btn-lg" id="w-gen" type="button">Build my prompt set</button>
+          <p class="form-note">// Step 1 of 3 · no account and no sales call required</p>
+        </div>
+        <div class="wstep" id="ws2" hidden>
+          <p class="wtitle">These are the ChatGPT questions where your brand should show up. Untick any, add your own, then run it.</p>
+          <div id="w-list"></div>
+          <div class="w-add"><input id="w-custom" type="text" placeholder="Add your own question…"><button type="button" id="w-addbtn" class="btn btn-ghost-light">Add</button></div>
+          <button class="btn btn-accent btn-lg" id="w-run" type="button">Run my ChatGPT visibility audit</button>
+          <p class="form-note">// Step 2 of 3 · we query ChatGPT live with these exact questions</p>
+        </div>
+        <div class="wstep" id="ws3" hidden>
+          <div class="w-spin"></div>
+          <p class="wtitle" id="w-status">Asking ChatGPT your questions…</p>
+          <p class="form-note">// live queries take 20–60 seconds</p>
+        </div>
+        <div class="wstep" id="ws4" hidden>
+          <div id="w-report" class="w-blur"></div>
+          <div id="w-gate">
+            <p class="wtitle">Your report is ready.</p>
+            <label for="w-email">Email (we&#39;ll send your full report here)</label>
+            <input id="w-email" type="email" placeholder="you@yourbrand.com" required>
+            <label for="w-phone">Phone (optional)</label>
+            <input id="w-phone" type="tel" placeholder="+91…">
+            <button class="btn btn-accent btn-lg" id="w-unlock" type="button">Unlock my report</button>
+            <p class="form-note">// One report, one relevant follow-up. See our <a href="/privacy/" style="color:inherit">privacy note</a>.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ================= PROOF NOTE ================= -->
 <section class="proof-note" aria-labelledby="proof-heading">
   <div class="wrap proof-grid">
@@ -479,7 +561,7 @@
 <!-- ================= THE SHIFT ================= -->
 <section id="shift">
   <div class="wrap">
-    <span class="kicker">01 / The shift</span>
+    <span class="kicker">02 / The shift</span>
     <h2>Product discovery has moved.<br>The old playbook can't follow.</h2>
     <p class="lede">Search still matters. But in more buying journeys, a shortlist is formed before a shopper reaches a brand’s website. That shortlist draws on evidence scattered across the open web.</p>
     <div class="card-grid">
@@ -505,7 +587,7 @@
 <!-- ================= SERVICES ================= -->
 <section id="services">
   <div class="wrap">
-    <span class="kicker">02 / What we do</span>
+    <span class="kicker">03 / What we do</span>
     <h2>From invisible to recommended to transacted.</h2>
     <p class="lede">Built for D2C and e-commerce brands — beauty, wellness, supplements, consumer electronics — that are winning with customers but losing in AI answers.</p>
 
@@ -558,7 +640,7 @@
 <!-- ================= FIVE SIGNALS ================= -->
 <section class="signals" id="signals">
   <div class="wrap">
-    <span class="kicker">03 / Method</span>
+    <span class="kicker">04 / Method</span>
     <h2>The Five Signals framework.</h2>
     <p class="lede">Answer engines still retrieve pages, but they assemble recommendations from a broader evidence set. We work across five signal groups because no single tactic controls the answer.</p>
 
@@ -604,7 +686,7 @@
 <!-- ================= WEDGE ================= -->
 <section>
   <div class="wrap">
-    <span class="kicker">04 / Why AgenQuest</span>
+    <span class="kicker">05 / Why AgenQuest</span>
     <h2>Dashboards tell you what's wrong.<br>We make it right.</h2>
     <p class="lede">A wave of well-funded tools now monitors AI visibility. Monitoring is useful — and it's the easy half. The score only changes when someone does the work.</p>
     <div class="wedge-grid">
@@ -633,7 +715,7 @@
 <!-- ================= EVIDENCE ================= -->
 <section>
   <div class="wrap">
-    <span class="kicker">05 / Measurement</span>
+    <span class="kicker">06 / Measurement</span>
     <h2>Observed answers, not invented certainty.</h2>
     <p class="lede">AI visibility is noisy. We use a repeatable prompt panel, preserve the underlying answers and distinguish a useful signal from a convenient story.</p>
     <div class="ev-grid">
@@ -659,7 +741,7 @@
 <!-- ================= PROCESS ================= -->
 <section>
   <div class="wrap">
-    <span class="kicker">06 / How it works</span>
+    <span class="kicker">07 / How it works</span>
     <h2>Audit first. Then earn the retainer.</h2>
     <p class="lede">We show you real findings before you spend anything. Honest timelines: early movement in weeks, compounding authority over months.</p>
     <div class="steps">
@@ -690,7 +772,7 @@
 <!-- ================= FAQ ================= -->
 <section class="faq" id="faq">
   <div class="wrap">
-    <span class="kicker">07 / FAQ</span>
+    <span class="kicker">08 / FAQ</span>
     <h2>Straight answers.</h2>
 
     <details open>
@@ -738,63 +820,11 @@
   </div>
 </section>
 
-<!-- ================= CONTACT / AUDIT ================= -->
-<section class="contact" id="audit">
-  <div class="wrap">
-    <div class="contact-grid">
-      <div>
-        <span class="kicker">08 / Start here</span>
-        <h2>See what AI says about your brand.</h2>
-        <p class="lede">Start with an instant ChatGPT visibility snapshot. It is free, specific to your category and does not require a sales call.</p>
-        <ul class="deliver">
-          <li>A prompt set built around your brand and buying category</li>
-          <li>A live check of which brands ChatGPT names in those answers</li>
-          <li>A visibility score with answer-by-answer notes</li>
-          <li>Three concrete evidence gaps to investigate next</li>
-          <li>A copy of the result by email</li>
-        </ul>
-      </div>
-      <div class="form-card" id="wiz">
-        <div class="wstep" id="ws1">
-          <label for="w-brand">Brand or website</label>
-          <input id="w-brand" type="text" placeholder="e.g. unbottled.com" required>
-          <button class="btn btn-accent btn-lg" id="w-gen" type="button">Build my prompt set</button>
-          <p class="form-note">// Step 1 of 3 · no account and no sales call required</p>
-        </div>
-        <div class="wstep" id="ws2" hidden>
-          <p class="wtitle">These are the ChatGPT questions where your brand should show up. Untick any, add your own, then run it.</p>
-          <div id="w-list"></div>
-          <div class="w-add"><input id="w-custom" type="text" placeholder="Add your own question…"><button type="button" id="w-addbtn" class="btn btn-ghost-light">Add</button></div>
-          <button class="btn btn-accent btn-lg" id="w-run" type="button">Run my ChatGPT visibility audit</button>
-          <p class="form-note">// Step 2 of 3 · we query ChatGPT live with these exact questions</p>
-        </div>
-        <div class="wstep" id="ws3" hidden>
-          <div class="w-spin"></div>
-          <p class="wtitle" id="w-status">Asking ChatGPT your questions…</p>
-          <p class="form-note">// live queries take 20–60 seconds</p>
-        </div>
-        <div class="wstep" id="ws4" hidden>
-          <div id="w-report" class="w-blur"></div>
-          <div id="w-gate">
-            <p class="wtitle">Your report is ready.</p>
-            <label for="w-email">Email (we&#39;ll send your full report here)</label>
-            <input id="w-email" type="email" placeholder="you@yourbrand.com" required>
-            <label for="w-phone">Phone (optional)</label>
-            <input id="w-phone" type="tel" placeholder="+91…">
-            <button class="btn btn-accent btn-lg" id="w-unlock" type="button">Unlock my report</button>
-            <p class="form-note">// One report, one relevant follow-up. See our <a href="/privacy/" style="color:inherit">privacy note</a>.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <footer>
   <div class="wrap foot">
     <a class="logo" href="#top"><span class="logo-mark"></span>AgenQuest</a>
     <span class="foot-tag">// marketing for the age of AI — AEO · GEO · agentic commerce</span>
-    <span class="foot-links"><a href="/blog/">Notes</a><a href="/privacy/">Privacy</a><a href="mailto:audit@agenquest.com">Email</a></span>
+    <span class="foot-links"><a href="/blog/">Notes</a><a href="/privacy/">Privacy</a><a href="mailto:hello@agenquest.com">hello@agenquest.com</a></span>
     <span>© 2026 AgenQuest.</span>
   </div>
 </footer>

@@ -367,11 +367,21 @@
   /* ---------- Audit wizard ---------- */
   .wstep[hidden]{display:none;}
   .wtitle{font-weight:600;font-size:17px;margin-bottom:14px;color:#fff;}
-  .w-q{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px solid rgba(255,255,255,0.1);font-size:14.5px;color:rgba(255,255,255,0.85);}
-  .w-q input{margin-top:4px;accent-color:var(--accent);}
-  .w-add{display:flex;gap:8px;margin:14px 0;align-items:stretch;}
-  .w-add input{flex:1 1 auto;min-width:0;width:auto;}
-  .w-add .btn{flex:0 0 auto;white-space:nowrap;padding:12px 18px;}
+  /* question list — these are <label>s, so undo the uppercase mono form styling */
+  .w-q{display:flex;gap:12px;align-items:flex-start;margin:0;padding:12px 0;
+       border-bottom:1px solid rgba(255,255,255,0.1);
+       font-family:var(--sans);font-size:15px;line-height:1.5;font-weight:400;
+       text-transform:none;letter-spacing:normal;color:rgba(255,255,255,0.88);cursor:pointer;}
+  .w-q:hover{color:#fff;}
+  .w-q input[type=checkbox]{width:17px;height:17px;min-width:17px;margin:3px 0 0;padding:0;
+       flex:0 0 auto;accent-color:var(--accent);cursor:pointer;}
+  .w-q input[type=checkbox]:not(:checked) + span{color:rgba(255,255,255,0.4);text-decoration:line-through;}
+  /* add-your-own row — stacked so the field is always full width */
+  .w-add{margin:22px 0 0;padding-top:20px;border-top:1px solid rgba(255,255,255,0.12);}
+  .w-add label{margin:0 0 8px;}
+  .w-add input[type=text]{width:100%;display:block;}
+  .w-add .btn{width:100%;margin-top:10px;padding:12px;font-size:15px;}
+  .w-hint{font-family:var(--mono);font-size:11.5px;color:rgba(255,255,255,0.4);margin-top:8px;}
   .btn-ghost-light{background:transparent;color:#fff;border:1px solid rgba(255,255,255,0.3);}
   #w-run,#w-unlock,#w-gen{width:100%;margin-top:14px;}
   .w-spin{width:34px;height:34px;border:3px solid rgba(255,255,255,0.2);border-top-color:var(--accent);border-radius:50%;animation:wspin .9s linear infinite;margin:10px auto 18px;}
@@ -504,7 +514,12 @@
         <div class="wstep" id="ws2" hidden>
           <p class="wtitle">These are the ChatGPT questions where your brand should show up. Untick any, add your own, then run it.</p>
           <div id="w-list"></div>
-          <div class="w-add"><input id="w-custom" type="text" placeholder="Add your own question…"><button type="button" id="w-addbtn" class="btn btn-ghost-light">Add</button></div>
+          <div class="w-add">
+            <label for="w-custom">Add your own question</label>
+            <input id="w-custom" type="text" placeholder="e.g. Which water bottle keeps drinks cold longest?">
+            <button type="button" id="w-addbtn" class="btn btn-ghost-light">+ Add this question</button>
+            <p class="w-hint">// Press Enter to add. Untick any question above to skip it.</p>
+          </div>
           <button class="btn btn-accent btn-lg" id="w-run" type="button">Run my ChatGPT visibility audit</button>
           <p class="form-note">// Step 2 of 3 · we query ChatGPT live with these exact questions</p>
         </div>

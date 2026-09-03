@@ -13,6 +13,18 @@ const MOCK = (brand) => [
   `Top-rated options for beginners?`,
 ];
 
+// Responses API returns an output array; pull the assistant text out of it
+function outputText(d) {
+  if (typeof d.output_text === "string" && d.output_text.trim()) return d.output_text;
+  const parts = [];
+  for (const item of d.output || []) {
+    for (const c of item.content || []) {
+      if (typeof c.text === "string") parts.push(c.text);
+    }
+  }
+  return parts.join("\n").trim() || null;
+}
+
 const json = (o, s = 200) => new Response(JSON.stringify(o), { status: s, headers: { "content-type": "application/json" } });
 
 // Strip a URL down to a clean display name
@@ -72,17 +84,18 @@ export async function onRequestPost(context) {
       siteUrl ? fetchSite(siteUrl) : Promise.resolve(null),
       (async () => {
         try {
-          const r = await chat({
-            model: "gpt-4o-mini-search-preview",
-            web_search_options: { search_context_size: "low" },
-            messages: [{
-              role: "user",
-              content: `Research the brand "${brand}"${website ? ` (${website})` : ""}. In under 180 words state: what it sells (specific product types), its market/country, its price positioning, its main named competitors, and the customer problems it solves. If you cannot identify it confidently, say so plainly.`,
-            }],
+          const r = await fetch("https://api.openai.com/v1/responses", {
+            method: "POST",
+            headers: { "content-type": "application/json", authorization: `Bearer ${key}` },
+            body: JSON.stringify({
+              model: "gpt-4o-mini",
+              tools: [{ type: "web_search" }],
+              input: `Research the brand "${brand}"${website ? ` (${website})` : ""}. In under 180 words state: what it sells (specific product types), its market/country, its price positioning, its main named competitors, and the customer problems it solves. If you cannot identify it confidently, say so plainly.`,
+            }),
           });
           if (!r.ok) return null;
           const d = await r.json();
-          return d.choices?.[0]?.message?.content || null;
+          return outputText(d);
         } catch { return null; }
       })(),
     ]);

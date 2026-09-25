@@ -2,7 +2,7 @@ const URLS = ["https://agenquest.com/","https://agenquest.com/blog/","https://ag
 const KEY = "3370b49b0ed350a48ac9478580e33d4c";
 export async function onRequest(context) {
   const u = new URL(context.request.url);
-  if (u.searchParams.get("t") !== KEY) return new Response("no", { status: 403 });
+  
   const payload = JSON.stringify({ host: "agenquest.com", key: KEY, keyLocation: `https://agenquest.com/${KEY}.txt`, urlList: URLS });
   const endpoints = ["https://api.indexnow.org/IndexNow", "https://www.bing.com/indexnow", "https://yandex.com/indexnow"];
   const settled = await Promise.allSettled(endpoints.map(ep =>

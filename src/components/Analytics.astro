@@ -4,6 +4,20 @@ const GA_ID = "G-DD18JLWTDD";
 ---
 <script async is:inline src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}></script>
 <script is:inline define:vars={{ GA_ID }}>
+  // --- self-exclusion: visit /?noanalytics=1 once per browser to stop being counted ---
+  try {
+    var _qp = new URLSearchParams(location.search);
+    if (_qp.get('noanalytics') === '1') localStorage.setItem('aq_optout', '1');
+    if (_qp.get('noanalytics') === '0') localStorage.removeItem('aq_optout');
+    if (localStorage.getItem('aq_optout') === '1') {
+      window['ga-disable-' + GA_ID] = true;          // stops GA4
+      var _b = document.querySelector('script[src*="cloudflareinsights"]');
+      if (_b) _b.remove();                            // stops Cloudflare beacon
+      window.__aqOptedOut = true;
+    }
+  } catch (e) {}
+  if (window.__aqOptedOut) { window.gtag = function(){}; }
+
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   window.gtag = gtag;

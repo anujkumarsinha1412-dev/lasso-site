@@ -5,13 +5,12 @@ export async function onRequest(context) {
   if (u.searchParams.get("t") !== KEY) return new Response("no", { status: 403 });
   const payload = JSON.stringify({ host: "agenquest.com", key: KEY, keyLocation: `https://agenquest.com/${KEY}.txt`, urlList: URLS });
   const endpoints = ["https://api.indexnow.org/IndexNow", "https://www.bing.com/indexnow", "https://yandex.com/indexnow"];
-  const lines = [];
-  for (const ep of endpoints) {
-    try {
-      const r = await fetch(ep, { method: "POST", headers: { "Content-Type": "application/json; charset=utf-8" }, body: payload });
-      lines.push(`${ep} -> ${r.status} ${(await r.text()).slice(0, 200)}`);
-    } catch (e) { lines.push(`${ep} -> ERR ${e}`); }
-  }
-  lines.push(`submitted ${URLS.length} urls`);
-  return new Response(lines.join("\n") + "\n", { headers: { "content-type": "text/plain; charset=utf-8" } });
+  const settled = await Promise.allSettled(endpoints.map(ep =>
+    fetch(ep, { method: "POST", headers: { "Content-Type": "application/json; charset=utf-8" }, body: payload })
+      .then(async r => `${ep} => HTTP ${r.status} :: ${(await r.text()).slice(0, 150)}`)
+  ));
+  const lines = settled.map((s, i) => s.status === "fulfilled" ? s.value : `${endpoints[i]} => THREW ${s.reason}`);
+  lines.push(`submitted ${URLS.length} urls for agenquest.com`);
+  const html = `<!doctype html><html><head><title>IndexNow: ${lines[0].slice(0,80)}</title></head><body><h1>IndexNow submission result</h1><pre>${lines.join("\n")}</pre></body></html>`;
+  return new Response(html, { headers: { "content-type": "text/html; charset=utf-8" } });
 }

@@ -26,8 +26,23 @@ import Analytics from '../components/Analytics.astro';
     headline: title,
     description: description,
     datePublished: date,
-    author: { '@type': 'Organization', name: 'AgenQuest' },
-    publisher: { '@type': 'Organization', name: 'AgenQuest' },
+    dateModified: date,
+    author: {
+      '@type': 'Person',
+      '@id': 'https://agenquest.com/about/#anuj-sinha',
+      name: 'Anuj Sinha',
+      jobTitle: 'Founder',
+      url: 'https://agenquest.com/about/',
+      worksFor: { '@id': 'https://agenquest.com/#organization' },
+      knowsAbout: ['Answer Engine Optimization', 'Generative Engine Optimization', 'AI Search Visibility', 'Agentic Commerce'],
+    },
+    publisher: {
+      '@type': 'Organization',
+      '@id': 'https://agenquest.com/#organization',
+      name: 'AgenQuest',
+      url: 'https://agenquest.com/',
+      logo: { '@type': 'ImageObject', url: 'https://agenquest.com/icon-512.png' },
+    },
     mainEntityOfPage: url,
   })} />
 )}
@@ -79,6 +94,10 @@ import Analytics from '../components/Analytics.astro';
   footer.site { border-top: 1px solid var(--line); padding: 32px 0; }
   .foot { max-width: 1120px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-size: 14px; color: var(--ink-faint); }
   .foot .mono { font-family: var(--mono); font-size: 12px; }
+  .byline { margin: 44px 0 0; padding: 20px 22px; border: 1px solid var(--line); border-left: 3px solid var(--accent); border-radius: 4px; background: var(--surface); }
+  .byline p { font-size: 15px; line-height: 1.6; color: var(--ink-soft); }
+  .byline strong { color: var(--ink); }
+  .meta a { color: inherit; }
 </style>
 </head>
 <body>
@@ -91,6 +110,7 @@ import Analytics from '../components/Analytics.astro';
       <a href="/#signals">Method</a>
       <a href="/#faq">FAQ</a>
       <a href="/blog/">Blog</a>
+      <a href="/about/">About</a>
       <a href="/#audit" class="btn-accent">Get your free audit</a>
     </div>
   </nav>
@@ -103,7 +123,7 @@ import Analytics from '../components/Analytics.astro';
 <footer class="site">
   <div class="foot">
     <span>© 2026 AgenQuest. All rights reserved.</span>
-    <span class="mono">// marketing for the age of AI — AEO · GEO · agentic commerce</span>
+    <span class="mono"><a href="/about/" style="color:inherit">About</a> · <a href="/privacy/" style="color:inherit">Privacy</a> · marketing for the age of AI</span>
   </div>
 </footer>
 </body>

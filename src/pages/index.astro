@@ -21,9 +21,21 @@ import Analytics from '../components/Analytics.astro';
 {
   "@context": "https://schema.org",
   "@type": "Organization",
+  "@id": "https://agenquest.com/#organization",
   "name": "AgenQuest",
+  "url": "https://agenquest.com/",
+  "logo": {
+    "@type": "ImageObject",
+    "url": "https://agenquest.com/icon-512.png",
+    "width": 512,
+    "height": 512
+  },
+  "image": "https://agenquest.com/icon-512.png",
   "description": "AI-era marketing agency specializing in Answer Engine Optimization (AEO), Generative Engine Optimization (GEO), AI discovery, and agentic commerce for consumer brands.",
   "email": "audit@agenquest.com",
+  "foundingDate": "2026",
+  "founder": { "@id": "https://agenquest.com/about/#anuj-sinha" },
+  "areaServed": { "@type": "Country", "name": "United States" },
   "knowsAbout": ["Answer Engine Optimization", "Generative Engine Optimization", "AI Search Visibility", "Agentic Commerce", "Digital PR", "E-commerce Marketing"]
 }
 </script>
@@ -195,6 +207,22 @@ import Analytics from '../components/Analytics.astro';
   }
   a.cite { text-decoration: none; border-color: var(--line-dark); color: var(--ink); }
   a.cite:hover { background: var(--ink); color: var(--surface); }
+
+  /* ---------- Selected research ---------- */
+  .research { border-top: 1px solid var(--line); }
+  .research-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 38px; }
+  .rcard {
+    display: flex; flex-direction: column; gap: 10px; padding: 26px 24px 22px;
+    border: 1px solid var(--line); border-radius: 14px; background: var(--surface);
+    text-decoration: none; color: var(--ink); transition: border-color .15s, transform .15s;
+  }
+  .rcard:hover { border-color: var(--line-dark); transform: translateY(-2px); }
+  .rbrand { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-faint); }
+  .rnum { font-family: var(--serif); font-size: 46px; line-height: 1; letter-spacing: -0.03em; font-weight: 600; }
+  .rnum em { font-style: normal; font-size: 19px; color: var(--ink-faint); letter-spacing: 0; }
+  .rwhat { font-size: 14.5px; line-height: 1.5; color: var(--ink-soft); flex: 1; }
+  .rgo { font-family: var(--mono); font-size: 11.5px; color: var(--accent); }
+  @media (max-width: 860px) { .research-grid { grid-template-columns: 1fr; } }
 
   /* ---------- Proof note ---------- */
   .proof-note { padding: 0; background: var(--ink); color: #fff; }
@@ -472,6 +500,7 @@ import Analytics from '../components/Analytics.astro';
         <a href="#signals">Method</a>
         <a href="#faq">FAQ</a>
         <a href="/blog/">Blog</a>
+        <a href="/about/">About</a>
         <a href="#audit" class="btn btn-accent"><span class="nav-cta-long">Get your free audit</span><span class="nav-cta-short">Free audit</span></a>
       </div>
     </nav>
@@ -488,7 +517,7 @@ import Analytics from '../components/Analytics.astro';
       <div class="hero-ctas">
         <a href="#audit" class="btn btn-accent btn-lg">Get your free AI visibility audit</a>
       </div>
-      <p class="hero-note">// For D2C teams with real demand and weak AI visibility.</p>
+      <p class="hero-note">For D2C teams with real demand and weak AI visibility.</p>
     </div>
 
     <div class="chat-card">
@@ -517,9 +546,9 @@ import Analytics from '../components/Analytics.astro';
 <section class="stats">
   <div class="wrap stat-grid">
     <div class="stat">
-      <div class="num">100<span>M+</span></div>
-      <div class="lab">people use AI assistants every day, and a growing share ask them what to buy.</div>
-      <div class="src">// industry usage reporting, 2026</div>
+      <div class="num">41<span>%</span></div>
+      <div class="lab">of US consumers have already bought something because an AI chatbot recommended it.</div>
+      <div class="src">// Semrush / Exploding Topics survey of 2,338 US adults, July 2026</div>
     </div>
     <div class="stat">
       <div class="num">+<span>115%</span></div>
@@ -555,7 +584,7 @@ import Analytics from '../components/Analytics.astro';
           <label for="w-brand">Brand or website</label>
           <input id="w-brand" type="text" placeholder="e.g. unbottled.com" required>
           <button class="btn btn-accent btn-lg" id="w-gen" type="button">Research my brand &amp; build prompts</button>
-          <p class="form-note">// Step 1 of 3 · we read your site and search the web first</p>
+          <p class="form-note">Step 1 of 3 · we read your site and search the web first</p>
         </div>
         <div class="wstep" id="ws2" hidden>
           <p class="wtitle">The questions your buyers ask</p>
@@ -565,15 +594,15 @@ import Analytics from '../components/Analytics.astro';
             <label for="w-custom">Add your own question</label>
             <input id="w-custom" type="text" placeholder="e.g. Which water bottle keeps drinks cold longest?">
             <button type="button" id="w-addbtn" class="btn btn-ghost-light">Add question</button>
-            <p class="w-hint">// Press Enter to add. Untick any question above to skip it.</p>
+            <p class="w-hint">Press Enter to add. Untick any question above to skip it.</p>
           </div>
           <button class="btn btn-accent btn-lg" id="w-run" type="button">Run my AI visibility audit</button>
-          <p class="form-note">// Step 2 of 3 · we query ChatGPT live with these exact questions</p>
+          <p class="form-note">Step 2 of 3 · we query ChatGPT live with these exact questions</p>
         </div>
         <div class="wstep" id="ws3" hidden>
           <div class="w-spin"></div>
           <p class="wtitle" id="w-status">Asking ChatGPT your questions…</p>
-          <p class="form-note">// live queries take 20–60 seconds</p>
+          <p class="form-note">Live queries take 20–60 seconds</p>
         </div>
         <div class="wstep" id="ws4" hidden>
           <div id="w-report" class="w-blur"></div>
@@ -584,7 +613,7 @@ import Analytics from '../components/Analytics.astro';
             <label for="w-phone">Phone (optional)</label>
             <input id="w-phone" type="tel" placeholder="+91…">
             <button class="btn btn-accent btn-lg" id="w-unlock" type="button">Unlock my report</button>
-            <p class="form-note">// One report, one relevant follow-up. See our <a href="/privacy/" style="color:inherit">privacy note</a>.</p>
+            <p class="form-note">One report, one relevant follow-up. See our <a href="/privacy/" style="color:inherit">privacy note</a>.</p>
           </div>
         </div>
       </div>
@@ -774,6 +803,35 @@ import Analytics from '../components/Analytics.astro';
   </div>
 </section>
 
+<!-- ================= SELECTED RESEARCH ================= -->
+<section class="research">
+  <div class="wrap">
+    <span class="kicker">Selected research</span>
+    <h2 class="long">We publish our own teardowns, so you can judge the method before you hire it.</h2>
+    <p class="lede">Each one is a 20-run ChatGPT panel on a brand nobody paid us to analyse, with the prompts, the counts and the sources written down.</p>
+    <div class="research-grid">
+      <a class="rcard" href="/blog/improving-our-place-aeo/">
+        <span class="rbrand">Our Place</span>
+        <span class="rnum">13<em> / 20</em></span>
+        <span class="rwhat">Named in 13 of 20 cookware runs. Caraway took all 20.</span>
+        <span class="rgo">Read the teardown</span>
+      </a>
+      <a class="rcard" href="/blog/improving-material-kitchen-aeo/">
+        <span class="rbrand">Material Kitchen</span>
+        <span class="rnum">10<em> / 20</em></span>
+        <span class="rwhat">Named in 10 of 20 kitchen-tool runs, with authority the weak link.</span>
+        <span class="rgo">Read the teardown</span>
+      </a>
+      <a class="rcard" href="/blog/improving-tower-28-aeo/">
+        <span class="rbrand">Tower 28</span>
+        <span class="rnum">4<em> / 20</em></span>
+        <span class="rwhat">Named in 4 of 20 sensitive-skin runs, despite strong clinical proof.</span>
+        <span class="rgo">Read the teardown</span>
+      </a>
+    </div>
+  </div>
+</section>
+
 <!-- ================= EVIDENCE ================= -->
 <section>
   <div class="wrap">
@@ -885,8 +943,8 @@ import Analytics from '../components/Analytics.astro';
 <footer>
   <div class="wrap foot">
     <a class="logo" href="#top"><span class="logo-mark"></span>AgenQuest</a>
-    <span class="foot-tag">// marketing for the age of AI — AEO · GEO · agentic commerce</span>
-    <span class="foot-links"><a href="/blog/">Notes</a><a href="/privacy/">Privacy</a><a href="mailto:hello@agenquest.com">hello@agenquest.com</a></span>
+    <span class="foot-tag">Marketing for the age of AI — AEO · GEO · agentic commerce</span>
+    <span class="foot-links"><a href="/about/">About</a><a href="/blog/">Notes</a><a href="/privacy/">Privacy</a><a href="mailto:hello@agenquest.com">hello@agenquest.com</a></span>
     <span>© 2026 AgenQuest.</span>
   </div>
 </footer>
@@ -971,7 +1029,7 @@ import Analytics from '../components/Analytics.astro';
     track('generate_lead', {brand: state.brand, score: (state.report && state.report.overall && state.report.overall.score) || 0,
       ai_source: (function(){ try { return sessionStorage.getItem('aq_ai_source') || 'none'; } catch(e){ return 'none'; } })()});
     $('w-report').classList.remove('w-blur');
-    $('w-gate').innerHTML = '<p class="wtitle">✓ Report unlocked — a copy is on its way to your inbox.</p><p class="form-note">// We will follow up with what it takes to close the gaps.</p>';
+    $('w-gate').innerHTML = '<p class="wtitle">✓ Report unlocked — a copy is on its way to your inbox.</p><p class="form-note">We will follow up with what it takes to close the gaps.</p>';
   });
 })();
 </script>

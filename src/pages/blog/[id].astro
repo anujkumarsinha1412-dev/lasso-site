@@ -12,13 +12,16 @@ const { Content } = await render(post);
 <BlogLayout title={post.data.title} description={post.data.description} date={post.data.date.toISOString()} isPost={true} url={new URL(`/blog/${post.id}/`, Astro.site).href}>
   <span class="kicker">AgenQuest Blog</span>
   <h1>{post.data.title}</h1>
-  <p class="meta">{post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })} · AgenQuest</p>
+  <p class="meta">By <a href="/about/" rel="author">Anuj Sinha</a> · {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
   <article>
     <Content />
   </article>
+  <div class="byline">
+    <p><strong>Anuj Sinha</strong> is the founder of AgenQuest. He runs every prompt panel on this blog himself, and will send you the one for your own brand free. <a href="/about/">More about him</a>.</p>
+  </div>
   <div class="cta-box">
     <h2>See what AI says about your brand.</h2>
-    <p>Free audit: real consumer prompts across ChatGPT, Claude, Perplexity &amp; Google AI Overviews — with screenshots and plain-language findings.</p>
+    <p>Free audit: your category's real buyer questions, run live through ChatGPT with web search on. You get the answers, the competitors named ahead of you, and the sources behind them.</p>
     <a href="/#audit" class="btn-accent" style="text-decoration:none;">Get your free audit</a>
   </div>
 </BlogLayout>

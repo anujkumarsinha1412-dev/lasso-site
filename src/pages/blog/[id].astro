@@ -12,12 +12,12 @@ const { Content } = await render(post);
 <BlogLayout title={post.data.title} description={post.data.description} date={post.data.date.toISOString()} isPost={true} url={new URL(`/blog/${post.id}/`, Astro.site).href}>
   <span class="kicker">AgenQuest Blog</span>
   <h1>{post.data.title}</h1>
-  <p class="meta">By <a href="/about/" rel="author">Anuj Sinha</a> · {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+  <p class="meta">{post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })} · <a href="/about/">AgenQuest research</a></p>
   <article>
     <Content />
   </article>
   <div class="byline">
-    <p><strong>Anuj Sinha</strong> is the founder of AgenQuest. He runs every prompt panel on this blog himself, and will send you the one for your own brand free. <a href="/about/">More about him</a>.</p>
+    <p>Every prompt panel on this blog was run by hand, not generated. <a href="/about/">The method is written up here</a>, and we will run the same panel on your own brand free.</p>
   </div>
   <div class="cta-box">
     <h2>See what AI says about your brand.</h2>

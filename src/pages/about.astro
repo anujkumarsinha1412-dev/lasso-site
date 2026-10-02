@@ -1,69 +1,51 @@
 ---
 import BlogLayout from '../layouts/BlogLayout.astro';
-const personSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'Person',
-  '@id': 'https://agenquest.com/about/#anuj-sinha',
-  name: 'Anuj Sinha',
-  jobTitle: 'Founder',
-  url: 'https://agenquest.com/about/',
-  email: 'anujs@agenquest.com',
-  worksFor: {
-    '@type': 'Organization',
-    '@id': 'https://agenquest.com/#organization',
-    name: 'AgenQuest',
-    url: 'https://agenquest.com/',
-  },
-  knowsAbout: [
-    'Answer Engine Optimization',
-    'Generative Engine Optimization',
-    'AI Search Visibility',
-    'Agentic Commerce',
-    'E-commerce Marketing',
-  ],
-};
 ---
 <BlogLayout
-  title="About"
-  description="AgenQuest is run by Anuj Sinha. Who does the work, how the prompt panels are built, and what the company will and will not claim."
+  title="How we work"
+  description="How AgenQuest builds its prompt panels, what the numbers do and do not prove, and the four things we will not do."
 >
-  <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
-
   <span class="kicker">About</span>
-  <h1>Who you are actually talking to</h1>
-  <p class="meta">AgenQuest · founded 2026 · United States clients</p>
+  <h1>How we work, and what we won't claim</h1>
+  <p class="meta">Method, limits and ground rules</p>
 
   <article>
-    <p><strong>AgenQuest is run by Anuj Sinha.</strong> When you submit a brand to the audit tool on the homepage, the prompt panel is built and reviewed by me. When a report lands in your inbox, I wrote the findings. There is no account team behind this, and I would rather tell you that up front than have you discover it on a call.</p>
+    <p>Most of what gets sold as AI visibility work is a dashboard and a list of suggestions. We build the signals instead. This page explains how the research is produced, so you can judge the method before you hire anyone to apply it.</p>
 
     <h2>Why this company exists</h2>
 
-    <p>I kept running the same experiment. I would ask ChatGPT what the best product in some category was, and the same three or four brands came back every time. Not always the best brands. Just the ones whose evidence was easiest for a model to find and reuse.</p>
+    <p>Ask an answer engine what the best product in a category is, several times over, and the same handful of brands tends to come back. Not always the best brands. Often the ones whose evidence was easiest for a model to find, parse and reuse.</p>
 
-    <p>That gap is a marketing problem, and almost nobody was treating it as one. A wave of tools arrived to measure it, which is the easy half. Measuring your own invisibility does not fix it. Someone still has to go and build the reviews, the citations, the schema and the community presence that change what the model says. That is the work AgenQuest does.</p>
+    <p>That is a marketing problem, and for a while almost nobody treated it as one. A wave of tools arrived to measure it, which is the easy half. Measuring your own invisibility does not change it. Someone still has to go and build the reviews, the citations, the structured data and the community presence that change what the model says. That is the work.</p>
 
-    <h2>How I work</h2>
+    <h2>How the panels are built</h2>
 
-    <p>Every claim on this site should be checkable, so here is the method. A panel is four to five unbranded buyer questions for a category, each run five times in fresh ChatGPT sessions with web search enabled and personalisation off. I record whether the brand was named, whether it was named first, and which source domains were visible in the answer.</p>
+    <p>Every claim in our research should be checkable, so here is the procedure. A panel is four to five unbranded buyer questions for a category. Each question is run five times in fresh ChatGPT sessions with web search enabled and personalisation off. For every run we record whether the brand was named, whether it was named first, and which source domains were visible in the answer.</p>
 
-    <p>Twenty runs is enough to see a pattern and not enough to prove causation. A visible source is a correlation, not an explanation of why a model picked a brand. I say so in the research, and I will say so to you.</p>
+    <p>Twenty runs is enough to see a pattern and not enough to prove a cause. A source appearing alongside a recommendation is a correlation, not an explanation of why the model chose that brand. We say so in the research, and we will say so to you rather than dress a pattern up as a mechanism.</p>
 
-    <p>The three teardowns on the blog are brands nobody paid me to analyse: <a href="/blog/improving-our-place-aeo/">Our Place</a>, <a href="/blog/improving-material-kitchen-aeo/">Material Kitchen</a> and <a href="/blog/improving-tower-28-aeo/">Tower 28</a>. Read one before you talk to me. If the thinking does not hold up, you have lost ten minutes instead of a quarter's budget.</p>
+    <p>Where a brand's absence has an obvious innocent explanation, we publish that too. Sometimes a product genuinely is not the right answer to a question, and optimisation should not try to manufacture eligibility.</p>
 
-    <h2>What I will not do</h2>
+    <h2>Read the research before you talk to us</h2>
+
+    <p>The three teardowns on the blog are brands nobody paid us to analyse: <a href="/blog/improving-our-place-aeo/">Our Place</a>, <a href="/blog/improving-material-kitchen-aeo/">Material Kitchen</a> and <a href="/blog/improving-tower-28-aeo/">Tower 28</a>. Each one shows the prompts, the counts and the sources.</p>
+
+    <p>Read one first. If the thinking does not hold up, you have spent ten minutes instead of a quarter's budget.</p>
+
+    <h2>What we will not do</h2>
 
     <ul>
       <li>Buy reviews, incentivise them without disclosure, or gate them. Fake and AI-generated reviews are illegal under the FTC's Consumer Review Rule, and the rule exists for good reason.</li>
       <li>Astroturf Reddit or any other community. Community participation happens under a disclosed identity or it does not happen.</li>
-      <li>Promise a ranking inside ChatGPT. Nobody controls a base model's output, and anyone selling you a position in one is selling something that does not exist.</li>
-      <li>Report a number I cannot trace back to a saved answer.</li>
+      <li>Promise a ranking inside ChatGPT. Nobody controls a base model's output, and anyone selling a position in one is selling something that does not exist.</li>
+      <li>Report a number we cannot trace back to a saved answer.</li>
     </ul>
 
     <h2>Getting in touch</h2>
 
-    <p>The fastest route is the <a href="/#audit">free audit</a> on the homepage: it takes a minute, runs live, and gives us something specific to talk about instead of a discovery call. Or email me directly at <a href="mailto:anujs@agenquest.com">anujs@agenquest.com</a>.</p>
+    <p>The fastest route is the <a href="/#audit">free audit</a> on the homepage. It takes a minute, runs live, and gives us something specific to discuss instead of a discovery call. You can also email <a href="mailto:hello@agenquest.com">hello@agenquest.com</a>.</p>
 
-    <p>If you are one of the brands named in the research and you want to add context, correct something, or have a finding reviewed, email me and I will publish your reply alongside the post.</p>
+    <p>If your brand is named in the research and you want to add context, correct something, or have a finding reviewed, write to us and we will publish your reply alongside the post.</p>
   </article>
 
   <div class="cta-box">

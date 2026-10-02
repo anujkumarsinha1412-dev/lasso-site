@@ -183,11 +183,18 @@ import Analytics from '../components/Analytics.astro';
   }
   .rec .tag { font-family: var(--mono); font-size: 11px; color: var(--ink-faint); }
   .rec.win .tag { color: var(--accent); font-weight: 500; }
-  .cite-row { display: flex; gap: 6px; margin-top: 14px; flex-wrap: wrap; }
+  .rec.miss { border-style: dashed; color: var(--ink-faint); background: transparent; }
+  .chat-foot {
+    margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line);
+    font-size: 13px; line-height: 1.45; color: var(--ink-soft);
+  }
+  .cite-row { display: flex; gap: 6px; margin-top: 14px; flex-wrap: wrap; align-items: center; }
   .cite {
     font-family: var(--mono); font-size: 10.5px; padding: 4px 9px;
     border: 1px solid var(--line); border-radius: 99px; color: var(--ink-faint);
   }
+  a.cite { text-decoration: none; border-color: var(--line-dark); color: var(--ink); }
+  a.cite:hover { background: var(--ink); color: var(--surface); }
 
   /* ---------- Proof note ---------- */
   .proof-note { padding: 0; background: var(--ink); color: #fff; }
@@ -484,23 +491,21 @@ import Analytics from '../components/Analytics.astro';
       <p class="hero-note">// For D2C teams with real demand and weak AI visibility.</p>
     </div>
 
-    <div class="chat-card" aria-hidden="true">
+    <div class="chat-card">
       <div class="chat-head">
         <span class="dot active"></span><span class="dot"></span><span class="dot"></span>
-        <span style="margin-left:8px;">ai-assistant — consumer query</span>
+        <span style="margin-left:8px;">chatgpt · web search on · 5 fresh runs</span>
       </div>
       <div class="chat-body">
-        <div class="chat-q">What's the best vitamin-C serum for sensitive skin under $40?</div>
+        <div class="chat-q">A coordinated ceramic cookware set, with enough pieces to cook several dishes at once.</div>
         <div class="chat-a">
-          <p>Based on ingredient transparency, verified reviews, and dermatologist citations, here are the strongest options:</p>
-          <div class="rec win"><span>1. Your brand</span><span class="tag">recommended · cited 4×</span></div>
-          <div class="rec"><span>2. Category incumbent</span><span class="tag">mentioned</span></div>
-          <div class="rec"><span>3. Legacy brand</span><span class="tag">mentioned</span></div>
+          <p>Asked five times in five clean sessions, ChatGPT named:</p>
+          <div class="rec win"><span>Caraway</span><span class="tag">named 5 of 5</span></div>
+          <div class="rec miss"><span>Our Place</span><span class="tag">named 0 of 5</span></div>
+          <p class="chat-foot">Our Place is a well-reviewed, nationally stocked brand. On a different question in the same panel — a few versatile pieces for a very small kitchen — it was named 5 of 5 and led 4 of those. One phrasing, and it disappears.</p>
           <div class="cite-row">
-            <span class="cite">reddit.com/r/SkincareAddiction</span>
-            <span class="cite">verified reviews</span>
-            <span class="cite">youtube.com</span>
-            <span class="cite">press citation</span>
+            <span class="cite">20-run panel · 9 Sep 2026</span>
+            <a class="cite" href="/blog/improving-our-place-aeo/">see the full teardown →</a>
           </div>
         </div>
       </div>
@@ -677,9 +682,9 @@ import Analytics from '../components/Analytics.astro';
         <div class="n">S.04</div>
         <div>
           <h3>Measurement &amp; Reporting</h3>
-          <div class="sub">Proof, not vanity metrics</div>
+          <div class="sub">Tied to work shipped</div>
         </div>
-        <p>Monthly tracking of brand mentions, citation share, and answer position across engines — benchmarked against competitors, tied to the work shipped that month. We measure retrieval-based engines first, because that's where new signals land in days, not model-update cycles.</p>
+        <p>Monthly tracking of brand mentions, citation share, and answer position across engines — benchmarked against competitors, tied to the work shipped that month. We measure retrieval-based engines first, because new signals land there within days; base-model behaviour shifts on its own schedule.</p>
       </div>
     </div>
     <div class="working-note">
@@ -783,7 +788,7 @@ import Analytics from '../components/Analytics.astro';
       </div>
       <div class="ev">
         <div class="fig">Visible</div>
-        <p>Answer captures and cited sources sit behind the summary. Your team can inspect the evidence, not just trust a score.</p>
+        <p>Answer captures and cited sources sit behind the summary. Your team can open the evidence and check it themselves.</p>
         <div class="src">// source-level audit trail</div>
       </div>
       <div class="ev">

@@ -1,26 +1,73 @@
 ---
-// Google Analytics 4 + AI-referrer tagging. Included on every page.
+// Analytics: GA4 + Cloudflare RUM + AI-referrer tagging. Included on every page.
+// Both beacons are gated behind a self-exclusion flag so founder/team visits
+// can be kept out of the numbers. Visit /?noanalytics=1 once per browser.
 const GA_ID = "G-DD18JLWTDD";
+// Cloudflare beacon is edge-injected; token kept for reference only.
 ---
-<script async is:inline src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}></script>
 <script is:inline define:vars={{ GA_ID }}>
-  // --- self-exclusion: visit /?noanalytics=1 once per browser to stop being counted ---
+  // ---------------------------------------------------------------
+  // Self-exclusion. Stored in BOTH a cookie and localStorage so that
+  // clearing one does not silently put you back in the numbers.
+  //   /?noanalytics=1  -> exclude this browser (persistent)
+  //   /?noanalytics=0  -> start counting this browser again
+  // ---------------------------------------------------------------
+  var OPT_KEY = 'aq_optout';
+  var justChanged = false;
+
+  function readCookie(name) {
+    var m = document.cookie.match(new RegExp('(^|; )' + name + '=([^;]*)'));
+    return m ? decodeURIComponent(m[2]) : null;
+  }
+  function writeCookie(name, value, days) {
+    var d = new Date();
+    d.setTime(d.getTime() + days * 86400000);
+    document.cookie = name + '=' + encodeURIComponent(value)
+      + '; expires=' + d.toUTCString() + '; path=/; SameSite=Lax';
+  }
+
+  var optedOut = false;
   try {
-    var _qp = new URLSearchParams(location.search);
-    if (_qp.get('noanalytics') === '1') localStorage.setItem('aq_optout', '1');
-    if (_qp.get('noanalytics') === '0') localStorage.removeItem('aq_optout');
-    if (localStorage.getItem('aq_optout') === '1') {
-      window['ga-disable-' + GA_ID] = true;          // stops GA4
-      var _b = document.querySelector('script[src*="cloudflareinsights"]');
-      if (_b) _b.remove();                            // stops Cloudflare beacon
-      window.__aqOptedOut = true;
+    var qp = new URLSearchParams(location.search);
+    var flag = qp.get('noanalytics');
+    if (flag === '1') {
+      try { localStorage.setItem(OPT_KEY, '1'); } catch (e) {}
+      writeCookie(OPT_KEY, '1', 730);
+      justChanged = 'on';
+    } else if (flag === '0') {
+      try { localStorage.removeItem(OPT_KEY); } catch (e) {}
+      writeCookie(OPT_KEY, '', -1);
+      justChanged = 'off';
+    }
+    var fromLS = null;
+    try { fromLS = localStorage.getItem(OPT_KEY); } catch (e) {}
+    optedOut = (fromLS === '1') || (readCookie(OPT_KEY) === '1');
+    // Heal the other store so a single cleared mechanism does not undo it.
+    if (optedOut) {
+      try { localStorage.setItem(OPT_KEY, '1'); } catch (e) {}
+      if (readCookie(OPT_KEY) !== '1') writeCookie(OPT_KEY, '1', 730);
     }
   } catch (e) {}
-  if (window.__aqOptedOut) { window.gtag = function(){}; }
 
+  window.__aqOptedOut = optedOut;
+
+  // ---------------------------------------------------------------
+  // Google Analytics 4
+  // ---------------------------------------------------------------
   window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
+  function gtag() { dataLayer.push(arguments); }
   window.gtag = gtag;
+
+  if (optedOut) {
+    // Official GA4 kill switch. Must be set before the library loads.
+    window['ga-disable-' + GA_ID] = true;
+  } else {
+    var ga = document.createElement('script');
+    ga.async = true;
+    ga.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+    document.head.appendChild(ga);
+  }
+
   gtag('js', new Date());
 
   // Tag traffic arriving from AI assistants as its own channel
@@ -31,16 +78,56 @@ const GA_ID = "G-DD18JLWTDD";
     ['you.com','You.com'], ['grok.com','Grok']
   ];
   var ref = document.referrer || '';
-  var qp = new URLSearchParams(location.search);
-  var utm = (qp.get('utm_source') || '').toLowerCase();
+  var _qp2 = new URLSearchParams(location.search);
+  var utm = (_qp2.get('utm_source') || '').toLowerCase();
   var aiSource = null;
   for (var i = 0; i < aiSources.length; i++) {
     if (ref.indexOf(aiSources[i][0]) !== -1 || utm.indexOf(aiSources[i][0]) !== -1) { aiSource = aiSources[i][1]; break; }
   }
 
   gtag('config', GA_ID, aiSource ? { ai_source: aiSource } : {});
-  if (aiSource) {
+  if (aiSource && !optedOut) {
     gtag('event', 'ai_referral', { ai_source: aiSource, page_location: location.href });
     try { sessionStorage.setItem('aq_ai_source', aiSource); } catch (e) {}
+  }
+
+  // ---------------------------------------------------------------
+  // Cloudflare Web Analytics: NOT suppressible here, deliberately.
+  // The zone-attached property requires automatic edge injection, so
+  // Cloudflare adds its beacon to the HTML response after this script
+  // has already run. An earlier version tried to remove that tag from
+  // the DOM; it never worked, because the tag does not exist yet when
+  // this code executes. Rather than inject a second beacon with the
+  // same token (which would double-count every pageview), we leave
+  // Cloudflare unfiltered and treat GA4 as the source of truth for
+  // human traffic. Cloudflare stays useful for crawler telemetry.
+  // ---------------------------------------------------------------
+
+  // ---------------------------------------------------------------
+  // Visible confirmation, so you can tell the flag actually took, and
+  // your current public IP, which is what GA4's internal-traffic filter
+  // needs. Only shown when the flag was just toggled via the URL.
+  // ---------------------------------------------------------------
+  if (justChanged) {
+    document.addEventListener('DOMContentLoaded', function () {
+      var box = document.createElement('div');
+      box.style.cssText = 'position:fixed;left:14px;bottom:14px;z-index:99999;max-width:340px;'
+        + 'background:#14120F;color:#FAFAF7;font:12px/1.5 ui-monospace,monospace;'
+        + 'padding:12px 14px;border-radius:10px;box-shadow:0 6px 24px rgba(0,0,0,.28)';
+      box.textContent = justChanged === 'on'
+        ? 'Analytics OFF for this browser. Checking your IP…'
+        : 'Analytics back ON for this browser.';
+      document.body.appendChild(box);
+      if (justChanged === 'on') {
+        fetch('/cdn-cgi/trace').then(function (r) { return r.text(); }).then(function (t) {
+          var m = /(^|\n)ip=([^\n]+)/.exec(t);
+          box.textContent = 'Analytics OFF for this browser (cookie + localStorage).'
+            + (m ? '\nYour current IP: ' + m[2] + '\nAdd it to GA4 internal traffic.' : '');
+          box.style.whiteSpace = 'pre-line';
+        }).catch(function () {});
+      }
+      setTimeout(function () { box.style.transition = 'opacity .6s'; box.style.opacity = '0'; }, 12000);
+      setTimeout(function () { box.remove(); }, 13000);
+    });
   }
 </script>

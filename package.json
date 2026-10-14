@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "node scripts/build-meta.mjs && astro build",
     "preview": "astro preview",
     "test": "node --test tests/*.test.js"
   },

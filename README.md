@@ -41,3 +41,11 @@ Structured logs include an application request ID, stage, elapsed time, upstream
 Posts live in `src/blog` with `title`, `description`, `date`, optional `tags`, and optional `draft`. Index, post routes and RSS exclude drafts. Manual consumer ChatGPT research panels and the free single-run API audit are explained separately at `/research-methodology/`.
 
 Articles use the AgenQuest organization as their author.
+
+## Deployment checks and IndexNow
+
+Pull requests run the audit tests and production build. Each Pages build writes a public `deployment.json` containing only the commit SHA and build time, with caching disabled.
+
+The IndexNow workflow runs after pushes to `main`. It waits until the production domain serves that exact commit, verifies the existing public site-verification file, reads the live sitemap, and submits its URLs. A stale or failed deployment causes the workflow to fail without submitting URLs. No OpenAI, Resend, Cloudflare or personal GitHub credentials are needed by these workflows.
+
+An IndexNow acknowledgement confirms receipt, not crawling or indexing. The verification file is intentionally public and is distinct from private API credentials.

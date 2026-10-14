@@ -9,7 +9,7 @@ Tower 28 has a distinctive sensitive-skin proposition and credible product evide
 
 If we were handed responsibility for [Tower 28's](https://www.tower28beauty.com/pages/faq) Answer Engine Optimization (AEO), we would start with a striking split in how the brand appeared.
 
-In a September 23, 2026 AgenQuest panel of 20 valid ChatGPT answers, Tower 28 appeared four times. All four appearances came from the five runs about makeup compatibility for sensitive skin. It did not appear in any of the 15 answers about an affordable basic routine, eczema-prone skincare, or a fragrance-free cleanser-and-moisturizer pair.
+In an AgenQuest panel of 20 valid ChatGPT answers, Tower 28 appeared four times. All four appearances came from the five runs about makeup compatibility for sensitive skin. It did not appear in any of the 15 answers about an affordable basic routine, eczema-prone skincare, or a fragrance-free cleanser-and-moisturizer pair. The original panel date remains unconfirmed.
 
 Vanicream appeared in all 20 answers.
 
@@ -137,7 +137,7 @@ That is the larger AEO lesson. A distinctive proposition becomes useful to an an
 
 ## Sources and methodology
 
-The AI-visibility observation comes from four unbranded sensitive-skin questions, five fresh ChatGPT Temporary Chat runs per question, and 20 valid answers recorded in the United States on September 23, 2026. Web search was on, personalization was off, and interrupted runs were excluded and replaced. We coded brand inclusion, which target brand appeared first, assigned role, and visible source domains. We did not test other AI platforms in this panel or run a causal experiment.
+The AI-visibility observation comes from four unbranded sensitive-skin questions, five fresh ChatGPT Temporary Chat runs per question, and 20 valid answers recorded in the United States. The original panel date remains unconfirmed: project records contain both August 27 and September 23, 2026. September 23 is the article's publication date and the date stated for the public-source review below; it should not be treated as a verified panel date. Web search was on, personalization was off, and interrupted runs were excluded and replaced. We coded brand inclusion, which target brand appeared first, assigned role, and visible source domains. We did not test other AI platforms in this panel or run a causal experiment.
 
 Current first-party evidence was reviewed on September 23, 2026 from Tower 28's [FAQ](https://www.tower28beauty.com/pages/faq), [SOS Barrier Recovery Cream](https://www.tower28beauty.com/products/sos-daily-barrier-recovery-cream), [SOS Gel Cleanser](https://www.tower28beauty.com/products/sos-gel-cleanser), [SOS Spray](https://www.tower28beauty.com/pages/tower28-sos-spray), and [Swipe Serum Foundation](https://www.tower28beauty.com/products/swipe-foundation) pages. Product, testing, and ingredient claims on those pages are company claims unless independently corroborated.
 

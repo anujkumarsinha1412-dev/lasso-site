@@ -1,7 +1,7 @@
 ---
 // Analytics: GA4 + Cloudflare RUM + AI-referrer tagging. Included on every page.
-// Both beacons are gated behind a self-exclusion flag so founder/team visits
-// can be kept out of the numbers. Visit /?noanalytics=1 once per browser.
+// GA4 is gated behind self-exclusion. The zone-injected Cloudflare beacon
+// remains unfiltered. Visit /?noanalytics=1 once per browser to exclude GA4.
 const GA_ID = "G-DD18JLWTDD";
 // Cloudflare beacon is edge-injected; token kept for reference only.
 ---

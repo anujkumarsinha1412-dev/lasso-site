@@ -1,0 +1,25 @@
+---
+import BlogLayout from '../layouts/BlogLayout.astro';
+---
+<BlogLayout title="Research methodology" description="How AgenQuest runs manual research panels and the free API audit, verifies evidence, and separates discovery from branded questions.">
+  <span class="kicker">Research methodology</span>
+  <h1>What we check, and what the numbers mean.</h1>
+  <article>
+    <p>We publish two kinds of observation: manually repeated consumer ChatGPT panels in our research articles, and a single-run OpenAI API snapshot in the free website audit. They use different interfaces and sampling methods. Their scores should not be compared as if they were one dataset.</p>
+    <h2>The published research panels</h2>
+    <p>A panel generally contains four to five unbranded buyer questions. Each question is repeated five times in fresh ChatGPT Temporary Chats, with web search enabled and personalisation off. Articles state their question groups, observation dates, geography and valid run counts.</p>
+    <p>We record brand inclusion, recommendation role, first appearance where the format permits a comparison, and visible source domains. Interrupted runs are replaced. The counts describe the tested questions and period; they do not represent every buyer or establish the cause of a recommendation.</p>
+    <h2>The free website audit</h2>
+    <p>The free audit researches a brand with cited web search, then proposes six unbranded discovery questions and two branded validation questions. You can select questions and add your own, up to ten in total.</p>
+    <p>Each question receives one independent OpenAI API request. The configured model must complete a web search and return an answer with usable citation URLs. The report identifies the model and observation time, includes the answer, and links to its cited sources. This API result may differ from the consumer ChatGPT interface.</p>
+    <p>Searches have a deadline. Failed, incomplete or uncited responses are labelled as failed checks. They never count as evidence that a brand is absent. Failed questions can be retried without rerunning the verified answers. An incomplete panel receives no overall score and cannot be submitted as a complete email report.</p>
+    <h2>The discovery score</h2>
+    <p>An explicitly recommended brand receives two points for that discovery answer; a mention without a recommendation receives one; absence receives zero. The discovery score is the points earned divided by twice the number of valid discovery answers, multiplied by 100 and rounded to the nearest whole number.</p>
+    <p>Branded questions appear separately and contribute no discovery points. A panel containing only branded questions has no discovery score. Classification uses a second model reading the observed answer, so inspect the answer when a classification looks questionable.</p>
+    <h2>What citations can establish</h2>
+    <p>A visible citation establishes that a page was linked in that answer. It does not reveal the model's entire information path or prove that the page caused the recommendation. Mention rate, recommendation rate, citations and referral traffic answer different questions and are reported separately.</p>
+    <p>A single run is a snapshot. Repeated observations across a fixed, versioned panel provide a better basis for tracking change. Even a repeated improvement after marketing work is an observation, not a controlled causal experiment.</p>
+    <h2>Corrections and replies</h2>
+    <p>If a research article names your brand and you have a correction or useful context, email <a href="mailto:hello@agenquest.com">hello@agenquest.com</a>. Our <a href="/about/">working principles</a> and <a href="/blog/buyer-question-prompt-panel/">prompt-panel guide</a> explain how we select and interpret questions.</p>
+  </article>
+</BlogLayout>

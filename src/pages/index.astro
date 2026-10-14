@@ -474,6 +474,16 @@ import Analytics from '../components/Analytics.astro';
   .w-absent{background:rgba(197,48,48,.25);color:#F19999;}
   .w-gapt{color:#fff;font-weight:600;margin-top:16px;}
   .w-gaps{margin:8px 0 0 18px;color:rgba(255,255,255,0.75);font-size:14px;}
+  .form-card .w-kind{display:block;color:rgba(255,255,255,.5);font-size:11px;margin-top:5px;}
+  .form-card .w-failed{background:rgba(197,48,48,.25);color:#F19999;}
+  .form-card .w-evidence{margin-top:12px;background:transparent;border:0;border-top:1px solid rgba(255,255,255,.12);padding-top:10px;}
+  .form-card .w-evidence summary{font-size:13px;color:#fff;padding:0;}
+  .form-card .w-answer{white-space:pre-wrap;color:rgba(255,255,255,.85);font-size:13px;line-height:1.6;margin:12px 0;}
+  .form-card .w-evidence ul{padding-left:18px;}
+  .form-card .w-evidence a{color:#F0C36D;overflow-wrap:anywhere;}
+  .form-card #w-feedback{color:#F0C36D;margin-bottom:16px;}
+  .form-card #w-retry{width:100%;margin:14px 0;}
+  .form-card [hidden]{display:none!important;}
 
   /* ---------- Stats bar ---------- */
   .stats{padding:44px 0;border-bottom:1px solid var(--line);background:var(--surface,#fff);}
@@ -567,21 +577,22 @@ import Analytics from '../components/Analytics.astro';
       <div>
         <span class="kicker">01 / Start here</span>
         <h2>See what AI says about your brand.</h2>
-        <p class="lede">Start with an instant ChatGPT visibility snapshot. It is free, specific to your category and does not require a sales call.</p>
+        <p class="lede">Start with a live AI visibility snapshot. It is free, specific to your category and does not require a sales call.</p>
         <ul class="deliver">
           <li>A prompt set built around your brand and buying category</li>
-          <li>A live check of which brands ChatGPT names in those answers</li>
+          <li>A live check of which brands an OpenAI model names with web search</li>
           <li>A visibility score with answer-by-answer notes</li>
-          <li>Three concrete evidence gaps to investigate next</li>
+          <li>The observed answers and clickable sources to investigate next</li>
           <li>A copy of the result by email</li>
         </ul>
       </div>
       <div class="form-card" id="wiz">
+        <p id="w-feedback" class="form-note" role="alert" hidden></p>
         <div class="wstep" id="ws1">
           <label for="w-brand">Brand or website</label>
           <input id="w-brand" type="text" placeholder="e.g. unbottled.com" required>
           <button class="btn btn-accent btn-lg" id="w-gen" type="button">Research my brand &amp; build prompts</button>
-          <p class="form-note">Step 1 of 3 · we read your site and search the web first</p>
+          <p class="form-note">Step 1 of 3 · we research your brand with cited web search</p>
         </div>
         <div class="wstep" id="ws2" hidden>
           <p class="wtitle">The questions your buyers ask</p>
@@ -594,15 +605,17 @@ import Analytics from '../components/Analytics.astro';
             <p class="w-hint">Press Enter to add. Untick any question above to skip it.</p>
           </div>
           <button class="btn btn-accent btn-lg" id="w-run" type="button">Run my AI visibility audit</button>
-          <p class="form-note">Step 2 of 3 · we query ChatGPT live with these exact questions</p>
+          <p class="form-note">Step 2 of 3 · these exact questions, run through the OpenAI API with web search</p>
         </div>
         <div class="wstep" id="ws3" hidden>
           <div class="w-spin"></div>
           <p class="wtitle" id="w-status">Asking ChatGPT your questions…</p>
-          <p class="form-note">Live queries take 20–60 seconds</p>
+          <p class="form-note">Each question is checked separately. A full panel can take a few minutes.</p>
         </div>
         <div class="wstep" id="ws4" hidden>
+          <p id="w-completeness" class="form-note"></p>
           <div id="w-report" class="w-blur"></div>
+          <button class="btn btn-ghost-light" id="w-retry" type="button" hidden>Retry failed questions</button>
           <div id="w-gate">
             <p class="wtitle">Your report is ready.</p>
             <label for="w-email">Email (we&#39;ll send your full report here)</label>
@@ -630,17 +643,17 @@ import Analytics from '../components/Analytics.astro';
       <article class="proof-page">
         <span class="folio">01 / PROMPTS</span>
         <h3>Where buyers ask</h3>
-        <p>A category-specific prompt set, built from your site and live web research, then run through ChatGPT with search enabled.</p>
+      <p>A category-specific prompt set built from cited brand research, then run through an OpenAI model with web search required.</p>
       </article>
       <article class="proof-page">
         <span class="folio">02 / EVIDENCE</span>
         <h3>Who gets named—and why</h3>
-        <p>The full answer text, the source URLs ChatGPT cited, and which competitors keep appearing across your prompt set.</p>
+      <p>The observed answer text, clickable cited sources, and the brands named across your prompt set.</p>
       </article>
       <article class="proof-page">
         <span class="folio">03 / ACTION</span>
         <h3>What to change first</h3>
-        <p>A ranked plan split into technical fixes, proof gaps and authority work your team can ship.</p>
+      <p>Use the observed answers to identify questions worth investigating. We scope a ranked roadmap after reviewing the evidence with you.</p>
       </article>
     </div>
   </div>
@@ -686,7 +699,7 @@ import Analytics from '../components/Analytics.astro';
           <h3>AI Visibility Audit</h3>
           <div class="sub">Free · The starting point</div>
         </div>
-        <p>We take the real questions your customers ask and run them live through ChatGPT with web search on. You get the answers themselves, the brands named ahead of you, and the sources ChatGPT drew from — every finding traceable to a prompt you can re-run yourself. Broader engine coverage (Perplexity, Gemini, Google AI Overviews) comes with a paid engagement.</p>
+        <p>We take the real questions your customers ask and run them through an OpenAI model with web search required. You get the observed answers, the brands named and the clickable sources. The <a href="/research-methodology/">methodology page</a> explains the limits of this API snapshot. Consumer ChatGPT panels and broader engine coverage are scoped separately in a paid engagement.</p>
       </div>
       <div class="svc">
         <div class="n">S.02</div>
@@ -710,7 +723,7 @@ import Analytics from '../components/Analytics.astro';
           <h3>Measurement &amp; Reporting</h3>
           <div class="sub">Tied to work shipped</div>
         </div>
-        <p>Monthly tracking of brand mentions, citation share, and answer position across engines — benchmarked against competitors, tied to the work shipped that month. We measure retrieval-based engines first, because new signals land there within days; base-model behaviour shifts on its own schedule.</p>
+        <p>Monthly tracking of brand mentions, citation share, and answer position in a fixed ChatGPT panel, benchmarked against competitors and shown alongside the work shipped that month. Additional engines are agreed explicitly when scoping the engagement.</p>
       </div>
     </div>
     <div class="working-note">
@@ -865,7 +878,7 @@ import Analytics from '../components/Analytics.astro';
       <div class="step">
         <span class="when">Week 0 · Free</span>
         <h3>Audit</h3>
-        <p>Real consumer prompts run live through ChatGPT, with the answers, the competitors named and the cited sources behind each one.</p>
+        <p>Real buyer questions run through the OpenAI API with verified web search, the observed answers and clickable cited sources.</p>
       </div>
       <div class="step">
         <span class="when">Week 1–2</span>
@@ -946,90 +959,7 @@ import Analytics from '../components/Analytics.astro';
   </div>
 </footer>
 
-<script is:inline>
-(function(){
-  const $ = (id) => document.getElementById(id);
-  const show = (n) => { for (const i of [1,2,3,4]) $('ws'+i).hidden = i!==n; };
-  const track = (name, params) => { try { if (window.gtag) window.gtag('event', name, params || {}); } catch(e){} };
-  const escq = (s) => String(s).replace(/[<>&]/g, (c)=>({'<':'&lt;','>':'&gt;','&':'&amp;'}[c]));
-  let state = { brand:'', site:'', cat:'', queries:[], report:null };
-
-  $('w-gen').addEventListener('click', async () => {
-    const brand = $('w-brand').value.trim();
-    if (!brand) { $('w-brand').focus(); return; }
-    const looksUrl = /\.[a-z]{2,}/i.test(brand);
-    state.brand = brand; state.site = looksUrl ? brand : ''; state.cat = '';
-    track('audit_started', {brand: state.brand});
-    $('w-gen').disabled = true; $('w-gen').textContent = 'Researching your brand…';
-    try {
-      const r = await fetch('/api/suggest', {method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({brand: state.brand, website: state.site})});
-      const d = await r.json();
-      if (!r.ok || !d.queries || !d.queries.length) throw new Error(d.error || 'no questions returned');
-      state.queries = d.queries; state.meta = d;
-      track('audit_prompts_generated', {brand: state.brand, category: d.category || '', question_count: d.queries.length});
-      renderList(); show(2);
-    } catch(e){ alert('Could not generate questions — please check the name and try again.'); }
-    $('w-gen').disabled = false; $('w-gen').textContent = 'Research my brand & build prompts';
-  });
-
-  function renderList(){
-    const m = state.meta || {};
-    const bits = [];
-    if (m.research && m.research.site) bits.push('read your site');
-    if (m.research && m.research.searched) bits.push('searched the web');
-    const head = m.category ? '<p class="w-found"><b>'+escq(m.category)+'</b>'
-      + (bits.length ? ' · ' + bits.join(', ') : '') + '</p>' : '';
-    $('w-list').innerHTML = head + state.queries.map((q,i)=>'<label class="w-q"><input type="checkbox" checked data-i="'+i+'"> <span>'+escq(q)+'</span></label>').join('')
-      + '<p class="w-count">'+state.queries.length+' questions ready</p>';
-  }
-
-  $('w-custom').addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); $('w-addbtn').click(); } });
-  $('w-addbtn').addEventListener('click', () => {
-    const v = $('w-custom').value.trim();
-    if (!v) return;
-    state.queries.push(v); $('w-custom').value=''; renderList();
-    track('audit_question_added', {brand: state.brand});
-  });
-
-  const STATUSES = ['Asking ChatGPT your questions…','Reading the answers…','Checking which brands get named…','Scoring your visibility…','Almost there…'];
-  $('w-run').addEventListener('click', async () => {
-    const selected = Array.from(document.querySelectorAll('#w-list input:checked')).map((el)=>state.queries[+el.dataset.i]);
-    if (!selected.length) { alert('Keep at least one question.'); return; }
-    track('audit_run', {brand: state.brand, question_count: selected.length});
-    show(3);
-    let si=0; const t = setInterval(()=>{ si=(si+1)%STATUSES.length; $('w-status').textContent=STATUSES[si]; }, 6000);
-    try {
-      const r = await fetch('/api/audit', {method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({brand: state.brand, website: state.site, queries: selected})});
-      const d = await r.json();
-      clearInterval(t);
-      if (d.error) throw new Error(d.error);
-      state.report = d; renderReport(d); show(4);
-      track('audit_completed', {brand: state.brand, score: (d.overall && d.overall.score) || 0});
-    } catch(e){ clearInterval(t); alert('The audit hit a snag — please try again in a minute.'); show(2); }
-  });
-
-  function renderReport(d){
-    const rows = (d.results||[]).map((r)=>'<div class="w-row"><div class="w-rq">'+escq(r.query)+'</div><div><span class="w-badge w-'+escq(r.prominence)+'">'+escq(r.prominence)+'</span></div><div class="w-rn">'+escq(r.note||'')+'</div></div>').join('');
-    const gaps = ((d.overall&&d.overall.gaps)||[]).map((g)=>'<li>'+escq(g)+'</li>').join('');
-    $('w-report').innerHTML = '<div class="w-score"><span>'+((d.overall&&d.overall.score)!=null?d.overall.score:'?')+'</span>/100</div>'
-      + '<p class="w-sum">'+escq((d.overall&&d.overall.summary)||'')+'</p>' + rows
-      + '<p class="w-gapt">Top gaps holding you back:</p><ul class="w-gaps">'+gaps+'</ul>';
-  }
-
-  $('w-unlock').addEventListener('click', async () => {
-    const email = $('w-email').value.trim();
-    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { $('w-email').focus(); return; }
-    $('w-unlock').disabled = true; $('w-unlock').textContent = 'Unlocking…';
-    try {
-      await fetch('/api/lead', {method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({email: email, phone: $('w-phone').value.trim(), brand: state.brand, website: state.site, report: state.report})});
-    } catch(e){}
-    track('generate_lead', {brand: state.brand, score: (state.report && state.report.overall && state.report.overall.score) || 0,
-      ai_source: (function(){ try { return sessionStorage.getItem('aq_ai_source') || 'none'; } catch(e){ return 'none'; } })()});
-    $('w-report').classList.remove('w-blur');
-    $('w-gate').innerHTML = '<p class="wtitle">✓ Report unlocked — a copy is on its way to your inbox.</p><p class="form-note">We will follow up with what it takes to close the gaps.</p>';
-  });
-})();
-</script>
+<script>import "../scripts/audit-wizard.js";</script>
 
 </body>
 </html>

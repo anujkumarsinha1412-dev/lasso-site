@@ -8,6 +8,41 @@ const escape = s => String(s ?? '').replace(/[<>&"']/g, c => ({ '<': '&lt;', '>'
 const feedback = message => { $('w-feedback').textContent = message; $('w-feedback').hidden = !message; };
 const state = { brand: '', website: '', questions: [], selected: [], report: null, unlocked: false };
 
+// ---------------------------------------------------------------------------
+// Outbound attribution.
+//
+// Links in outbound email / LinkedIn carry ?brand= plus UTMs, e.g.
+//   agenquest.com/?brand=ourplace&utm_source=email&utm_campaign=cookware-oct
+//
+// Two things happen: the brand field is pre-filled, which removes the biggest
+// drop-off in the flow (asking someone to type their own brand name), and the
+// campaign string is carried through to the owner notification so a submission
+// can be traced back to the exact message that produced it.
+// Nothing is auto-submitted; the visitor still clicks.
+// ---------------------------------------------------------------------------
+const attribution = (() => {
+  try {
+    const qp = new URLSearchParams(location.search);
+    const pick = keys => { for (const k of keys) { const v = qp.get(k); if (v) return v.slice(0, 120); } return ''; };
+    const prefill = pick(['brand', 'b', 'company']);
+    const parts = [
+      ['source', pick(['utm_source'])],
+      ['medium', pick(['utm_medium'])],
+      ['campaign', pick(['utm_campaign'])],
+      ['content', pick(['utm_content'])],
+    ].filter(([, v]) => v).map(([k, v]) => `${k}=${v}`);
+    const ref = document.referrer ? new URL(document.referrer).host : '';
+    if (!parts.length && ref && ref !== location.host) parts.push(`referrer=${ref}`);
+    return { prefill, label: parts.join(' \u00b7 ').slice(0, 200) };
+  } catch { return { prefill: '', label: '' }; }
+})();
+
+if (attribution.prefill && $('w-brand') && !$('w-brand').value) {
+  $('w-brand').value = attribution.prefill;
+  track('audit_prefilled', { brand: attribution.prefill, attribution: attribution.label });
+  requestAnimationFrame(() => document.getElementById('audit')?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+}
+
 $('w-gen').addEventListener('click', async () => {
   const raw = $('w-brand').value.trim();
   if (!raw) { $('w-brand').focus(); return; }
@@ -90,7 +125,7 @@ $('w-unlock').addEventListener('click', async () => {
   $('w-unlock').disabled = true;
   $('w-unlock').textContent = 'Sending your report…';
   try {
-    const data = await postJson('/api/lead', { email, phone: $('w-phone').value.trim(), brand: state.brand, website: state.website, report: state.report }, fetch, 30000);
+    const data = await postJson('/api/lead', { email, phone: $('w-phone').value.trim(), brand: state.brand, website: state.website, source: attribution.label, report: state.report }, fetch, 30000);
     if (data.ok !== true || data.reportEmail !== true) throw new Error('Your report could not be emailed. Please retry.');
     state.unlocked = true;
     renderReport();

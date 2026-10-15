@@ -19,9 +19,12 @@ async function digest(value) {
 export async function onRequestPost(context) {
   const t = trace();
   try {
-    const { email, phone = '', brand, website = '', report } = await readJson(context.request, 180000);
+    const { email, phone = '', brand, website = '', source = '', report } = await readJson(context.request, 180000);
     if (typeof email !== 'string' || email.length > 254 || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) || typeof brand !== 'string' || !brand.trim() || brand.length > 120 || typeof website !== 'string' || website.length > 300 || typeof phone !== 'string' || phone.length > 60) throw new AuditError('BAD_REQUEST', 'Enter a valid email address and brand.', 400);
     if (!report || report.mock === true || report.status !== 'complete' || !Array.isArray(report.results) || !report.results.length || report.results.length > MAX_QUESTIONS || report.results.some(result => !isVerified(result))) throw new AuditError('UNVERIFIED_REPORT', 'Only a complete, verified live report can be emailed. Retry the failed questions first.', 400);
+    // Outbound attribution from the wizard's UTM params. Advisory only: never trusted,
+    // never echoed to the prospect, truncated and escaped for the owner alert.
+    const attribution = typeof source === 'string' ? source.slice(0, 200) : '';
     if (!context.env.RESEND_API_KEY) throw new AuditError('EMAIL_NOT_CONFIGURED', 'Report email is temporarily unavailable. Please try again later.', 503, 'report_email');
     const api = (path, body, stage, idempotency, timeout = 7000) => fetchJson(`https://api.resend.com${path}`, {
       method: 'POST', headers: { 'content-type': 'application/json', authorization: `Bearer ${context.env.RESEND_API_KEY}`, ...(idempotency ? { 'Idempotency-Key': idempotency } : {}) }, body: JSON.stringify(body),
@@ -34,7 +37,7 @@ export async function onRequestPost(context) {
       try { const value = await operation(); return !!value?.id; }
       catch (e) { log(t, 'lead_followup_failed', { stage, code: e.code || 'UPSTREAM_ERROR' }); return false; }
     };
-    const ownerHtml = `<p><b>Brand:</b> ${esc(brand)}<br><b>Website:</b> ${esc(website)}<br><b>Email:</b> ${esc(email)}<br><b>Phone:</b> ${esc(phone || '—')}<br><b>Discovery score:</b> ${summarize(report.results).score ?? 'branded-only'}</p>`;
+    const ownerHtml = `<p><b>Brand:</b> ${esc(brand)}<br><b>Website:</b> ${esc(website)}<br><b>Email:</b> ${esc(email)}<br><b>Phone:</b> ${esc(phone || '—')}<br><b>Discovery score:</b> ${summarize(report.results).score ?? 'branded-only'}<br><b>Came from:</b> ${esc(attribution || 'direct / unattributed')}</p>`;
     const ownerKey = await digest(ownerHtml);
     const [stored, notify] = await Promise.all([
       context.env.RESEND_AUDIENCE_ID ? bestEffort(() => api(`/audiences/${encodeURIComponent(context.env.RESEND_AUDIENCE_ID)}/contacts`, { email, first_name: brand, unsubscribed: false }, 'contact_storage'), 'contact_storage') : Promise.resolve(false),

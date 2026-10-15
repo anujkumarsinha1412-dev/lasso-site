@@ -2,6 +2,8 @@
 const { title, description, date, isPost = false, url } = Astro.props;
 const fmtDate = date ? new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : null;
 import Analytics from '../components/Analytics.astro';
+import BrandLogo from '../components/BrandLogo.astro';
+import BrandTheme from '../components/BrandTheme.astro';
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -14,10 +16,7 @@ import Analytics from '../components/Analytics.astro';
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<meta name="theme-color" content="#14120F">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#165A40">
 <link rel="alternate" type="application/rss+xml" title="AgenQuest Blog" href="/rss.xml">
 {isPost && (
   <script type="application/ld+json" set:html={JSON.stringify({
@@ -44,6 +43,7 @@ import Analytics from '../components/Analytics.astro';
   })} />
 )}
 <style is:global>
+  @layer site-base {
   :root {
     --bg: #FAFAF7; --surface: #FFFFFF; --ink: #14120F; --ink-soft: #55524B;
     --ink-faint: #8A867D; --accent: #E8450A; --accent-soft: #FFF0E9;
@@ -95,12 +95,14 @@ import Analytics from '../components/Analytics.astro';
   .byline p { font-size: 15px; line-height: 1.6; color: var(--ink-soft); }
   .byline strong { color: var(--ink); }
   .meta a { color: inherit; }
+  }
 </style>
+<BrandTheme />
 </head>
 <body>
 <header class="site">
   <nav class="site">
-    <a class="logo" href="/"><span class="logo-mark"></span>AgenQuest</a>
+    <BrandLogo />
     <div class="nav-links">
       <a href="/#shift">The shift</a>
       <a href="/#services">What we do</a>

@@ -1,0 +1,139 @@
+<!-- Colors and artwork extracted from the official October 2026 brand deck. -->
+<style is:inline>
+  :root {
+    --forest: #165A40;
+    --forest-deep: #135841;
+    --green: #1E7250;
+    --gold: #B8892B;
+    --gold-ink: #805D12;
+    --bg: #F7F9F7;
+    --surface: #FFFFFF;
+    --ink: #1A1A1A;
+    --ink-soft: #626D68;
+    --ink-faint: #66736E;
+    --soft: #626D68;
+    --accent: #165A40;
+    --accent-soft: #F0F7F2;
+    --line: #D9E4DC;
+    --line-dark: #165A40;
+    --good: #1E7250;
+    --sans: Calibri, Carlito, 'Segoe UI', Arial, sans-serif;
+    --serif: var(--sans);
+    --mono: var(--sans);
+  }
+
+  body { font-family: var(--sans); }
+  h1, h2, h3 { color: var(--forest-deep); }
+  h1 { font-weight: 600; line-height: 1.04; letter-spacing: -.025em; }
+  h2 { font-weight: 600; line-height: 1.12; letter-spacing: -.02em; }
+  .kicker, p.kicker { color: var(--green); font-weight: 600; letter-spacing: .12em; }
+  header, header.site { background: rgba(247,249,247,.96); border-bottom-color: var(--line); }
+  .logo { display: inline-flex; flex-shrink: 0; line-height: 1; }
+  .logo .brand-logo { display: block; width: 166px; height: auto; max-width: 100%; }
+  .foot .logo .brand-logo { width: 154px; }
+  .nav-links { gap: 23px; }
+  .nav-links a { color: var(--forest-deep); }
+  .nav-links a:hover, article a:hover { color: var(--gold-ink); }
+  .nav-links .btn-accent, .btn-accent { background: var(--forest); color: #fff !important; border-radius: 4px; }
+  .btn-primary { background: var(--forest); }
+  .btn-accent:hover, .btn-primary:hover { box-shadow: 0 4px 14px rgba(22,90,64,.2); }
+
+  .hero { position: relative; isolation: isolate; background: var(--forest); border-bottom: 3px solid var(--gold); }
+  .hero::before {
+    content: ''; position: absolute; z-index: -1; pointer-events: none;
+    inset: 0; background: url('/brand/agenquest-cube-light.png') no-repeat right -65px bottom -110px / 385px;
+    opacity: .075;
+  }
+  .hero h1 { font-size: clamp(44px, 5.5vw, 66px); color: #fff; }
+  .hero h1 .hl { color: #fff; text-decoration: underline; text-decoration-color: var(--gold); text-decoration-thickness: 3px; text-underline-offset: 8px; }
+  .hero .kicker, .hero .hero-note { color: #C2D4C9; }
+  .hero .lede { color: #F0F7F2; }
+  .hero .btn-accent { background: #FBF2DD; color: var(--forest-deep) !important; border: 1px solid var(--gold); }
+  .hero .btn-accent:hover { box-shadow: 0 4px 14px rgba(0,0,0,.16); }
+  .chat-card { border-color: #C2D4C9; border-radius: 5px; box-shadow: 14px 14px 0 rgba(9,48,34,.32); }
+  .chat-head { background: #F0F7F2; color: var(--ink-soft); }
+  .chat-q { background: #F0F7F2; border-radius: 4px; }
+  .rec { border-radius: 4px; }
+  .rec.win { border-color: var(--green); background: #F0F7F2; }
+  .rec.win .tag { color: var(--forest); }
+  .chat-card a.cite { color: var(--forest); }
+
+  .stats { background: #F0F7F2; }
+  .stat .num { color: var(--forest-deep); }
+  .stat .num span { color: var(--gold-ink); }
+  .proof-note, .contact, .wedge-col.us, .cta-box { background: var(--forest-deep); }
+  .proof-note h2, .proof-note h3, .contact h2, .contact h3,
+  .cta-box h2, .wedge-col.us h3 { color: #fff; }
+  .proof-note .kicker, .proof-page .folio, .contact .kicker,
+  .wedge-col.us .tag, .wedge-col.us li::before, .deliver li::before { color: #FBF2DD; }
+  .proof-note { border-top: 2px solid var(--gold); }
+  .proof-intro p, .proof-page p, .contact .lede, .cta-box p { color: #D9E4DC; }
+  .contact { --accent: #FBF2DD; --ink-faint: #C2D4C9; }
+  .contact .btn-accent { background: #FBF2DD; color: var(--forest-deep) !important; border: 1px solid var(--gold); }
+  .form-card { background: rgba(240,247,242,.055); border-color: rgba(194,212,201,.4); border-radius: 5px; }
+  .form-card label, .form-note, .w-sub, .w-found, .w-count,
+  .w-hint, .form-card .w-add label, .form-card .w-kind { color: #C2D4C9; }
+  .form-card input::placeholder { color: #C2D4C9; }
+  .form-card input, .form-card select { border-color: #9DB5A6; border-radius: 4px; }
+  .form-card .w-q input[type=checkbox]:checked { background: var(--gold); border-color: var(--gold); }
+  .form-card .w-q input[type=checkbox]:not(:checked) ~ span { color: #C2D4C9; }
+  .w-badge.w-recommended { background: #1E7250; color: #F0F7F2; }
+  .w-badge.w-mentioned { background: #805D12; color: #FBF2DD; }
+  .w-badge.w-absent, .form-card .w-failed { background: #923A32; color: #FBEDEC; }
+  .form-card .w-evidence a, .form-card #w-feedback { color: #FBF2DD; }
+  .contact .w-score span { color: #FBF2DD; }
+  .form-card .btn-ghost-light { border-color: #9DB5A6; }
+
+  .signals, .wedge-col.them, .rcard, .post-card, .byline { background: #F0F7F2; }
+  .rcard, .post-card, .wedge-col, .cta-box { border-radius: 5px; }
+  .card, .ev, .working-note, .steps { border-top-color: #C2D4C9; }
+  .card .idx, .svc .n, .step .when, .rgo { color: var(--green); font-weight: 600; }
+  .svc .sub { color: var(--gold-ink); }
+  .step::before {
+    width: 16px; height: 18px; top: -9px; border: 0; border-radius: 0;
+    background: url('/brand/agenquest-cube.png') center / contain no-repeat;
+  }
+  .step:first-child::before { background: url('/brand/agenquest-cube.png') center / contain no-repeat; border: 0; }
+  .faq summary::after { color: var(--green); }
+  footer:not(.site) { background: var(--forest-deep); color: #C2D4C9; }
+  .foot-links a { color: #D9E4DC; }
+  footer.site { background: #F0F7F2; }
+  article p, article ul, article ol { color: #1F211F; }
+  article a { color: var(--forest); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  article blockquote { border-left-color: var(--gold); border-radius: 0; }
+  article th { color: var(--forest); background: #EDF3EF; }
+  article { min-width: 0; overflow-wrap: anywhere; }
+  article table { display: block; max-width: 100%; overflow-x: auto; }
+  .byline { border-left-color: var(--gold); }
+  .cta-box { border-top: 2px solid var(--gold); }
+  .cta-box .btn-accent { background: #FBF2DD; color: var(--forest-deep) !important; }
+  .post-card:hover { box-shadow: 0 8px 24px rgba(22,90,64,.08); }
+
+  a:focus-visible, button:focus-visible, summary:focus-visible,
+  input:focus-visible, select:focus-visible { outline: 3px solid var(--gold); outline-offset: 4px; }
+
+  @media (max-width: 1100px) and (min-width: 901px) {
+    .nav-links { gap: 14px; }
+    .nav-links a { font-size: 14px; }
+    .nav-links .btn, .nav-links .btn-accent { padding-left: 15px; padding-right: 15px; }
+  }
+  @media (max-width: 900px) {
+    nav.site { height: auto; min-height: 68px; padding-top: 12px; padding-bottom: 12px; flex-wrap: wrap; gap: 10px; }
+    nav.site .nav-links { width: 100%; flex-wrap: wrap; gap: 10px 18px; }
+    nav.site .nav-links a { font-size: 14px; }
+    .hero::before { background-size: 300px; background-position: right -90px bottom -80px; }
+  }
+  @media (max-width: 640px) {
+    .logo .brand-logo { width: 148px; }
+    .hero h1 { font-size: clamp(40px, 10.4vw, 52px); line-height: 1.04; }
+    .hero h1 .hl { text-underline-offset: 5px; text-decoration-thickness: 2px; }
+    .chat-card { box-shadow: 8px 8px 0 rgba(9,48,34,.3); }
+    nav.site { padding: 12px 18px; gap: 12px; }
+    nav.site .btn-accent { padding: 10px 12px; font-size: 13px; }
+    nav.site .brand-logo { width: 132px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .btn, .rcard, .post-card { transition: none; }
+  }
+</style>

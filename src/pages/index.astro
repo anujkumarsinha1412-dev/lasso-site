@@ -1,5 +1,7 @@
 ---
 import Analytics from '../components/Analytics.astro';
+import BrandLogo from '../components/BrandLogo.astro';
+import BrandTheme from '../components/BrandTheme.astro';
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -13,10 +15,7 @@ import Analytics from '../components/Analytics.astro';
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<meta name="theme-color" content="#14120F">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Newsreader:opsz,wght@6..72,500;6..72,600&amp;display=swap" rel="stylesheet">
+<meta name="theme-color" content="#165A40">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -77,6 +76,7 @@ import Analytics from '../components/Analytics.astro';
 }
 </script>
 <style is:inline>
+  @layer site-base {
   :root {
     --bg: #FAFAF7;
     --surface: #FFFFFF;
@@ -493,14 +493,16 @@ import Analytics from '../components/Analytics.astro';
   .stat .lab{color:var(--ink-soft,#55524B);font-size:14.5px;margin-top:6px;}
   .stat .src{font-family:var(--mono);font-size:11px;color:var(--ink-faint,#8A867D);margin-top:8px;}
   @media(max-width:900px){.stat-grid{grid-template-columns:1fr;gap:18px;}}
+  }
 </style>
+<BrandTheme />
 </head>
 <body>
 
 <header>
   <div class="wrap">
     <nav>
-      <a class="logo" href="#top"><span class="logo-mark"></span>AgenQuest</a>
+      <BrandLogo href="#top" />
       <div class="nav-links">
         <a href="#shift">The shift</a>
         <a href="#services">What we do</a>
@@ -952,7 +954,7 @@ import Analytics from '../components/Analytics.astro';
 
 <footer>
   <div class="wrap foot">
-    <a class="logo" href="#top"><span class="logo-mark"></span>AgenQuest</a>
+    <BrandLogo href="#top" light />
     <span class="foot-tag">Marketing for the age of AI — AEO · GEO · agentic commerce</span>
     <span class="foot-links"><a href="/about/">About</a><a href="/blog/">Notes</a><a href="/privacy/">Privacy</a><a href="mailto:hello@agenquest.com">hello@agenquest.com</a></span>
     <span>© 2026 AgenQuest.</span>

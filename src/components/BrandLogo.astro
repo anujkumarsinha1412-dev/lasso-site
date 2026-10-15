@@ -1,0 +1,6 @@
+---
+const { href = '/', light = false } = Astro.props;
+---
+<a class="logo" href={href} aria-label="AgenQuest">
+  <img class="brand-logo" src={light ? '/brand/agenquest-logo-white.png' : '/brand/agenquest-logo-green.png'} width="1524" height="360" alt="" decoding="async" />
+</a>

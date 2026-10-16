@@ -110,7 +110,8 @@ async function run() {
   renderReport();
   show(4);
   const complete = state.report.status === 'complete';
-  track(complete ? 'audit_completed' : 'audit_partial', { ...counts(), attempt_no: attempt, is_retry: attempt > 1, duration_ms: performance.now() - started });
+  const failed = state.report.results.find(result => result.status === 'failed');
+  track(complete ? 'audit_completed' : 'audit_partial', { ...counts(), ...(failed ? {error_code:failed.error_code,http_status:failed.http_status,stage:'audit'} : {}), attempt_no: attempt, is_retry: attempt > 1, duration_ms: performance.now() - started });
   if (complete) track('lead_gate_view', { form_id: 'audit_report', gate_step: 'email', ...counts() }, `gate:${flow}`);
   } catch (e) { feedback(e.message); show(2); track('audit_failed', { ...errorParams(e, 'audit'), duration_ms: performance.now() - started }); }
 }

@@ -4,6 +4,7 @@ import { cleanUrl, cleanParams, acquisition, attributionRecord } from '../src/li
 import { privateAttribution, recordLead, acceptReport, flushNotifications } from '../functions/lib/lead-store.js';
 import { memoryD1 } from './d1-helper.js';
 import { onRequestPost as submitLead } from '../functions/api/lead.js';
+import { postJson } from '../src/lib/audit-client.js';
 
 const verified = {query:'Which cookware should I buy?',query_type:'discovery',prominence:'recommended',status:'verified',brands_named:['Acme'],note:'Acme is recommended.',answer:'Consider Acme cookware [1].',sources:[{url:'https://example.com/review',title:'Review'}],model:'gpt-4.1-mini',response_id:'resp_test',checked_at:'2026-10-14T10:00:00Z'};
 const body = {email:'test@example.test',brand:'Acme',report:{status:'complete',results:[verified]}};
@@ -14,6 +15,9 @@ test('analytics strips private URLs and rejects arbitrary payloads', () => {
   assert.equal(cleanUrl('https://secret:password@agenquest.com/'), '');
   assert.equal(cleanUrl('javascript:alert(1)'), '');
   assert.deepEqual(cleanParams({ brand:'Acme', email:'test@example.com', query:'private', score:71, category_group:'home_and_kitchen', stage:'test@example.com', duration_ms:Infinity }), {category_group:'home_and_kitchen',score:71});
+});
+test('gateway HTML produces a safe machine-readable failure without leaking its content', async () => {
+  await assert.rejects(postJson('/api/audit',{},async()=>new Response('<html>private gateway content</html>',{status:502})),e=>e.code==='INVALID_RESPONSE' && e.http_status===502 && !e.message.includes('private gateway'));
 });
 test('AI referral classification uses parsed, exact host boundaries', () => {
   assert.equal(acquisition('https://agenquest.com/','https://chatgpt.com/share/x').ai_source, 'chatgpt');

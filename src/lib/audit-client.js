@@ -5,13 +5,13 @@ export async function postJson(url, body, fetcher = fetch, timeout = 55000) {
   let timer;
   try {
     const deadline = new Promise((_, reject) => {
-      timer = setTimeout(() => { controller.abort(); reject(new Error('This request timed out. Please retry.')); }, timeout);
+      timer = setTimeout(() => { controller.abort(); const e = new Error('This request timed out. Please retry.'); e.code = 'REQUEST_TIMEOUT'; reject(e); }, timeout);
     });
     return await Promise.race([(async () => {
       const response = await fetcher(url, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body), signal: controller.signal });
       let data;
       try { data = await response.json(); }
-      catch { throw new Error('The service returned an unreadable response. Please retry.'); }
+      catch { const error = new Error('The service returned an unreadable response. Please retry.'); error.code = 'INVALID_RESPONSE'; error.http_status = response.status; throw error; }
       if (!response.ok || data.error) {
         const error = new Error(`${data.error || 'The service could not complete this request.'}${data.request_id ? ` Reference: ${data.request_id}` : ''}`);
         error.code = data.code || 'REQUEST_FAILED'; error.http_status = response.status;
@@ -40,7 +40,7 @@ export async function runQuestions({ brand, website, questions, previous = [], o
         if (data.status !== 'complete' || data.results.length !== 1 || !isVerified(result) || result.query !== question.query || result.query_type !== question.query_type) throw new Error('No verified answer was returned for this question. Please retry.');
         results[index] = result;
       } catch (e) {
-        results[index] = { ...question, status: 'failed', error: e.message || 'The live check failed. Please retry.' };
+        results[index] = { ...question, status: 'failed', error: e.message || 'The live check failed. Please retry.', error_code: e.code || 'REQUEST_FAILED', http_status: e.http_status || 0 };
       }
       onProgress(++finished, questions.length);
     }

@@ -641,7 +641,7 @@
                   {
                     "type": "TEMPLATE",
                     "key": "parameter",
-                    "value": "score"
+                    "value": "audit_score"
                   },
                   {
                     "type": "TEMPLATE",

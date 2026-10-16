@@ -4,7 +4,7 @@ import BrandLogo from '../components/BrandLogo.astro';
 import '../styles/consultancy.css';
 const { title, description, article, wide = true } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
-const notFound = Astro.url.pathname === '/404/' || Astro.url.pathname === '/404';
+const notFound = /^\/404(?:\.html|\/)?$/.test(Astro.url.pathname);
 const preview = import.meta.env.DEV || (process.env.CF_PAGES_BRANCH && process.env.CF_PAGES_BRANCH !== 'main');
 const links = [['How we help','/how-we-help/'],["Who it’s for",'/who-aeo-is-for/'],['Research','/blog/'],['About','/about/']];
 const active = (path) => Astro.url.pathname.startsWith(path);
@@ -33,3 +33,4 @@ const menu=document.querySelector('.mobile-menu');
 document.addEventListener('keydown',event=>{if(event.key==='Escape' && menu?.hasAttribute('open')){menu.removeAttribute('open');menu.querySelector('summary')?.focus();}});
 document.addEventListener('click',event=>{if(menu?.hasAttribute('open') && event.target instanceof Node && !menu.contains(event.target))menu.removeAttribute('open');});
 </script></body></html>
+

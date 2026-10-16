@@ -44,7 +44,8 @@ CREATE TABLE IF NOT EXISTS notification_outbox (
 );
 CREATE INDEX IF NOT EXISTS lead_events_lead ON lead_events(lead_id, created_at);
 CREATE INDEX IF NOT EXISTS outbox_due ON notification_outbox(state, next_attempt_at);
-CREATE VIEW IF NOT EXISTS lead_funnel_daily AS
+DROP VIEW IF EXISTS lead_funnel_daily;
+CREATE VIEW lead_funnel_daily AS
 SELECT substr(created_at,1,10) AS day,
   count(*) AS submissions,
   sum(report_email_accepted_at IS NOT NULL) AS reports_accepted,
@@ -55,4 +56,6 @@ SELECT substr(created_at,1,10) AS day,
   sum(outcome='won') AS won,
   sum(outcome='lost') AS lost,
   sum(CASE WHEN outcome='won' THEN coalesce(value_gbp,0) ELSE 0 END) AS won_value_gbp
-FROM leads GROUP BY substr(created_at,1,10);
+FROM leads
+WHERE NOT EXISTS (SELECT 1 FROM lead_events e WHERE e.lead_id=leads.id AND e.event='test_submission')
+GROUP BY substr(created_at,1,10);

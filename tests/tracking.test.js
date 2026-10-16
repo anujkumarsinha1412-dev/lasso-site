@@ -3,14 +3,10 @@ import assert from 'node:assert/strict';
 import { cleanUrl, cleanParams, acquisition, attributionRecord } from '../src/lib/tracking.js';
 import { privateAttribution, recordLead, acceptReport, flushNotifications } from '../functions/lib/lead-store.js';
 import { memoryD1 } from './d1-helper.js';
-import { onRequestPost as submitLead } from '../functions/api/lead.js';
 import { postJson } from '../src/lib/audit-client.js';
 import { readFileSync } from 'node:fs';
 import { EVENTS } from '../src/lib/tracking.js';
 
-const verified = {query:'Which cookware should I buy?',query_type:'discovery',prominence:'recommended',status:'verified',brands_named:['Acme'],note:'Acme is recommended.',answer:'Consider Acme cookware [1].',sources:[{url:'https://example.com/review',title:'Review'}],model:'gpt-4.1-mini',response_id:'resp_test',checked_at:'2026-10-14T10:00:00Z'};
-const body = {email:'test@example.test',brand:'Acme',report:{status:'complete',results:[verified]}};
-const request = () => new Request('https://agenquest.com/api/lead',{method:'POST',body:JSON.stringify(body)});
 test('published GTM contract stays within GA4 parameter limits and routes each event once', () => {
   const cv=JSON.parse(readFileSync(new URL('../analytics/gtm-container.json',import.meta.url),'utf8')).containerVersion;
   const tags=cv.tag.filter(t=>t.type==='gaawe');
@@ -75,17 +71,4 @@ test('failed owner notification persists and a later retry accepts it once', asy
   await flushNotifications(env); await flushNotifications(env);
   assert.equal(keys.length,2); assert.equal(keys[0],keys[1]);
   assert.equal(db.sql.prepare('SELECT notification_status FROM leads').get().notification_status,'accepted');
-});
-test('public submit endpoint refuses to send without durable storage and deduplicates accepted retries', async t => {
-  const calls=[];
-  t.mock.method(globalThis,'fetch',async (url,init) => { calls.push({url,body:JSON.parse(init.body)}); return new Response(JSON.stringify({id:'provider-id'})); });
-  assert.equal((await submitLead({request:request(),env:{RESEND_API_KEY:'test'}})).status,503);
-  assert.equal(calls.length,0);
-  const env={RESEND_API_KEY:'test',LEAD_DB:memoryD1()};
-  const first=await (await submitLead({request:request(),env})).json();
-  const second=await (await submitLead({request:request(),env})).json();
-  assert.equal(first.lead_id,second.lead_id); assert.equal(second.duplicate,true);
-  assert.equal(calls.length,2); // One report, one owner alert; no duplicate sends.
-  assert.equal(env.LEAD_DB.sql.prepare('SELECT count(*) AS n FROM leads').get().n,1);
-  assert.equal(env.LEAD_DB.sql.prepare("SELECT count(*) AS n FROM lead_events WHERE event='report_email_accepted'").get().n,1);
 });

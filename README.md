@@ -15,20 +15,21 @@ npm run dev
 
 The Astro development server serves static pages; running Pages Functions locally also requires Cloudflare’s local runtime. Tests exercise the function handlers with controlled provider responses and never send emails or make paid AI calls.
 
-## Audit behavior
+## Retired public audit routes
 
-- `/api/suggest` requires completed, cited web research before proposing eight questions. It returns six discovery questions and two branded validation questions. Low-confidence research is rejected.
-- `/api/audit` accepts exactly one question per request. The browser runs two concurrently, preserves verified answers and retries only failures.
-- Every accepted answer requires a completed Responses web-search call, completed assistant output and usable citation URLs. Plain completions and synthetic fallbacks are never substituted.
-- Search has a 35-second deadline; classification has a 15-second deadline. Browser requests stop after 55 seconds. Provider body parsing is included in each deadline.
-- An incomplete panel has no score and cannot be emailed as a complete report. Branded questions are excluded from the deterministic discovery score.
-- `/api/lead` confirms success only after Resend accepts the report. It includes observed answers, cited links, model and timestamps in the email. Provider acceptance is not confirmation of inbox delivery. Idempotency keys protect report-email retries from duplicates.
+The public automated audit is retired. `/api/suggest`, `/api/audit` and `/api/lead` return HTTP 410 (`AUDIT_RETIRED`) for all methods, with `/contact/` as the supported alternative. Middleware returns before background queue drains on these paths, including trailing-slash variants. They do not read request bodies, call OpenAI/Resend, synchronize contacts or access D1.
+
+The public pages do not import the historical audit wizard or client. Those source helpers and historical report interpretation remain available in version control; they are not a public audit service. No other production caller was found in the page, workflow or scheduler dependency review. An old browser or external integration receives 410 rather than initiating a new audit or report email.
+
+Historical `leads`, `lead_events`, report status and notification jobs remain intact. Existing queued owner notifications continue to drain through `/api/health` and the one-minute scheduler. The consultation form remains `/api/inquiry`; its durable save, email queues, attribution and reply routing are unchanged. See [scheduled retries and failure alerts](workers/mail-retry/README.md).
+
+There is no database migration, deletion or automatic retention cleanup in this retirement. Existing credentials are preserved; their possible use outside this repository was not inferred from the retirement of these routes.
 
 ## Configuration
 
-Production secrets: `OPENAI_API_KEY`, `RESEND_API_KEY`. Optional contact storage uses the existing `RESEND_AUDIENCE_ID`. Preview deployments need their own configuration for live checks; without it the API returns a clear 503.
+The active consultation email path uses the existing `RESEND_API_KEY` and `LEAD_DB` binding. Historical audit settings (`OPENAI_API_KEY`, `RESEND_AUDIENCE_ID`) are preserved but are no longer consumed by a public audit route. Preview deployments need their own configuration for live consultation checks.
 
-Optional model settings: `OPENAI_SEARCH_MODEL` (default `gpt-4.1-mini`) and `OPENAI_TEXT_MODEL` (default `gpt-4o-mini`). The search model must support Responses `web_search`. These defaults are supported as of 14 October 2026 but scheduled to retire on 14 January 2027; validate a replacement before that date. Changing the configured model does not enable fallback behavior.
+Historical audit model settings (not used by the retired public routes): `OPENAI_SEARCH_MODEL` (default `gpt-4.1-mini`) and `OPENAI_TEXT_MODEL` (default `gpt-4o-mini`). The search model must support Responses `web_search`. These defaults are supported as of 14 October 2026 but scheduled to retire on 14 January 2027; validate a replacement before that date. Changing the configured model does not enable fallback behavior.
 
 Never commit credentials. `.dev.vars` and environment files are ignored. Manage production secrets through the provider dashboards and Cloudflare's encrypted configuration.
 
@@ -50,7 +51,9 @@ The IndexNow workflow runs after pushes to `main`. It waits until the production
 
 An IndexNow acknowledgement confirms receipt, not crawling or indexing. The verification file is intentionally public and is distinct from private API credentials.
 
-## Consultation redesign preview (16 October 2026)
+## Historical consultation preview notes (16 October 2026)
+
+The notes below describe the earlier preview, not outstanding release instructions. The reviewed redesign is live, email and reply tests passed, and the separate one-minute retry Worker and failure alerts are active. The audit routes are now retired as documented above. Automatic retention cleanup remains off.
 
 The redesign is based on production commit f2e68b1. It keeps all 18 published Markdown articles, existing paths and homepage anchor aliases. The public audit widget is retired; the audit API, its reliability fixes, analytics runtime, GTM configuration and reporting remain intact. Measurement changes and the new comparison article are excluded from this release.
 

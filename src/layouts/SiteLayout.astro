@@ -1,7 +1,8 @@
 ---
 import Analytics from '../components/Analytics.astro';
 import BrandLogo from '../components/BrandLogo.astro';
-import '../styles/consultancy.css';
+import consultancyCss from '../styles/consultancy.css?raw';
+import consultancyCssUrl from '../styles/consultancy.css?url';
 const { title, description, article, wide = true } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
 const notFound = /^\/404(?:\.html|\/)?$/.test(Astro.url.pathname);
@@ -11,6 +12,9 @@ const active = (path) => Astro.url.pathname.startsWith(path);
 ---
 <!doctype html><html lang="en"><head>
 <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+{/* Remove the measured stylesheet round trip on the primary landing page.
+    Other pages retain a shared, versioned stylesheet for navigation caching. */}
+{Astro.url.pathname === '/' ? <style is:inline set:html={consultancyCss}/> : <link rel="stylesheet" href={consultancyCssUrl}/>}
 <title>{title}</title><meta name="description" content={description}/>{!notFound && <link rel="canonical" href={canonical}/>}
 {(preview || notFound) && <meta name="robots" content="noindex,nofollow"/>}
 <meta name="msvalidate.01" content="3F37BE21BD482C8AD69F2F8CD82EBDC8"/>
@@ -33,4 +37,5 @@ const menu=document.querySelector('.mobile-menu');
 document.addEventListener('keydown',event=>{if(event.key==='Escape' && menu?.hasAttribute('open')){menu.removeAttribute('open');menu.querySelector('summary')?.focus();}});
 document.addEventListener('click',event=>{if(menu?.hasAttribute('open') && event.target instanceof Node && !menu.contains(event.target))menu.removeAttribute('open');});
 </script></body></html>
+
 

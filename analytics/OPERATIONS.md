@@ -49,6 +49,14 @@ Use the ordered events `page_view → cta_click → audit_started → audit_prom
 
 The browser funnel is consented activity. The private ledger is the service submission record, including submissions without analytics consent. Counts will differ. GSC clicks and impressions are aggregate search data and cannot identify which individual visitor converted. Session recordings are sampled and masked, not a complete history of every visitor.
 
+## Temporary audit gateway failures
+
+Research and question checks retry once after a short delay for gateway HTML (502/503/504), interrupted connections, request/provider timeouts and explicitly coded transient upstream failures. A provider cooldown over five seconds requires a later manual retry. Lead submissions, invalid evidence, uncertain brands and configuration errors never auto retry. Each panel still has at most two active requests; verified answers are retained, and exhausted failures keep the score pending. The existing `is_retry` completion parameter includes automatic recovery.
+
+The 16 October investigation reproduced a 7/8 panel; retrying its one failed question returned cited evidence and completed 8/8. A temporary production trace showed the successful retry with both provider calls returning 200, no runtime exception and a 4.7-second duration. This confirms transient recovery, not the permanent elimination of every upstream outage. The temporary trace was removed after use. The receiving-inbox evidence for the earlier single email test remains valid; no additional report was sent during this investigation.
+
+Cloudflare's native Web Analytics dashboard was verified with bot-excluded visits, page views and real-user LCP/INP/CLS data for agenquest.com. Browser replay verification in Clarity must use an actual available recording; a loaded script or live-user badge alone is insufficient proof.
+
 ## Release and rollback
 
 Publish the reviewed GTM version, then deploy the code that removes direct gtag loading. The previous site does not load this GTM container. Do not reinstall a second direct Google or Clarity snippet. Keep the imported container JSON with this release.

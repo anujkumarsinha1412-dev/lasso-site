@@ -137,6 +137,53 @@ test('browser deadlines also cover body parsing', async () => {
   await assert.rejects(postJson('/api/audit', {}, async () => ({ ok: true, json: () => new Promise(() => {}) }), 20), /timed out/);
 });
 
+test('transient gateway failures recover once without rechecking verified questions', async () => {
+  const questions = [question, {query:'Second buyer question?',query_type:'discovery'}];
+  const calls = [], retries = [], waits = [];
+  const report = await runQuestions({brand:'Acme',questions,previous:[verified()],retryWait:async ms=>waits.push(ms),onRetry:d=>retries.push(d),fetcher:async (_,init)=>{
+    calls.push(JSON.parse(init.body).queries[0]);
+    return calls.length === 1 ? new Response('<h1>Bad gateway</h1>',{status:502}) : response({status:'complete',results:[verified(questions[1].query)]});
+  }});
+  assert.equal(report.status,'complete');
+  assert.equal(report.overall.checked,2);
+  assert.equal(report.retry_count,1);
+  assert.deepEqual(calls,[questions[1].query,questions[1].query]);
+  assert.deepEqual(waits,[750]);
+  assert.deepEqual(retries,[{attempt_no:2,error_code:'INVALID_RESPONSE',http_status:502}]);
+});
+
+test('persistent gateway failures stop after two attempts and withhold the score', async () => {
+  let calls=0;
+  const report=await runQuestions({brand:'Acme',questions:[question],retryWait:async()=>{},fetcher:async()=>{calls++;return new Response('Bad gateway',{status:502});}});
+  assert.equal(calls,2);
+  assert.equal(report.retry_count,1);
+  assert.equal(report.status,'partial');
+  assert.equal(report.overall.score,null);
+  assert.equal(report.results[0].http_status,502);
+});
+
+test('network interruptions, provider timeouts and short cooldowns recover in research', async () => {
+  for (const failure of [()=>{throw new TypeError('connection lost')},()=>response({error:'Timeout',code:'UPSTREAM_TIMEOUT'},504),()=>new Response(JSON.stringify({error:'Busy',code:'RATE_LIMITED'}),{status:429,headers:{'content-type':'application/json','retry-after':'2'}})]) {
+    let calls=0;const waits=[];
+    const result=await postJson('/api/suggest',{},async()=>++calls===1?failure():response({status:'complete'}),100,{wait:async ms=>waits.push(ms)});
+    assert.equal(result.status,'complete');assert.equal(calls,2);assert.equal(waits.length,1);assert.ok(waits[0]>=750&&waits[0]<=5000);
+  }
+});
+
+test('lead sends, invalid evidence, configuration errors and long cooldowns never auto retry', async () => {
+  for (const [url,makeResponse] of [
+    ['/api/lead',()=>new Response('Bad gateway',{status:502})],
+    ['/api/audit',()=>response({error:'Not verified',code:'SEARCH_NOT_VERIFIED'},502)],
+    ['/api/suggest',()=>response({error:'Unavailable',code:'NOT_CONFIGURED'},503)],
+    ['/api/audit',()=>new Response(JSON.stringify({error:'Busy',code:'RATE_LIMITED'}),{status:429,headers:{'retry-after':'60'}})],
+    ['/api/audit',()=>response({error:'Invalid',code:'BAD_REQUEST'},400)],
+  ]) {
+    let calls=0;
+    await assert.rejects(postJson(url,{},async()=>{calls++;return makeResponse()},100,{wait:async()=>{throw new Error('must not wait')}}));
+    assert.equal(calls,1);
+  }
+});
+
 test('email failures and missing configuration never return success', async t => {
   const body = { email: 'prospect@example.test', brand: 'Acme', report: { status: 'complete', results: [verified()] } };
   assert.equal((await lead(context(body, {}))).status, 503);

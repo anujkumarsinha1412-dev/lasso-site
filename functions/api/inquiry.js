@@ -1,6 +1,7 @@
 import { json,readJson } from '../lib/openai.js';
 import { validateInquiry } from '../../src/lib/inquiry.js';
 import { digest,saveInquiry,flushInquiryMail } from '../lib/inquiry-store.js';
+import { privateAttribution } from '../lib/lead-store.js';
 
 export async function onRequestPost(context){
   const origin=new URL(context.request.url).origin;
@@ -23,7 +24,8 @@ export async function onRequestPost(context){
     const limit=await db.prepare('INSERT INTO inquiry_rate_limits (bucket,hits,expires_at) VALUES (?,1,?) ON CONFLICT(bucket) DO UPDATE SET hits=hits+1 RETURNING hits').bind(bucket,(hour+1)*3600000).first();
     if(limit.hits>10)return json({error:'Too many requests. Please try again later or email hello@agenquest.com.'},429);
     await db.prepare('DELETE FROM inquiry_rate_limits WHERE expires_at<?').bind(Date.now()).run();
-    const saved=await saveInquiry(db,data,body.request_key,payloadHash,context.env);
+    const measurement={consent:body.analytics_consent===true,attribution:privateAttribution(body.attribution,body.analytics_consent===true)};
+    const saved=await saveInquiry(db,data,body.request_key,payloadHash,context.env,measurement);
     if(!saved || saved.payload_hash!==payloadHash)return json({error:'This form has already been used. Please refresh and try again.'},409);
     // The transaction includes both mail jobs. Email failures cannot erase an inquiry.
     context.waitUntil(flushInquiryMail(context.env).catch(()=>{}));

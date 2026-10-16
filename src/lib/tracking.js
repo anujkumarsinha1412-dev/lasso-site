@@ -1,5 +1,5 @@
 // Public analytics contract. Never pass form values, report text or arbitrary URLs.
-export const VERSION = '2026-10-16.1';
+export const VERSION = '2026-10-16.2';
 export const HOSTS = ['agenquest.com', 'www.agenquest.com'];
 export const EVENTS = ['page_view', 'section_view', 'scroll_depth', 'content_engaged', 'cta_view', 'cta_click', 'contact_click', 'outbound_click', 'audit_prefilled', 'audit_started', 'audit_prompts_generated', 'audit_question_added', 'audit_question_selection', 'audit_run', 'audit_partial', 'audit_completed', 'lead_gate_view', 'lead_form_start', 'lead_validation_error', 'lead_submit_attempt', 'generate_lead', 'audit_failed', 'report_detail_open', 'booking_started'];
 export const PARAMS = ['placement', 'action', 'contact_method', 'section_id', 'percent_scrolled', 'has_prefill', 'question_count', 'category_group', 'selected_count', 'question_type', 'attempt_no', 'is_retry', 'checked_count', 'failed_count', 'duration_ms', 'score', 'form_id', 'gate_step', 'field_name', 'error_code', 'stage', 'http_status', 'lead_source', 'detail_type', 'scheduler', 'destination_domain', 'link_group'];
@@ -22,7 +22,7 @@ export function cleanUrl(value) {
 }
 export function pageContext(href) {
   const u = new URL(href); const p = u.pathname.replace(/\/$/, '') || '/';
-  const group = p === '/' ? 'home' : p === '/blog' ? 'blog_index' : p.startsWith('/blog/') ? 'article' : p === '/research-methodology' ? 'methodology' : ['/about', '/privacy'].includes(p) ? p.slice(1) : 'other';
+  const group = p === '/' ? 'home' : p === '/blog' ? 'blog_index' : p.startsWith('/blog/') ? 'article' : p === '/research-methodology' ? 'methodology' : ['/about', '/privacy', '/contact', '/how-we-help', '/who-aeo-is-for'].includes(p) ? p.slice(1) : 'other';
   return { page_location: cleanUrl(href), page_group: group, content_slug: group === 'article' ? safeToken(p.split('/').pop()) : group };
 }
 export function categoryGroup(value = '') {
@@ -42,13 +42,14 @@ export function acquisition(href, referrer = '', now = Date.now()) {
   const explicit = pick('source');
   const source = explicit || (external ? host : '(direct)');
   const medium = pick('medium') || (explicit ? 'unknown' : external ? /(^|\.)google\.[a-z.]+$|(^|\.)bing\.com$/.test(host) ? 'organic' : 'referral' : '(none)');
-  const ai = aiHosts.find(([h, label]) => external && (host === h || host.endsWith('.' + h)) || explicit && [h, label].includes(explicit));
+  // Explicit campaign attribution takes precedence over the browser referrer.
+  const ai = aiHosts.find(([h, label]) => explicit ? [h, label].includes(explicit) : external && (host === h || host.endsWith('.' + h)));
   return { source, medium, campaign: pick('campaign'), content: pick('content'), campaign_id: pick('id'), ai_source: ai?.[1] || 'none', landing_page: u.origin + u.pathname, at: now };
 }
 export function attributionRecord(previous, current, now = Date.now()) {
   const valid = previous && now - previous.updated_at < 90 * 86400000;
   const old = valid ? previous : null;
   const nonDirect = current.source !== '(direct)';
-  const changed = nonDirect && ['source','medium','campaign','content'].some(k => current[k] !== old?.session?.[k]);
+  const changed = nonDirect && ['source','medium','campaign','content','campaign_id'].some(k => current[k] !== old?.session?.[k]);
   return { first: old?.first || current, session: !old || now - old.updated_at > 30 * 60000 || changed ? current : old.session, last_non_direct: nonDirect ? current : old?.last_non_direct || null, updated_at: now };
 }

@@ -1,6 +1,9 @@
 ---
 const { href = '/', light = false } = Astro.props;
+import { Image } from 'astro:assets';
+import green from '../assets/agenquest-logo-green.png';
+import white from '../assets/agenquest-logo-white.png';
 ---
 <a class="logo" href={href} aria-label="AgenQuest">
-  <img class="brand-logo" src={light ? '/brand/agenquest-logo-white.png' : '/brand/agenquest-logo-green.png'} width="1524" height="360" alt="" decoding="async" />
+  <Image class="brand-logo" src={light ? white : green} width={332} widths={[166,332]} sizes="(max-width:767px) 122px, (max-width:1050px) 145px, 166px" format="webp" alt="" loading={light ? 'lazy' : 'eager'} decoding="async" />
 </a>

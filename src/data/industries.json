@@ -1,0 +1,62 @@
+[
+  {
+    "id": "software",
+    "title": "Software and SaaS",
+    "description": "Help buyers understand use cases, integrations, pricing, and tradeoffs.",
+    "question": "“Which reporting tool fits a small team without a dedicated analyst?”"
+  },
+  {
+    "id": "ecommerce",
+    "title": "Ecommerce and consumer brands",
+    "description": "Connect product strengths to real needs, comparisons, and purchase constraints.",
+    "question": "“Which cookware set works for a small kitchen and an induction stove?”"
+  },
+  {
+    "id": "beauty",
+    "title": "Beauty and personal care",
+    "description": "Make product details, suitability, evidence, and limitations easier to evaluate.",
+    "question": "“What should I consider when choosing a fragrance-free moisturizer?”"
+  },
+  {
+    "id": "wellness",
+    "title": "Food and wellness",
+    "description": "Clarify ingredients, use cases, product claims, and the evidence behind them.",
+    "question": "“Which high-protein snacks fit my budget and dietary preferences?”"
+  },
+  {
+    "id": "professional-services",
+    "title": "Professional services",
+    "description": "Show expertise, service fit, location, and reasons to trust the business.",
+    "question": "“What should a growing company look for in an accounting firm?”"
+  },
+  {
+    "id": "financial-services",
+    "title": "Financial services",
+    "description": "Explain options clearly while keeping claims and disclosures accurate.",
+    "question": "“How do I compare mortgage providers for a self-employed borrower?”"
+  },
+  {
+    "id": "healthcare",
+    "title": "Healthcare and dental",
+    "description": "Make service information, qualifications, and practical access details clear.",
+    "question": "“What should I ask when comparing dental practices near me?”"
+  },
+  {
+    "id": "home-services",
+    "title": "Local and home services",
+    "description": "Help people evaluate service coverage, experience, reviews, and availability.",
+    "question": "“How do I choose a reliable contractor for a bathroom renovation?”"
+  },
+  {
+    "id": "hospitality",
+    "title": "Travel and hospitality",
+    "description": "Connect location, amenities, experience, and genuine customer feedback.",
+    "question": "“Which hotel should I consider for a family trip without a rental car?”"
+  },
+  {
+    "id": "education",
+    "title": "Education and training",
+    "description": "Clarify audience, prerequisites, format, cost, and evidence of outcomes.",
+    "question": "“Which data course makes sense for a working professional changing careers?”"
+  }
+]

@@ -10,18 +10,18 @@ const { post } = Astro.props;
 const { Content } = await render(post);
 ---
 <BlogLayout title={post.data.title} description={post.data.description} date={post.data.date.toISOString()} isPost={true} url={new URL(`/blog/${post.id}/`, Astro.site).href}>
-  <span class="kicker">AgenQuest Blog</span>
+  <span class="kicker">Agenquest Research</span>
   <h1>{post.data.title}</h1>
-  <p class="meta">{post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })} · <a href="/about/">AgenQuest research</a></p>
+  <p class="meta">{post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })} · <a href="/about/">Agenquest Research</a></p>
+  <nav class="article-toc" aria-label="In this article" hidden><strong>In this article</strong><ol></ol></nav>
   <article>
     <Content />
   </article>
-  <div class="byline">
-    <p>Our published prompt panels use repeated manual ChatGPT sessions. The free audit provides a separate OpenAI API snapshot with verified web search. <a href="/research-methodology/">See how the two methods differ.</a></p>
-  </div>
-  <div class="cta-box">
-    <h2>See what AI says about your brand.</h2>
-    <p>Free audit: your category's buyer questions, run through an OpenAI model with verified web search. You get the observed answers, the brands named and clickable sources. <a href="/research-methodology/">See the method and its limits.</a></p>
-    <a href="/#audit" class="btn-accent" style="text-decoration:none;">Get your free audit</a>
-  </div>
+  <div class="byline"><p>Our published prompt panels use repeated manual ChatGPT sessions. Independent analyses describe what we would investigate if hired, rather than client results. <a href="/research-methodology/">Read the method and its limits.</a></p></div>
+  <aside class="article-cta"><h2>What would this look like for your business?</h2><p>Share your website. We’ll review the public information and discuss initial findings and a tailored AEO plan on a free 30-minute call.</p><a class="button" href="/contact/">Get my free AEO plan</a></aside>
 </BlogLayout>
+
+<script>
+const article=document.querySelector('article');const toc=document.querySelector('.article-toc');const list=toc?.querySelector('ol');const headings=article?.querySelectorAll('h2[id]');
+if(headings && headings.length>3 && list){for(const heading of headings){const li=document.createElement('li');const a=document.createElement('a');a.href='#'+heading.id;a.textContent=heading.textContent;li.append(a);list.append(li);}toc.removeAttribute('hidden');}
+</script>

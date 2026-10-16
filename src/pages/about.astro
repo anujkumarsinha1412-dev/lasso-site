@@ -1,56 +1,18 @@
 ---
-import BlogLayout from '../layouts/BlogLayout.astro';
+import SiteLayout from '../layouts/SiteLayout.astro';
+import { GUIDE_RATE } from '../data/consultancy.js';
 ---
-<BlogLayout
-  title="How we work"
-  description="How AgenQuest builds its prompt panels, what the numbers do and do not prove, and the four things we will not do."
->
-  <span class="kicker">About</span>
-  <h1>How we work, and what we won't claim</h1>
-  <p class="meta">Method, limits and ground rules</p>
-
-  <article>
-    <p>Most of what gets sold as AI visibility work is a dashboard and a list of suggestions. We build the signals instead. This page explains how the research is produced, so you can judge the method before you hire anyone to apply it.</p>
-
-    <h2>Why this company exists</h2>
-
-    <p>Ask an answer engine what the best product in a category is, several times over, and the same handful of brands tends to come back. Not always the best brands. Often the ones whose evidence was easiest for a model to find, parse and reuse.</p>
-
-    <p>That is a marketing problem, and for a while almost nobody treated it as one. A wave of tools arrived to measure it, which is the easy half. Measuring your own invisibility does not change it. Someone still has to go and build the reviews, the citations, the structured data and the community presence that change what the model says. That is the work.</p>
-
-    <h2>How the panels are built</h2>
-
-    <p>Every claim in our research should be checkable, so here is the procedure. A panel is four to five unbranded buyer questions for a category. Each question is run five times in fresh ChatGPT sessions with web search enabled and personalisation off. For every run we record whether the brand was named, whether it was named first, and which source domains were visible in the answer.</p>
-
-    <p>Twenty runs is enough to see a pattern and not enough to prove a cause. A source appearing alongside a recommendation is a correlation, not an explanation of why the model chose that brand. We say so in the research, and we will say so to you rather than dress a pattern up as a mechanism.</p>
-
-    <p>Where a brand's absence has an obvious innocent explanation, we publish that too. Sometimes a product genuinely is not the right answer to a question, and optimisation should not try to manufacture eligibility.</p>
-
-    <h2>Read the research before you talk to us</h2>
-
-    <p>The three teardowns on the blog are brands nobody paid us to analyse: <a href="/blog/improving-our-place-aeo/">Our Place</a>, <a href="/blog/improving-material-kitchen-aeo/">Material Kitchen</a> and <a href="/blog/improving-tower-28-aeo/">Tower 28</a>. Each one shows the prompts, the counts and the sources.</p>
-
-    <p>Read one first. If the thinking does not hold up, you have spent ten minutes instead of a quarter's budget.</p>
-
-    <h2>What we will not do</h2>
-
-    <ul>
-      <li>Buy reviews, incentivise them without disclosure, or gate them. Fake and AI-generated reviews are illegal under the FTC's Consumer Review Rule, and the rule exists for good reason.</li>
-      <li>Astroturf Reddit or any other community. Community participation happens under a disclosed identity or it does not happen.</li>
-      <li>Promise a ranking inside ChatGPT. Nobody controls a base model's output, and anyone selling a position in one is selling something that does not exist.</li>
-      <li>Report a number we cannot trace back to a saved answer.</li>
-    </ul>
-
-    <h2>Getting in touch</h2>
-
-    <p>The fastest route is the <a href="/#audit">free audit</a> on the homepage. It runs an OpenAI model with cited web search and gives us something specific to discuss. A full panel can take a few minutes. The <a href="/research-methodology/">methodology page</a> explains how that single-run API snapshot differs from our repeated research panels. You can also email <a href="mailto:hello@agenquest.com">hello@agenquest.com</a>.</p>
-
-    <p>If your brand is named in the research and you want to add context, correct something, or have a finding reviewed, write to us and we will publish your reply alongside the post.</p>
-  </article>
-
-  <div class="cta-box">
-    <h2>See what AI says about your brand.</h2>
-    <p>Your category's buyer questions, run through an OpenAI model with verified web search. Free, and no call required.</p>
-    <a href="/#audit" class="btn-accent" style="text-decoration:none;">Get your free audit</a>
-  </div>
-</BlogLayout>
+<SiteLayout title="About Rishav and Anuj | Agenquest" description="Meet the founders of Agenquest and learn how we approach customer research, tailored AEO strategy, hands-on implementation, and measurement." wide={false}>
+<div class="reading-wrap about-copy"><h1>We're Rishav and Anuj. We're building Agenquest.</h1>
+<p>We met at IIT Bombay and stayed interested in how technology changes the way people make decisions. Agenquest grew out of a question: as more discovery happens through AI, what should a business actually do differently?</p>
+<p>Our backgrounds are in strategy, analytics, and financial software. We're bringing that experience to customer research, practical AEO work, and careful measurement.</p>
+<h3>Rishav Jain</h3><p><strong>Co-founder</strong></p><p>Rishav brings experience in strategy and analytics. His focus at Agenquest is understanding the business problem, asking useful customer questions, and turning research into priorities a team can act on.</p>
+<h3>Anuj Kumar Sinha</h3><p><strong>Co-founder</strong></p><p>Anuj brings experience building financial software, including treasury management solutions. His focus at Agenquest is connecting the strategy to practical implementation and repeatable ways of doing the work.</p>
+<h3>How we want to work</h3>
+<p>You'll work directly with us. We'll explain what we observed, what we think it means, and what we want to test. If the evidence changes, the plan should change too.</p>
+<p>We're an early company, and we're looking for clients who value that close working relationship. We don't have a long client list to put on this page. We do have independent research you can read and a clear way to start a conversation.</p>
+<p class="action-row"><a class="text-link" href="/blog/">Read our research →</a><a class="button" href="/contact/">Get my free AEO plan</a></p>
+<h3>What you can expect from us</h3><ul><li>A strategy built around your customers and business goals.</li><li>Clear scope, costs, and responsibilities before paid work.</li><li>Hands-on help with agreed implementation.</li><li>Honest reporting, including results that don't support our initial hypothesis.</li><li>Respect for genuine reviews, independent judgment, and the communities we work in.</li></ul>
+<h3>Let's see if there's useful work to do.</h3><p>The first call is free. Share your website and we'll come prepared with initial findings and questions.</p>
+<p class="action-row"><a class="button" href="/contact/">Get my free AEO plan</a></p></div>
+</SiteLayout>

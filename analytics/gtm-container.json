@@ -1,0 +1,1983 @@
+{
+  "exportFormatVersion": 2,
+  "exportTime": "2026-10-16 06:59:03",
+  "containerVersion": {
+    "path": "accounts/6382877336/containers/267320576/versions/0",
+    "accountId": "6382877336",
+    "containerId": "267320576",
+    "containerVersionId": "0",
+    "container": {
+      "path": "accounts/6382877336/containers/267320576",
+      "accountId": "6382877336",
+      "containerId": "267320576",
+      "name": "www.agenquest.com",
+      "publicId": "GTM-5RDHZMWP",
+      "usageContext": [
+        "WEB"
+      ],
+      "fingerprint": "1792129649625",
+      "tagManagerUrl": "https://tagmanager.google.com/#/container/accounts/6382877336/containers/267320576/workspaces?apiLink=container",
+      "features": {
+        "supportUserPermissions": true,
+        "supportEnvironments": true,
+        "supportWorkspaces": true,
+        "supportGtagConfigs": false,
+        "supportBuiltInVariables": true,
+        "supportClients": false,
+        "supportFolders": true,
+        "supportTags": true,
+        "supportTemplates": true,
+        "supportTriggers": true,
+        "supportVariables": true,
+        "supportVersions": true,
+        "supportZones": true,
+        "supportTransformations": false
+      },
+      "tagIds": [
+        "GTM-5RDHZMWP"
+      ]
+    },
+    "tag": [
+      {
+        "accountId": "6382877336",
+        "containerId": "267320576",
+        "tagId": "3",
+        "name": "Agenquest - Google Analytics",
+        "type": "dest_ga",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "destinationId",
+            "value": "G-DD18JLWTDD"
+          },
+          {
+            "type": "LIST",
+            "key": "configSettingsTable",
+            "list": [
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "page_location"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{AQ - page_location}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "page_referrer"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{AQ - page_referrer}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "campaign_source"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{AQ - campaign_source}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "campaign_medium"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{AQ - campaign_medium}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "campaign_name"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{AQ - campaign_name}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "campaign_content"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{AQ - campaign_content}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "campaign_id"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{AQ - campaign_id}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "send_page_view"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "true"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "allow_google_signals"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "false"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "allow_ad_personalization_signals"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "false"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "allow_enhanced_conversions"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "false"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "LIST",
+            "key": "eventSettingsTable",
+            "list": [
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "page_group"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{AQ - page_group}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "content_slug"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{AQ - content_slug}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "tracking_version"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{AQ - tracking_version}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "ai_source"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{AQ - ai_source}}"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "firingTriggerId": [
+          "20"
+        ],
+        "tagFiringOption": "ONCE_PER_EVENT",
+        "monitoringMetadata": {
+          "type": "MAP"
+        },
+        "consentSettings": {
+          "consentStatus": "NOT_SET"
+        }
+      },
+      {
+        "accountId": "6382877336",
+        "containerId": "267320576",
+        "tagId": "6",
+        "name": "Agenquest - approved GA4 funnel events",
+        "type": "gaawe",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "eventName",
+            "value": "{{Event}}"
+          },
+          {
+            "type": "TEMPLATE",
+            "key": "measurementIdOverride",
+            "value": "G-DD18JLWTDD"
+          },
+          {
+            "type": "LIST",
+            "key": "eventSettingsTable",
+            "list": [
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "page_location"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{AQ - page_location}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "page_referrer"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{AQ - page_referrer}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "page_group"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{AQ - page_group}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "content_slug"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{AQ - content_slug}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "tracking_version"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{AQ - tracking_version}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "ai_source"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{AQ - ai_source}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "placement"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{AQ - placement}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "action"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{AQ - action}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "contact_method"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{AQ - contact_method}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "section_id"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{AQ - section_id}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "percent_scrolled"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{AQ - percent_scrolled}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "has_prefill"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{AQ - has_prefill}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "question_count"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{AQ - question_count}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "category_group"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{AQ - category_group}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "selected_count"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{AQ - selected_count}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "question_type"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{AQ - question_type}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "attempt_no"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{AQ - attempt_no}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "is_retry"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{AQ - is_retry}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "checked_count"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{AQ - checked_count}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "failed_count"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{AQ - failed_count}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "duration_ms"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{AQ - duration_ms}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "score"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{AQ - score}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "form_id"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{AQ - form_id}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "gate_step"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{AQ - gate_step}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "field_name"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{AQ - field_name}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "error_code"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{AQ - error_code}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "stage"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{AQ - stage}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "http_status"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{AQ - http_status}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "lead_source"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{AQ - lead_source}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "detail_type"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{AQ - detail_type}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "scheduler"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{AQ - scheduler}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "destination_domain"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{AQ - destination_domain}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "link_group"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{AQ - link_group}}"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "firingTriggerId": [
+          "21"
+        ],
+        "tagFiringOption": "ONCE_PER_EVENT",
+        "consentSettings": {
+          "consentStatus": "NOT_SET"
+        }
+      },
+      {
+        "accountId": "6382877336",
+        "containerId": "267320576",
+        "tagId": "7",
+        "name": "Agenquest - consented masked Clarity",
+        "type": "html",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "html",
+            "value": "<script>(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};c[a]('consentv2',{analytics_Storage:'granted',ad_Storage:'denied'});t=l.createElement(r);t.async=1;t.src='https://www.clarity.ms/tag/'+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,'clarity','script','yyh6q0ibct');</script>"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "supportDocumentWrite",
+            "value": "false"
+          }
+        ],
+        "firingTriggerId": [
+          "20"
+        ],
+        "tagFiringOption": "ONCE_PER_EVENT",
+        "consentSettings": {
+          "consentStatus": "NOT_SET"
+        }
+      }
+    ],
+    "builtInVariable": [
+      {
+        "accountId": "6382877336",
+        "containerId": "267320576",
+        "type": "PAGE_URL",
+        "name": "Page URL"
+      },
+      {
+        "accountId": "6382877336",
+        "containerId": "267320576",
+        "type": "PAGE_HOSTNAME",
+        "name": "Page Hostname"
+      },
+      {
+        "accountId": "6382877336",
+        "containerId": "267320576",
+        "type": "PAGE_PATH",
+        "name": "Page Path"
+      },
+      {
+        "accountId": "6382877336",
+        "containerId": "267320576",
+        "type": "REFERRER",
+        "name": "Referrer"
+      },
+      {
+        "accountId": "6382877336",
+        "containerId": "267320576",
+        "type": "EVENT",
+        "name": "Event"
+      }
+    ],
+    "tagManagerUrl": "https://tagmanager.google.com/#/versions/accounts/6382877336/containers/267320576/versions/0?apiLink=version",
+    "gtagConfig": [
+      {
+        "accountId": "6382877336",
+        "containerId": "267320576",
+        "gtagConfigId": "4",
+        "type": "ogt_auto_events",
+        "parameter": [
+          {
+            "type": "BOOLEAN",
+            "key": "enableOutboundClick",
+            "value": "false"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "enableScroll",
+            "value": "false"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "enableDownload",
+            "value": "false"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "enableHistoryEvents",
+            "value": "false"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "enableForm",
+            "value": "false"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "enableVideo",
+            "value": "false"
+          }
+        ],
+        "fingerprint": "1792133867669"
+      },
+      {
+        "accountId": "6382877336",
+        "containerId": "267320576",
+        "gtagConfigId": "5",
+        "type": "ogt_1p_data_v2",
+        "parameter": [
+          {
+            "type": "BOOLEAN",
+            "key": "isAutoEnabled",
+            "value": "false"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "isManualEnabled",
+            "value": "false"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "autoPhoneEnabled",
+            "value": "false"
+          },
+          {
+            "type": "LIST",
+            "key": "autoCollectExclusionSelectors",
+            "list": [
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "exclusionSelector"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "isEnabled",
+            "value": "false"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "autoAddressEnabled",
+            "value": "false"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "autoEmailEnabled",
+            "value": "false"
+          }
+        ],
+        "fingerprint": "1792133867672"
+      }
+    ],
+    "variable": [
+      {
+        "accountId": "6382877336",
+        "containerId": "267320576",
+        "variableId": "100",
+        "name": "AQ - page_location",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "page_location"
+          },
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "2"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "setDefaultValue",
+            "value": "false"
+          }
+        ]
+      },
+      {
+        "accountId": "6382877336",
+        "containerId": "267320576",
+        "variableId": "101",
+        "name": "AQ - page_referrer",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "page_referrer"
+          },
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "2"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "setDefaultValue",
+            "value": "false"
+          }
+        ]
+      },
+      {
+        "accountId": "6382877336",
+        "containerId": "267320576",
+        "variableId": "102",
+        "name": "AQ - page_group",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "page_group"
+          },
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "2"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "setDefaultValue",
+            "value": "false"
+          }
+        ]
+      },
+      {
+        "accountId": "6382877336",
+        "containerId": "267320576",
+        "variableId": "103",
+        "name": "AQ - content_slug",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "content_slug"
+          },
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "2"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "setDefaultValue",
+            "value": "false"
+          }
+        ]
+      },
+      {
+        "accountId": "6382877336",
+        "containerId": "267320576",
+        "variableId": "104",
+        "name": "AQ - tracking_version",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "tracking_version"
+          },
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "2"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "setDefaultValue",
+            "value": "false"
+          }
+        ]
+      },
+      {
+        "accountId": "6382877336",
+        "containerId": "267320576",
+        "variableId": "105",
+        "name": "AQ - ai_source",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "ai_source"
+          },
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "2"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "setDefaultValue",
+            "value": "false"
+          }
+        ]
+      },
+      {
+        "accountId": "6382877336",
+        "containerId": "267320576",
+        "variableId": "106",
+        "name": "AQ - campaign_source",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "campaign_source"
+          },
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "2"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "setDefaultValue",
+            "value": "false"
+          }
+        ]
+      },
+      {
+        "accountId": "6382877336",
+        "containerId": "267320576",
+        "variableId": "107",
+        "name": "AQ - campaign_medium",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "campaign_medium"
+          },
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "2"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "setDefaultValue",
+            "value": "false"
+          }
+        ]
+      },
+      {
+        "accountId": "6382877336",
+        "containerId": "267320576",
+        "variableId": "108",
+        "name": "AQ - campaign_name",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "campaign_name"
+          },
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "2"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "setDefaultValue",
+            "value": "false"
+          }
+        ]
+      },
+      {
+        "accountId": "6382877336",
+        "containerId": "267320576",
+        "variableId": "109",
+        "name": "AQ - campaign_content",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "campaign_content"
+          },
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "2"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "setDefaultValue",
+            "value": "false"
+          }
+        ]
+      },
+      {
+        "accountId": "6382877336",
+        "containerId": "267320576",
+        "variableId": "110",
+        "name": "AQ - campaign_id",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "campaign_id"
+          },
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "2"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "setDefaultValue",
+            "value": "false"
+          }
+        ]
+      },
+      {
+        "accountId": "6382877336",
+        "containerId": "267320576",
+        "variableId": "111",
+        "name": "AQ - placement",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "placement"
+          },
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "2"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "setDefaultValue",
+            "value": "false"
+          }
+        ]
+      },
+      {
+        "accountId": "6382877336",
+        "containerId": "267320576",
+        "variableId": "112",
+        "name": "AQ - action",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "action"
+          },
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "2"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "setDefaultValue",
+            "value": "false"
+          }
+        ]
+      },
+      {
+        "accountId": "6382877336",
+        "containerId": "267320576",
+        "variableId": "113",
+        "name": "AQ - contact_method",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "contact_method"
+          },
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "2"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "setDefaultValue",
+            "value": "false"
+          }
+        ]
+      },
+      {
+        "accountId": "6382877336",
+        "containerId": "267320576",
+        "variableId": "114",
+        "name": "AQ - section_id",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "section_id"
+          },
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "2"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "setDefaultValue",
+            "value": "false"
+          }
+        ]
+      },
+      {
+        "accountId": "6382877336",
+        "containerId": "267320576",
+        "variableId": "115",
+        "name": "AQ - percent_scrolled",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "percent_scrolled"
+          },
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "2"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "setDefaultValue",
+            "value": "false"
+          }
+        ]
+      },
+      {
+        "accountId": "6382877336",
+        "containerId": "267320576",
+        "variableId": "116",
+        "name": "AQ - has_prefill",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "has_prefill"
+          },
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "2"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "setDefaultValue",
+            "value": "false"
+          }
+        ]
+      },
+      {
+        "accountId": "6382877336",
+        "containerId": "267320576",
+        "variableId": "117",
+        "name": "AQ - question_count",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "question_count"
+          },
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "2"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "setDefaultValue",
+            "value": "false"
+          }
+        ]
+      },
+      {
+        "accountId": "6382877336",
+        "containerId": "267320576",
+        "variableId": "118",
+        "name": "AQ - category_group",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "category_group"
+          },
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "2"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "setDefaultValue",
+            "value": "false"
+          }
+        ]
+      },
+      {
+        "accountId": "6382877336",
+        "containerId": "267320576",
+        "variableId": "119",
+        "name": "AQ - selected_count",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "selected_count"
+          },
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "2"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "setDefaultValue",
+            "value": "false"
+          }
+        ]
+      },
+      {
+        "accountId": "6382877336",
+        "containerId": "267320576",
+        "variableId": "120",
+        "name": "AQ - question_type",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "question_type"
+          },
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "2"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "setDefaultValue",
+            "value": "false"
+          }
+        ]
+      },
+      {
+        "accountId": "6382877336",
+        "containerId": "267320576",
+        "variableId": "121",
+        "name": "AQ - attempt_no",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "attempt_no"
+          },
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "2"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "setDefaultValue",
+            "value": "false"
+          }
+        ]
+      },
+      {
+        "accountId": "6382877336",
+        "containerId": "267320576",
+        "variableId": "122",
+        "name": "AQ - is_retry",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "is_retry"
+          },
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "2"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "setDefaultValue",
+            "value": "false"
+          }
+        ]
+      },
+      {
+        "accountId": "6382877336",
+        "containerId": "267320576",
+        "variableId": "123",
+        "name": "AQ - checked_count",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "checked_count"
+          },
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "2"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "setDefaultValue",
+            "value": "false"
+          }
+        ]
+      },
+      {
+        "accountId": "6382877336",
+        "containerId": "267320576",
+        "variableId": "124",
+        "name": "AQ - failed_count",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "failed_count"
+          },
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "2"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "setDefaultValue",
+            "value": "false"
+          }
+        ]
+      },
+      {
+        "accountId": "6382877336",
+        "containerId": "267320576",
+        "variableId": "125",
+        "name": "AQ - duration_ms",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "duration_ms"
+          },
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "2"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "setDefaultValue",
+            "value": "false"
+          }
+        ]
+      },
+      {
+        "accountId": "6382877336",
+        "containerId": "267320576",
+        "variableId": "126",
+        "name": "AQ - score",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "score"
+          },
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "2"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "setDefaultValue",
+            "value": "false"
+          }
+        ]
+      },
+      {
+        "accountId": "6382877336",
+        "containerId": "267320576",
+        "variableId": "127",
+        "name": "AQ - form_id",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "form_id"
+          },
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "2"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "setDefaultValue",
+            "value": "false"
+          }
+        ]
+      },
+      {
+        "accountId": "6382877336",
+        "containerId": "267320576",
+        "variableId": "128",
+        "name": "AQ - gate_step",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "gate_step"
+          },
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "2"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "setDefaultValue",
+            "value": "false"
+          }
+        ]
+      },
+      {
+        "accountId": "6382877336",
+        "containerId": "267320576",
+        "variableId": "129",
+        "name": "AQ - field_name",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "field_name"
+          },
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "2"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "setDefaultValue",
+            "value": "false"
+          }
+        ]
+      },
+      {
+        "accountId": "6382877336",
+        "containerId": "267320576",
+        "variableId": "130",
+        "name": "AQ - error_code",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "error_code"
+          },
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "2"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "setDefaultValue",
+            "value": "false"
+          }
+        ]
+      },
+      {
+        "accountId": "6382877336",
+        "containerId": "267320576",
+        "variableId": "131",
+        "name": "AQ - stage",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "stage"
+          },
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "2"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "setDefaultValue",
+            "value": "false"
+          }
+        ]
+      },
+      {
+        "accountId": "6382877336",
+        "containerId": "267320576",
+        "variableId": "132",
+        "name": "AQ - http_status",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "http_status"
+          },
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "2"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "setDefaultValue",
+            "value": "false"
+          }
+        ]
+      },
+      {
+        "accountId": "6382877336",
+        "containerId": "267320576",
+        "variableId": "133",
+        "name": "AQ - lead_source",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "lead_source"
+          },
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "2"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "setDefaultValue",
+            "value": "false"
+          }
+        ]
+      },
+      {
+        "accountId": "6382877336",
+        "containerId": "267320576",
+        "variableId": "134",
+        "name": "AQ - detail_type",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "detail_type"
+          },
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "2"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "setDefaultValue",
+            "value": "false"
+          }
+        ]
+      },
+      {
+        "accountId": "6382877336",
+        "containerId": "267320576",
+        "variableId": "135",
+        "name": "AQ - scheduler",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "scheduler"
+          },
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "2"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "setDefaultValue",
+            "value": "false"
+          }
+        ]
+      },
+      {
+        "accountId": "6382877336",
+        "containerId": "267320576",
+        "variableId": "136",
+        "name": "AQ - destination_domain",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "destination_domain"
+          },
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "2"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "setDefaultValue",
+            "value": "false"
+          }
+        ]
+      },
+      {
+        "accountId": "6382877336",
+        "containerId": "267320576",
+        "variableId": "137",
+        "name": "AQ - link_group",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "link_group"
+          },
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "2"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "setDefaultValue",
+            "value": "false"
+          }
+        ]
+      }
+    ],
+    "trigger": [
+      {
+        "accountId": "6382877336",
+        "containerId": "267320576",
+        "triggerId": "20",
+        "name": "AQ - consented production ready",
+        "type": "CUSTOM_EVENT",
+        "customEventFilter": [
+          {
+            "type": "EQUALS",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{_event}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "aq_ready"
+              }
+            ]
+          }
+        ],
+        "filter": [
+          {
+            "type": "MATCH_REGEX",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{Page Hostname}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "^(www\\.)?agenquest\\.com$"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "accountId": "6382877336",
+        "containerId": "267320576",
+        "triggerId": "21",
+        "name": "AQ - approved production events",
+        "type": "CUSTOM_EVENT",
+        "customEventFilter": [
+          {
+            "type": "MATCH_REGEX",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{_event}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "^(section_view|scroll_depth|content_engaged|cta_view|cta_click|contact_click|outbound_click|audit_prefilled|audit_started|audit_prompts_generated|audit_question_added|audit_question_selection|audit_run|audit_partial|audit_completed|lead_gate_view|lead_form_start|lead_validation_error|lead_submit_attempt|generate_lead|audit_failed|report_detail_open|booking_started)$"
+              }
+            ]
+          }
+        ],
+        "filter": [
+          {
+            "type": "MATCH_REGEX",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{Page Hostname}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "^(www\\.)?agenquest\\.com$"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

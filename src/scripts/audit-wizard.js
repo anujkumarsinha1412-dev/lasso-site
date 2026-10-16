@@ -1,12 +1,16 @@
 import { postJson, runQuestions } from '../lib/audit-client.js';
 import { isVerified, MAX_QUESTIONS, mentionsBrand } from '../lib/audit-report.js';
+import { categoryGroup } from '../lib/tracking.js';
 
 const $ = id => document.getElementById(id);
 const show = n => { for (const i of [1, 2, 3, 4]) $('ws' + i).hidden = i !== n; };
-const track = (name, params = {}) => { try { window.gtag?.('event', name, params); } catch {} };
+const track = (name, params = {}, onceKey = '') => { try { window.aqAnalytics?.track(name, params, onceKey); } catch {} };
 const escape = s => String(s ?? '').replace(/[<>&"']/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;', "'": '&#39;' }[c]));
 const feedback = message => { $('w-feedback').textContent = message; $('w-feedback').hidden = !message; };
 const state = { brand: '', website: '', questions: [], selected: [], report: null, unlocked: false };
+let flow = 0, attempt = 0, leadAttempt = 0, formStarted = false;
+const errorParams = (e, stage) => ({ stage, error_code: /^[A-Z_]{1,60}$/.test(e.code || '') ? e.code : 'REQUEST_FAILED', ...(e.http_status ? { http_status: e.http_status } : {}) });
+const counts = () => ({ question_count: state.selected.length, checked_count: state.report?.overall.checked || 0, failed_count: state.selected.length - (state.report?.overall.checked || 0), category_group: categoryGroup(state.category), ...(state.report?.overall.score !== null && state.report?.overall.score !== undefined ? { score: state.report.overall.score } : {}) });
 
 // ---------------------------------------------------------------------------
 // Outbound attribution.
@@ -39,25 +43,27 @@ const attribution = (() => {
 
 if (attribution.prefill && $('w-brand') && !$('w-brand').value) {
   $('w-brand').value = attribution.prefill;
-  track('audit_prefilled', { brand: attribution.prefill, attribution: attribution.label });
+  track('audit_prefilled', { has_prefill: true });
   requestAnimationFrame(() => document.getElementById('audit')?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
 }
 
 $('w-gen').addEventListener('click', async () => {
   const raw = $('w-brand').value.trim();
-  if (!raw) { $('w-brand').focus(); return; }
+  if (!raw) { $('w-brand').focus(); track('lead_validation_error', { field_name: 'brand', gate_step: 'research', error_code: 'REQUIRED' }); return; }
   feedback('');
   $('w-gen').disabled = true;
   $('w-gen').textContent = 'Researching your brand…';
-  track('audit_started');
+  flow++; attempt = 0; leadAttempt = 0; formStarted = false;
+  const started = performance.now();
+  track('audit_started', { has_prefill: !!attribution.prefill });
   try {
     const data = await postJson('/api/suggest', { brand: raw, website: /\.[a-z]{2,}/i.test(raw) ? raw : '' });
     if (data.status !== 'complete' || !data.research?.searched || !Array.isArray(data.queries) || data.queries.length !== 8 || data.queries.some(q => typeof q !== 'string' || !q.trim() || q.length > 300) || !Array.isArray(data.query_types) || data.query_types.length !== 8 || data.query_types.some(t => !['discovery', 'branded'].includes(t)) || typeof data.brand !== 'string' || !data.brand.trim() || typeof data.website !== 'string') throw new Error('No verified researched question set was returned. Please retry.');
     Object.assign(state, { brand: data.brand, website: data.website, category: data.category, questions: data.queries.map((query, i) => ({ query, query_type: data.query_types[i], selected: true })), report: null, unlocked: false });
     renderList();
     show(2);
-    track('audit_prompts_generated', { category: data.category, question_count: 8 });
-  } catch (e) { feedback(e.message); track('audit_failed', { stage: 'research' }); }
+    track('audit_prompts_generated', { category_group: categoryGroup(data.category), question_count: 8, duration_ms: performance.now() - started });
+  } catch (e) { feedback(e.message); track('audit_failed', { ...errorParams(e, 'research'), duration_ms: performance.now() - started }); }
   $('w-gen').disabled = false;
   $('w-gen').textContent = 'Research my brand & build prompts';
 });
@@ -68,7 +74,10 @@ function renderList() {
     + `<p class="w-count">${state.questions.length} questions · maximum ${MAX_QUESTIONS}</p>`;
 }
 $('w-list').addEventListener('change', event => {
-  if (event.target.matches('input[data-i]')) state.questions[Number(event.target.dataset.i)].selected = event.target.checked;
+  if (event.target.matches('input[data-i]')) {
+    const question = state.questions[Number(event.target.dataset.i)]; question.selected = event.target.checked;
+    track('audit_question_selection', { selected_count: state.questions.filter(q => q.selected).length, question_type: question.query_type, action: event.target.checked ? 'selected' : 'unselected' });
+  }
 });
 $('w-custom').addEventListener('keydown', event => { if (event.key === 'Enter') { event.preventDefault(); $('w-addbtn').click(); } });
 $('w-addbtn').addEventListener('click', () => {
@@ -79,12 +88,12 @@ $('w-addbtn').addEventListener('click', () => {
   state.questions.push({ query, query_type: mentionsBrand(query, state.brand) ? 'branded' : 'discovery', selected: true });
   $('w-custom').value = '';
   renderList();
-  track('audit_question_added');
+  track('audit_question_added', { question_type: state.questions.at(-1).query_type, question_count: state.questions.length });
 });
 
 $('w-run').addEventListener('click', () => {
   state.selected = state.questions.filter(q => q.selected).map(({ query, query_type }) => ({ query, query_type }));
-  if (!state.selected.length) { feedback('Select at least one question.'); return; }
+  if (!state.selected.length) { feedback('Select at least one question.'); track('lead_validation_error', { field_name: 'questions', gate_step: 'audit', error_code: 'REQUIRED' }); return; }
   state.report = null;
   state.unlocked = false;
   run();
@@ -94,13 +103,24 @@ $('w-retry').addEventListener('click', run);
 async function run() {
   feedback('');
   show(3);
-  track('audit_run', { question_count: state.selected.length });
+  attempt++; const started = performance.now();
+  track('audit_run', { question_count: state.selected.length, attempt_no: attempt, is_retry: attempt > 1 });
+  try {
   state.report = await runQuestions({ brand: state.brand, website: state.website, questions: state.selected, previous: state.report?.results || [], onProgress: (done, total) => { $('w-status').textContent = `Finished ${done} of ${total} checks…`; } });
   renderReport();
   show(4);
   const complete = state.report.status === 'complete';
-  track(complete ? 'audit_completed' : 'audit_partial', { question_count: state.selected.length, checked: state.report.overall.checked, ...(state.report.overall.score !== null ? { score: state.report.overall.score } : {}) });
+  track(complete ? 'audit_completed' : 'audit_partial', { ...counts(), attempt_no: attempt, is_retry: attempt > 1, duration_ms: performance.now() - started });
+  if (complete) track('lead_gate_view', { form_id: 'audit_report', gate_step: 'email', ...counts() }, `gate:${flow}`);
+  } catch (e) { feedback(e.message); show(2); track('audit_failed', { ...errorParams(e, 'audit'), duration_ms: performance.now() - started }); }
 }
+
+for (const id of ['w-email', 'w-phone']) $(id).addEventListener('input', () => {
+  if (!formStarted) { formStarted = true; track('lead_form_start', { form_id: 'audit_report', gate_step: 'email' }); }
+});
+$('w-report').addEventListener('toggle', event => {
+  if (event.target.matches('details') && event.target.open) track('report_detail_open', { detail_type: 'cited_answer' });
+}, true);
 
 function renderReport() {
   const report = state.report;
@@ -119,21 +139,21 @@ function renderReport() {
 
 $('w-unlock').addEventListener('click', async () => {
   const email = $('w-email').value.trim();
-  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { $('w-email').focus(); return; }
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { $('w-email').focus(); track('lead_validation_error', { form_id: 'audit_report', gate_step: 'email', field_name: 'email', error_code: 'INVALID_EMAIL' }); return; }
   if (state.report?.status !== 'complete') return;
   feedback('');
   $('w-unlock').disabled = true;
   $('w-unlock').textContent = 'Sending your report…';
+  leadAttempt++; const started = performance.now();
+  track('lead_submit_attempt', { form_id: 'audit_report', attempt_no: leadAttempt, is_retry: leadAttempt > 1 });
   try {
-    const data = await postJson('/api/lead', { email, phone: $('w-phone').value.trim(), brand: state.brand, website: state.website, source: attribution.label, report: state.report }, fetch, 30000);
+    const data = await postJson('/api/lead', { email, phone: $('w-phone').value.trim(), brand: state.brand, website: state.website, attribution: window.aqAnalytics?.attribution() || null, analytics_consent: window.aqAnalytics?.allowed() === true, report: state.report }, fetch, 30000);
     if (data.ok !== true || data.reportEmail !== true) throw new Error('Your report could not be emailed. Please retry.');
     state.unlocked = true;
     renderReport();
     feedback('Your report is unlocked. The email service accepted a copy for delivery; check your inbox or spam folder.');
-    let ai_source = 'none';
-    try { ai_source = sessionStorage.getItem('aq_ai_source') || 'none'; } catch {}
-    track('generate_lead', { category: state.category, ai_source, ...(state.report.overall.score !== null ? { score: state.report.overall.score } : {}) });
-  } catch (e) { feedback(e.message); track('audit_failed', { stage: 'email' }); }
+    track('generate_lead', { ...counts(), form_id: 'audit_report', lead_source: 'free_audit', duration_ms: performance.now() - started }, `lead:${data.lead_id || flow}`);
+  } catch (e) { feedback(e.message); track('audit_failed', { ...errorParams(e, 'email'), duration_ms: performance.now() - started }); }
   $('w-unlock').disabled = false;
   $('w-unlock').textContent = 'Unlock my report';
 });

@@ -12,7 +12,11 @@ export async function postJson(url, body, fetcher = fetch, timeout = 55000) {
       let data;
       try { data = await response.json(); }
       catch { throw new Error('The service returned an unreadable response. Please retry.'); }
-      if (!response.ok || data.error) throw new Error(`${data.error || 'The service could not complete this request.'}${data.request_id ? ` Reference: ${data.request_id}` : ''}`);
+      if (!response.ok || data.error) {
+        const error = new Error(`${data.error || 'The service could not complete this request.'}${data.request_id ? ` Reference: ${data.request_id}` : ''}`);
+        error.code = data.code || 'REQUEST_FAILED'; error.http_status = response.status;
+        throw error;
+      }
       if (data.mock === true) throw new Error('No verified live result was returned. Please retry.');
       return data;
     })(), deadline]);

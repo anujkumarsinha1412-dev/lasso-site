@@ -4,6 +4,8 @@
 
 The Worker also binds `LEAD_DB` to detect exhausted messages and persist alert state. Its SQL selects only references, message kind, test status, attempt counts and generic reasons, without reading the email payloads. The `FAILURE_EMAIL` binding sends warnings through Cloudflare directly to the already verified `agenquest@gmail.com` destination. Its fixed recipient restriction prevents sending alerts elsewhere. Cloudflare Email Routing is already enabled for agenquest.com; no Resend secret or new Pages environment variables are needed.
 
+The separate [mail monitor](../mail-monitor/README.md) handles later Resend bounces, complaints, delivery failures and suppressions, and watches this Worker's private checkpoint from its own five-minute timer. It does not call the health endpoint or refresh the checkpoint, so it can detect a stopped retry schedule. Both services share Cloudflare infrastructure; a platform-wide outage can delay monitoring as well.
+
 The Worker is cron-only (`workers_dev` and preview URLs disabled; no routes). Its HTTP handler returns 404. The health route returns 503 for missing mail configuration or database errors. A 200 confirms both queue drains completed, **not** that all emails were delivered: provider errors remain saved with a future retry time. A missed/failed cron tick is picked up by the next minute's tick.
 
 ## Delivery behavior

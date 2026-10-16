@@ -8,4 +8,5 @@ dist/
 !.env.example
 .wrangler/
 workers/mail-retry/worker-configuration.d.ts
+workers/mail-monitor/worker-configuration.d.ts
 /public/deployment.json

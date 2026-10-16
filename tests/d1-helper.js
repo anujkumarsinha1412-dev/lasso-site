@@ -16,7 +16,7 @@ export function memoryD1() {
 
 export function memoryMailD1() {
   const db = memoryD1();
-  for (const name of ['0002_consultation_inquiries','0003_consultation_attribution','0004_mail_failure_alerts']) {
+  for (const name of ['0002_consultation_inquiries','0003_consultation_attribution','0004_mail_failure_alerts','0005_mail_monitor']) {
     db.sql.exec(readFileSync(new URL(`../migrations/${name}.sql`,import.meta.url),'utf8'));
   }
   return db;

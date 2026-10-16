@@ -25,6 +25,10 @@ Historical `leads`, `lead_events`, report status and notification jobs remain in
 
 There is no database migration, deletion or automatic retention cleanup in this retirement. Existing credentials are preserved; their possible use outside this repository was not inferred from the retirement of these routes.
 
+## Email monitoring
+
+The separate [mail monitor](workers/mail-monitor/README.md) receives signed Resend bounce, complaint, failure and suppression events. Its five-minute cron checks the private retry heartbeat and warns after a fifteen-minute grace period, with one recovery notice per incident. Alerts go to agenquest@gmail.com through Cloudflare, independently of Resend. This feature adds only operational metadata tables; automatic retention cleanup remains off. The original retry Worker and historical records remain intact.
+
 ## Configuration
 
 The active consultation email path uses the existing `RESEND_API_KEY` and `LEAD_DB` binding. Historical audit settings (`OPENAI_API_KEY`, `RESEND_AUDIENCE_ID`) are preserved but are no longer consumed by a public audit route. Preview deployments need their own configuration for live consultation checks.

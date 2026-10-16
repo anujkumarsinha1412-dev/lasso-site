@@ -116,13 +116,13 @@ function observe() {
   const exposure = new WeakMap();
   const visible = new IntersectionObserver(entries => entries.forEach(entry => {
     const el = entry.target;
-    if (entry.isIntersecting && !timers.has(el)) timers.set(el, setTimeout(() => {
+    if (entry.isIntersecting && entry.intersectionRatio >= 0.5 && !timers.has(el)) timers.set(el, setTimeout(() => {
       if (document.visibilityState !== 'visible') { timers.delete(el); return; }
       const detail = exposure.get(el);
       if (detail) track(detail.event, detail.params, detail.key);
       visible.unobserve(el); timers.delete(el);
     }, 1000));
-    else if (!entry.isIntersecting) { clearTimeout(timers.get(el)); timers.delete(el); }
+    else if (!entry.isIntersecting || entry.intersectionRatio < 0.5) { clearTimeout(timers.get(el)); timers.delete(el); }
   }), { threshold: 0.5 });
   document.querySelectorAll('section[id]').forEach(section => {
     const heading = section.querySelector('h1,h2');

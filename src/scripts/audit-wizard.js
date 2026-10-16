@@ -57,7 +57,7 @@ $('w-gen').addEventListener('click', async () => {
   const started = performance.now();
   track('audit_started', { has_prefill: !!attribution.prefill });
   try {
-    const data = await postJson('/api/suggest', { brand: raw, website: /\.[a-z]{2,}/i.test(raw) ? raw : '' });
+    const data = await postJson('/api/suggest', { brand: raw, website: /\.[a-z]{2,}/i.test(raw) ? raw : '' }, fetch, 55000, { onRetry: () => { $('w-gen').textContent = 'Temporary connection issue — retrying…'; } });
     if (data.status !== 'complete' || !data.research?.searched || !Array.isArray(data.queries) || data.queries.length !== 8 || data.queries.some(q => typeof q !== 'string' || !q.trim() || q.length > 300) || !Array.isArray(data.query_types) || data.query_types.length !== 8 || data.query_types.some(t => !['discovery', 'branded'].includes(t)) || typeof data.brand !== 'string' || !data.brand.trim() || typeof data.website !== 'string') throw new Error('No verified researched question set was returned. Please retry.');
     Object.assign(state, { brand: data.brand, website: data.website, category: data.category, questions: data.queries.map((query, i) => ({ query, query_type: data.query_types[i], selected: true })), report: null, unlocked: false });
     renderList();
@@ -106,12 +106,12 @@ async function run() {
   attempt++; const started = performance.now();
   track('audit_run', { question_count: state.selected.length, attempt_no: attempt, is_retry: attempt > 1 });
   try {
-  state.report = await runQuestions({ brand: state.brand, website: state.website, questions: state.selected, previous: state.report?.results || [], onProgress: (done, total) => { $('w-status').textContent = `Finished ${done} of ${total} checks…`; } });
+  state.report = await runQuestions({ brand: state.brand, website: state.website, questions: state.selected, previous: state.report?.results || [], onProgress: (done, total) => { $('w-status').textContent = `Finished ${done} of ${total} checks…`; }, onRetry: () => { $('w-status').textContent = 'Temporary connection issue — retrying this check…'; } });
   renderReport();
   show(4);
   const complete = state.report.status === 'complete';
   const failed = state.report.results.find(result => result.status === 'failed');
-  track(complete ? 'audit_completed' : 'audit_partial', { ...counts(), ...(failed ? {error_code:failed.error_code,http_status:failed.http_status,stage:'audit'} : {}), attempt_no: attempt, is_retry: attempt > 1, duration_ms: performance.now() - started });
+  track(complete ? 'audit_completed' : 'audit_partial', { ...counts(), ...(failed ? {error_code:failed.error_code,http_status:failed.http_status,stage:'audit'} : {}), attempt_no: attempt, is_retry: attempt > 1 || state.report.retry_count > 0, duration_ms: performance.now() - started });
   if (complete) track('lead_gate_view', { form_id: 'audit_report', gate_step: 'email', ...counts() }, `gate:${flow}`);
   } catch (e) { feedback(e.message); show(2); track('audit_failed', { ...errorParams(e, 'audit'), duration_ms: performance.now() - started }); }
 }

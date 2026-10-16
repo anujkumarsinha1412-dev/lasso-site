@@ -19,4 +19,6 @@ jobs:
           package-manager-cache: false
       - run: npm ci --no-audit --no-fund
       - run: npm test
+      - run: npm ci --prefix workers/mail-retry --no-audit --no-fund
+      - run: npm test --prefix workers/mail-retry
       - run: npm run build

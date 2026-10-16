@@ -8,13 +8,16 @@ export default {
       const response = await fetch('https://agenquest.com/api/health', {
         headers: { accept: 'application/json' },
         cache: 'no-store',
-        redirect: 'error',
+        // Workers accepts manual/follow at runtime. Reject 3xx below rather
+        // than following it or using the unsupported redirect: error mode.
+        redirect: 'manual',
         signal: AbortSignal.timeout(25000),
       });
       if (!response.ok) {
         status.code = 'HTTP_' + response.status;
         await response.body?.cancel();
       } else {
+        status.code = 'INVALID_RESPONSE';
         // The owned endpoint has a fixed, small JSON response with no lead data.
         const result = await response.json();
         status.ok = result.ok === true && result.service === 'agenquest-api' && result.mail_retry === 'completed';

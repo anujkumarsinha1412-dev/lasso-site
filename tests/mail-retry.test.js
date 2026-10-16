@@ -30,7 +30,7 @@ test('quiet-site scheduled ticks retry both queues, respect backoff and do not r
   const sends = [];
   t.mock.method(globalThis,'fetch',async (url, init) => {
     if (url === 'https://agenquest.com/api/health') {
-      assert.equal(init.redirect,'error'); assert.ok(init.signal);
+      assert.equal(init.redirect,'manual'); assert.ok(init.signal);
       return health({env});
     }
     assert.equal(url,'https://api.resend.com/emails');
@@ -68,8 +68,9 @@ test('health awaits both queues and safely reports configuration or database fai
 });
 
 test('cron reports bad HTTP, unexpected JSON and network/timeout failures; a later tick recovers', async t => {
+  t.mock.method(console,'error',()=>{});
   const RETRY_STATUS = statusStore();
-  for (const behavior of [()=>new Response('private gateway',{status:503}),()=>Response.json({ok:true}),()=>new Response('not json'),()=>{throw new DOMException('private timeout','TimeoutError');}]) {
+  for (const behavior of [()=>new Response(null,{status:302,headers:{location:'https://unrelated.example/'}}),()=>new Response('private gateway',{status:503}),()=>Response.json({ok:true}),()=>new Response('not json'),()=>{throw new DOMException('private timeout','TimeoutError');}]) {
     t.mock.method(globalThis,'fetch',async()=>behavior());
     await assert.rejects(worker.scheduled(checkpoint,{RETRY_STATUS}),/^Error: MAIL_RETRY_/);
     assert.equal(RETRY_STATUS.writes.at(-1).value.ok,false);

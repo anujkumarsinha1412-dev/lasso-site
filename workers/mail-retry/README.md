@@ -34,6 +34,8 @@ wrangler deploy --config workers/mail-retry/wrangler.jsonc
 
 Regenerate types after configuration changes. The generated runtime declaration is ignored by Git. Keep schedule and bindings in `wrangler.jsonc` synchronized with production. Cron changes can take up to 15 minutes to propagate. Verify an actual scheduled event/checkpoint before considering deployment complete.
 
+Run `npm ci --prefix workers/mail-retry` then `npm test --prefix workers/mail-retry` for the Miniflare/workerd runtime regression check (also run in CI). The Node test suite covers both SQLite queues, backoff, leases and delivery recovery. The runtime check catches platform differences such as Workers accepting only `manual`/`follow` redirects despite the broader standard types. Non-2xx responses, including redirects, are rejected without following them.
+
 To stop scheduled sending, remove the cron expression from this Worker's configuration and deploy (or replace this Worker's schedule list with an empty list through the Cloudflare API). Existing stored jobs remain intact. To roll back code, restore the prior Worker version; do not revert unrelated website changes or edit Resend credentials.
 
 References: [Cron Triggers](https://developers.cloudflare.com/workers/configuration/cron-triggers/), [scheduled handler](https://developers.cloudflare.com/workers/runtime-apis/handlers/scheduled/), [Resend idempotency](https://resend.com/docs/dashboard/emails/idempotency-keys).

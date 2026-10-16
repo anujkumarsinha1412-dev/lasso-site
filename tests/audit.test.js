@@ -6,8 +6,9 @@ import { onRequestPost as lead, reportHtml } from '../functions/api/lead.js';
 import { fetchJson } from '../functions/lib/openai.js';
 import { runQuestions, postJson } from '../src/lib/audit-client.js';
 import { summarize, isVerified } from '../src/lib/audit-report.js';
+import { memoryD1 } from './d1-helper.js';
 
-const context = (body, env = { OPENAI_API_KEY: 'test-key' }) => ({ request: new Request('https://example.test/api/audit', { method: 'POST', body: JSON.stringify(body) }), env });
+const context = (body, env = { OPENAI_API_KEY: 'test-key' }) => ({ request: new Request('https://example.test/api/audit', { method: 'POST', body: JSON.stringify(body) }), env: { ...(env.RESEND_API_KEY ? { LEAD_DB:memoryD1() } : {}), ...env } });
 const response = (body, status = 200) => new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json' } });
 const question = { query: 'Which cookware should I buy?', query_type: 'discovery' };
 const verified = (query = question.query, query_type = 'discovery', prominence = 'recommended') => ({ query, query_type, prominence, status: 'verified', brands_named: ['Acme'], note: 'Acme is recommended.', answer: 'Consider Acme cookware [1].', sources: [{ url: 'https://example.com/review', title: 'Review' }], model: 'gpt-4.1-mini', response_id: 'resp_test', checked_at: '2026-10-14T10:00:00Z' });

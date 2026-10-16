@@ -5,10 +5,22 @@ import { privateAttribution, recordLead, acceptReport, flushNotifications } from
 import { memoryD1 } from './d1-helper.js';
 import { onRequestPost as submitLead } from '../functions/api/lead.js';
 import { postJson } from '../src/lib/audit-client.js';
+import { readFileSync } from 'node:fs';
+import { EVENTS } from '../src/lib/tracking.js';
 
 const verified = {query:'Which cookware should I buy?',query_type:'discovery',prominence:'recommended',status:'verified',brands_named:['Acme'],note:'Acme is recommended.',answer:'Consider Acme cookware [1].',sources:[{url:'https://example.com/review',title:'Review'}],model:'gpt-4.1-mini',response_id:'resp_test',checked_at:'2026-10-14T10:00:00Z'};
 const body = {email:'test@example.test',brand:'Acme',report:{status:'complete',results:[verified]}};
 const request = () => new Request('https://agenquest.com/api/lead',{method:'POST',body:JSON.stringify(body)});
+test('published GTM contract stays within GA4 parameter limits and routes each event once', () => {
+  const cv=JSON.parse(readFileSync(new URL('../analytics/gtm-container.json',import.meta.url),'utf8')).containerVersion;
+  const tags=cv.tag.filter(t=>t.type==='gaawe');
+  for(const tag of tags) assert.ok(tag.parameter.find(p=>p.key==='eventSettingsTable').list.length<=20);
+  for(const event of EVENTS.filter(e=>e!=='page_view')) {
+    const matching=tags.filter(t=>{const trigger=cv.trigger.find(x=>x.triggerId===t.firingTriggerId[0]); const regex=trigger.customEventFilter[0].parameter.find(p=>p.key==='arg1').value; return new RegExp(regex).test(event);});
+    assert.equal(matching.length,1,event);
+  }
+  assert.equal(tags.some(t=>{const trigger=cv.trigger.find(x=>x.triggerId===t.firingTriggerId[0]); return new RegExp(trigger.customEventFilter[0].parameter.find(p=>p.key==='arg1').value).test('unapproved_event');}),false);
+});
 
 test('analytics strips private URLs and rejects arbitrary payloads', () => {
   assert.equal(cleanUrl('https://agenquest.com/?brand=private&email=test@example.com#secret'), 'https://agenquest.com/');

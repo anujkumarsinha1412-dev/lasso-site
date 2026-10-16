@@ -1,0 +1,16 @@
+---
+const { name } = Astro.props;
+const paths = {
+software:'M4 5h24v22H4zM4 11h24M9 8h.01M13 8h.01M17 8h.01M10 17h12M10 22h7',
+ecommerce:'M7 10h18l2 18H5zM11 11V8a5 5 0 0 1 10 0v3',
+beauty:'M11 11h10v17H11zM13 5h6v6M14 2h4v3M11 19h10',
+wellness:'M26 5C9 3 3 13 9 22S29 21 26 5zM7 28l13-15',
+'professional-services':'M4 10h24v17H4zM11 10V5h10v5M4 17h24M14 17v4h4v-4',
+'financial-services':'M3 11l13-8 13 8H3zM6 14v11M13 14v11M20 14v11M27 14v11M3 29h26',
+healthcare:'M12 4h8v8h8v8h-8v8h-8v-8H4v-8h8z',
+'home-services':'M4 15L16 4l12 11M8 12v16h16V12M13 28V18h6v10',
+hospitality:'M5 10h22v18H5zM12 10V5h8v5M10 10v18M22 10v18',
+education:'M16 8C11 4 5 5 3 6v20c5-2 9-1 13 2 4-3 8-4 13-2V6c-5-2-9-1-13 2zM16 8v20'
+};
+---
+<svg class="industry-icon" width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={paths[name] || paths.software}/></svg>

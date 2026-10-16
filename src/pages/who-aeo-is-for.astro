@@ -1,0 +1,16 @@
+---
+import industries from '../data/industries.json';
+import IndustryIcon from '../components/IndustryIcon.astro';
+import SiteLayout from '../layouts/SiteLayout.astro';
+import { GUIDE_RATE } from '../data/consultancy.js';
+---
+<SiteLayout title="Who Is AEO For | Agenquest" description="Explore when AEO may help businesses in software, ecommerce, professional services, and other sectors, and when it may be too early." wide={true}>
+<div class="container page-intro"><h1>Who is AEO for?</h1>
+<p>AEO may be useful when customers use AI to understand a problem, compare options, or choose a business like yours. The fit depends on the decision, the value of a customer, and whether we can improve the information available about you.</p>
+<p>We consider businesses across industries and sizes. These examples show the kinds of buying questions we would investigate.</p><div class="industry-grid">{industries.map(industry=><section class="industry-panel" id={industry.id}><IndustryIcon name={industry.id}/><h2>{industry.title}</h2><p>{industry.description}</p><p class="eyebrow">Illustrative buyer question</p><blockquote>{industry.question}</blockquote></section>)}</div><h3>AEO is worth exploring when</h3>
+<ul><li>There are valuable customer questions your business should be considered for.</li><li>You have a clear offer and something credible to say about it.</li><li>You're willing to improve content, technical issues, or independent evidence where needed.</li><li>You can judge progress against a business goal, not only a visibility score.</li></ul>
+<h3>It may be too early when</h3>
+<p>The offer is still changing every week, the website doesn't explain the business, or the team cannot implement any changes. Sometimes the useful first step is a better foundation. We'll discuss that on the call.</p>
+<h3>Don't see your industry?</h3><p>Tell us what your customers are trying to decide. That's a better starting point than a category label.</p>
+<p class="action-row"><a class="button" href="/contact/">Talk to us about my business</a></p><p class="small">For regulated sectors, claims and disclosures need the client’s relevant review before publication.</p></div>
+</SiteLayout>

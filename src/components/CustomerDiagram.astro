@@ -1,0 +1,14 @@
+---
+const { compact = false } = Astro.props;
+---
+<figure class:list={['customer-model',{compact}]}>
+<div class="model-grid" role="group" aria-label="Customer understanding informs content, outside evidence, and measurement">
+<svg class="model-lines" viewBox="0 0 840 520" preserveAspectRatio="none" aria-hidden="true"><path d="M420 105V200M275 260H325M515 260H565M420 330V405M150 335Q150 450 300 450M690 335Q690 450 540 450"/></svg>
+<a class="model-node listen" href="/how-we-help/#customers"><span class="node-index">01 / Listen</span><strong>Listen and understand</strong><span>Feedback · interviews · surveys as needed</span></a>
+<div class="model-node customer"><span class="customer-symbol" aria-hidden="true">◎</span><strong>Your customer</strong><span>Needs and buying journey</span></div>
+<a class="model-node owned" href="/how-we-help/#owned-content"><span class="node-index">02 / Own content</span><strong>What you publish</strong><span>Pages · posts · FAQs<br/>Product and service details<br/>Technical foundations</span></a>
+<a class="model-node evidence" href="/how-we-help/#credibility"><span class="node-index">03 / Outside evidence</span><strong>Evidence beyond your site</strong><span>Genuine reviews · partners<br/>Independent coverage<br/>Relevant communities</span></a>
+<a class="model-node learn" href="/how-we-help/#measurement"><span class="node-index">04 / Learn</span><strong>Measure and learn</strong><span>Visibility · inquiries · business outcomes</span></a>
+</div>
+{!compact && <figcaption>What your customers need should guide what you publish, where you build credibility, and how you judge progress.</figcaption>}
+</figure>

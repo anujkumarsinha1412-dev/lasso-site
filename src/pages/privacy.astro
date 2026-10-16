@@ -1,41 +1,13 @@
 ---
-import Analytics from '../components/Analytics.astro';
-import BrandLogo from '../components/BrandLogo.astro';
-import BrandTheme from '../components/BrandTheme.astro';
+import SiteLayout from '../layouts/SiteLayout.astro';
 ---
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <Analytics />
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Privacy note — AgenQuest</title>
-  <meta name="description" content="How AgenQuest handles information submitted through its AI visibility audit.">
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <meta name="theme-color" content="#165A40">
-  <style is:inline>
-    @layer site-base {
-    :root{--bg:#FAFAF7;--ink:#14120F;--soft:#55524B;--line:#E4E1D8;--accent:#E8450A;--sans:'DM Sans',system-ui,sans-serif;--serif:'Newsreader',Georgia,serif;--mono:'IBM Plex Mono',monospace}
-    *{box-sizing:border-box;margin:0;padding:0}body{background:var(--bg);color:var(--ink);font:17px/1.7 var(--sans)}
-    header{border-bottom:1px solid var(--line)}nav,main,footer{max-width:820px;margin:auto;padding-left:24px;padding-right:24px}nav{height:68px;display:flex;align-items:center;justify-content:space-between}a{color:inherit}.logo{font-weight:700;text-decoration:none}.back{font:12px var(--mono);color:var(--soft)}main{padding-top:86px;padding-bottom:100px}p.kicker{font:12px var(--mono);letter-spacing:.13em;text-transform:uppercase;color:var(--accent);margin-bottom:18px}h1{font:600 clamp(48px,8vw,76px)/.95 var(--serif);letter-spacing:-.035em;margin-bottom:28px}.intro{font-size:20px;color:var(--soft);max-width:660px;margin-bottom:60px}section{display:grid;grid-template-columns:170px 1fr;gap:35px;border-top:1px solid var(--line);padding:28px 0}h2{font:500 13px var(--mono);text-transform:uppercase;letter-spacing:.08em}section p,section li{color:var(--soft)}ul{padding-left:18px}footer{border-top:1px solid var(--line);padding-top:28px;padding-bottom:42px;color:var(--soft);font-size:14px}@media(max-width:620px){main{padding-top:58px}section{grid-template-columns:1fr;gap:10px}}
-    }
-  </style>
-  <BrandTheme />
-</head>
-<body>
-  <header><nav><BrandLogo /><a class="back" href="/">← Back to the site</a></nav></header>
-  <main>
-    <p class="kicker">Plain-language privacy note</p>
-    <h1>What happens to your information.</h1>
-    <p class="intro">The audit asks for only what is needed to generate and send the result. This page explains the current workflow without hiding it behind legal shorthand.</p>
-    <section><h2>What we collect</h2><div><p>Your brand or website, the audit questions you select, the generated report, your email address and an optional phone number.</p></div></section>
-    <section><h2>Why we use it</h2><div><p>To run the audit, email its result, understand your brand context and send one relevant follow-up about the findings.</p></div></section>
-    <section><h2>Services involved</h2><div><p>Audit prompts are processed through OpenAI. Report delivery and contact handling use Resend. Cloudflare hosts the site and stores submitted leads privately so a failed notification does not lose your enquiry. These providers process the information needed for their part of the workflow. Requesting an audit does not subscribe you to marketing emails.</p></div></section>
-    <section><h2>Optional analytics</h2><div><p>With your permission, Google Analytics measures traffic sources, page visits, reading and progress through the audit. Microsoft Clarity records masked interactions to help us understand usability. These tools load only after you accept analytics. Audit fields, selected questions and report contents are masked in Clarity; contact details and report text are not sent to Google Analytics.</p><p>Consented source information is kept in your browser for up to 90 days, including the first known source, the current session and the last known non-direct source. When you submit the audit, it is saved with your lead to help us understand which activity produced an enquiry. Links and campaign labels should never contain personal information.</p></div></section>
-    <section><h2>Analytics choices</h2><div><p>Accept or reject optional analytics using the privacy choices control on any page. Your choice is remembered for six months. You can withdraw permission there at any time; the audit continues to work. Cloudflare separately processes basic request and security information to operate and protect the site. Some traffic sources cannot be identified when a browser or another service hides them.</p></div></section>
-    <section><h2>Your choices</h2><div><p>The phone field is optional. You can ask us to delete your submitted contact information or stop follow-up at any time by emailing <a href="mailto:audit@agenquest.com">audit@agenquest.com</a>.</p></div></section>
-    <section><h2>Questions</h2><div><p>Email <a href="mailto:audit@agenquest.com">audit@agenquest.com</a>. We will update this note if the audit workflow or its service providers materially change.</p></div></section>
-  </main>
-  <footer>Last updated 16 October 2026 · AgenQuest</footer>
-</body>
-</html>
+<SiteLayout title="Privacy | Agenquest" description="How Agenquest handles consultation inquiries, optional analytics, and existing audit records." wide={false}>
+<div class="reading-wrap privacy-copy"><p class="eyebrow">Plain-language privacy note</p><h1>What happens to your information.</h1><p class="lede">We ask for the details needed to respond to your inquiry and arrange a conversation. Optional analytics are a separate choice.</p>
+<section><h2>What we collect</h2><p>The consultation form collects your website, name, email address, and an optional message. We also record the submission time, a request reference, processing status, and the originating page when it is available. You do not need to complete an automated audit.</p></section>
+<section><h2>Why we use it</h2><p>We use your details to review your public website, respond to your inquiry, arrange the free 30-minute call, and discuss any work you ask us to scope. Sending an inquiry does not subscribe you to a newsletter or other marketing emails.</p></section>
+<section><h2>Services involved</h2><p>Cloudflare hosts the site and privately stores consultation inquiries. Resend processes the emails needed to acknowledge your request and notify the founders. A failed email notification does not discard a saved inquiry. Submitting the contact form does not automatically send its contents to an AI model.</p><p>Older audit records may contain a brand or website, selected questions, a generated report, email address, and an optional phone number. That former workflow used OpenAI for audit prompts and Resend for report delivery. The automated audit is no longer offered through the public website.</p></section>
+<section><h2>Optional analytics</h2><p>With your permission, Google Analytics measures traffic sources, page visits, reading and supported interactions. Microsoft Clarity records masked interactions to help us understand usability. These tools load only after you accept analytics. The consultation form is masked in Clarity; names, contact details and message contents are not sent to Google Analytics.</p><p>The existing analytics setup may keep consented source information in your browser for up to 90 days, including the first known source, current session and last known non-direct source. Links and campaign labels should never contain personal information. Consultation submission details are kept out of analytics.</p></section>
+<section><h2>Analytics choices</h2><p>Accept or reject optional analytics using the privacy choices control. Your choice is remembered for six months. You can withdraw permission there at any time; the contact form continues to work. Cloudflare separately processes basic request and security information to operate and protect the site. Some traffic sources cannot be identified when a browser or another service hides them.</p></section>
+<section id="retention"><h2>Access and retention</h2><p>Inquiry records are for the founders and people handling your requested work. Anuj Kumar Sinha manages the Agenquest inbox and privacy requests, with Rishav Jain as backup.</p><p>For inquiries that do not become client engagements, our retention period is six months after the last substantive conversation, or six months after submission if there is no further conversation. Automated acknowledgments and routine follow-up messages do not extend that period.</p><p>Our retention period for reports and associated contact details from the former automated audit is 90 days from creation. This does not apply to our published independent research articles. If an audit leads to an active consultation, we retain only the information needed for that consultation under the inquiry or client-record policy.</p><p>When an inquiry becomes a client engagement, necessary information becomes part of the client record and follows a separate retention schedule for the agreed work and applicable recordkeeping requirements. Any exception for an ongoing dispute or another documented need is limited to the information and time required.</p><p>Our retention policy covers inquiry and audit copies in our database, pending email jobs, and the founder inbox. Service-provider logs and backups follow their own retention cycles; we do not promise immediate removal from those systems. To request deletion of your submitted information or ask us to stop follow-up, email <a href="mailto:hello@agenquest.com">hello@agenquest.com</a>.</p><p>Abuse prevention uses a temporary hashed network identifier and request count. It does not add your network address to the inquiry or analytics payload.</p></section>
+<section><h2>Questions</h2><p>Email <a href="mailto:hello@agenquest.com">hello@agenquest.com</a>. We will update this note if the workflow or service providers materially change.</p></section><p class="small">Last updated 16 October 2026 · Agenquest</p></div>
+</SiteLayout>

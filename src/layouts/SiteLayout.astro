@@ -1,0 +1,35 @@
+---
+import Analytics from '../components/Analytics.astro';
+import BrandLogo from '../components/BrandLogo.astro';
+import '../styles/consultancy.css';
+const { title, description, article, wide = true } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const notFound = Astro.url.pathname === '/404/' || Astro.url.pathname === '/404';
+const preview = import.meta.env.DEV || (process.env.CF_PAGES_BRANCH && process.env.CF_PAGES_BRANCH !== 'main');
+const links = [['How we help','/how-we-help/'],["Who it’s for",'/who-aeo-is-for/'],['Research','/blog/'],['About','/about/']];
+const active = (path) => Astro.url.pathname.startsWith(path);
+---
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>{title}</title><meta name="description" content={description}/>{!notFound && <link rel="canonical" href={canonical}/>}
+{(preview || notFound) && <meta name="robots" content="noindex,nofollow"/>}
+<meta name="msvalidate.01" content="3F37BE21BD482C8AD69F2F8CD82EBDC8"/>
+<meta name="theme-color" content="#165A40"/><link rel="icon" href="/favicon.ico" sizes="32x32"/><link rel="icon" href="/favicon.svg" type="image/svg+xml"/><link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<meta property="og:title" content={title}/><meta property="og:description" content={description}/><meta property="og:url" content={canonical}/><meta property="og:type" content={article ? 'article' : 'website'}/><meta property="og:image" content="https://agenquest.com/icon-512.png"/>
+<link rel="alternate" type="application/rss+xml" title="Agenquest Research" href="/rss.xml"/>
+<Analytics />
+{article && <script type="application/ld+json" set:html={JSON.stringify(article)}/>}
+{Astro.url.pathname === '/' && <script type="application/ld+json" set:html={JSON.stringify({'@context':'https://schema.org','@type':'Organization','@id':'https://agenquest.com/#organization',name:'Agenquest',url:'https://agenquest.com/',logo:'https://agenquest.com/icon-512.png',email:'hello@agenquest.com',description:'Customer research, tailored AEO strategy, and hands-on execution.'})}/>}
+</head><body id="top"><a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header"><div class="header-inner"><BrandLogo />
+<nav class="desktop-nav" aria-label="Main navigation">{links.map(([label,path])=><a href={path} aria-current={active(path)?'page':undefined}>{label}</a>)}</nav>
+<a class="button header-contact" href="/contact/" aria-current={active('/contact/')?'page':undefined}>Contact <span aria-hidden="true">↗</span></a>
+<details class="mobile-menu"><summary aria-label="Open navigation menu">Menu <span aria-hidden="true">☰</span></summary><nav aria-label="Mobile navigation">{links.map(([label,path])=><a href={path} aria-current={active(path)?'page':undefined}>{label}</a>)}</nav></details>
+</div></header>
+<main id="main" class:list={{'reading-main':!wide}}><slot /></main>
+<footer class="site-footer"><div class="container footer-grid"><div><BrandLogo light/><p>Agenquest helps businesses get discovered and considered through AI. Customer research, tailored strategy, and hands-on execution.</p></div><nav aria-label="Footer navigation">{links.map(([label,path])=><a href={path}>{label}</a>)}<a href="/contact/">Contact</a></nav><div><a href="mailto:hello@agenquest.com">hello@agenquest.com</a><a href="/research-methodology/">Methodology</a><a href="/privacy/">Privacy</a><p class="small">© {new Date().getFullYear()} Agenquest.</p></div></div></footer>
+<script>
+const menu=document.querySelector('.mobile-menu');
+document.addEventListener('keydown',event=>{if(event.key==='Escape' && menu?.hasAttribute('open')){menu.removeAttribute('open');menu.querySelector('summary')?.focus();}});
+document.addEventListener('click',event=>{if(menu?.hasAttribute('open') && event.target instanceof Node && !menu.contains(event.target))menu.removeAttribute('open');});
+</script></body></html>

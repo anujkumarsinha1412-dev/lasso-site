@@ -18,6 +18,8 @@ Cloudflare D1 `agenquest-leads-production` is bound as `LEAD_DB`. Preview uses a
 
 `leads` distinguishes pending/failed/accepted/delivered/bounced report email from qualification, booked calls, held calls and won/lost outcomes. `accepted` proves provider acceptance only. Delivery fields must be updated only from actual provider evidence. `lead_events` records submission/acceptance history. Repeated submission of the same email and report reuses one lead ID and does not send a second accepted report.
 
+An authenticated owner can mark a test by adding a `test_submission` entry to `lead_events`. `lead_funnel_daily` excludes those records while preserving the complete test evidence. The 16 October launch test is marked this way; its one report was independently verified in the receiving Gmail inbox. Browser QA visits use `qa / internal / tracking-launch`; exclude that source in business reports. The GA4 numeric score parameter is `audit_score`, leaving the historical `score` dimension intact. The saved ten-step exploration is `Agenquest — audit enquiry funnel`.
+
 `notification_outbox` keeps failed owner alerts. Due alerts retry on document visits and `/api/health`, with leases, exponential backoff and stable idempotency keys. Eight failures, or a retry outside the safe provider window, require owner review. This is traffic-triggered; no scheduled monitor was created. Check failed or old pending rows when reviewing leads:
 
 ```sql

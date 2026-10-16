@@ -14,11 +14,27 @@ if (excluded) save(OPT, '1', 730);
 window.__aqOptedOut = excluded;
 const eligible = (production || qa) && !excluded;
 function choice() {
-  let stored; try { stored = JSON.parse(read(CONSENT) || cookie(CONSENT) || 'null'); } catch {}
+  const choices = [read(CONSENT),cookie(CONSENT)].flatMap(raw => { try { const v=JSON.parse(raw); return v && ['granted','denied'].includes(v.value) && Number.isFinite(v.expires) ? [v] : []; } catch { return []; } });
+  // The shared cookie carries later choices between apex/www; a stale local copy
+  // must never override a newer withdrawal made on the other hostname.
+  const stored = choices.sort((a,b)=>b.expires-a.expires)[0];
   return stored && Date.now() < stored.expires && ['granted','denied'].includes(stored.value) ? stored.value : '';
 }
 let granted = eligible && choice() === 'granted';
 let started = false, attribution = null, cleanup = () => {};
+function reconcileChoice() {
+  if (!granted || !started) return;
+  if (read(OPT) === '1' || cookie(OPT) === '1' || choice() !== 'granted') {
+    granted = false;
+    window['ga-disable-G-DD18JLWTDD'] = true;
+    window.gtag('consent','update',{analytics_storage:'denied',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied'});
+    try { window.clarity?.('consentv2',{analytics_Storage:'denied',ad_Storage:'denied'}); window.clarity?.('consent',false); } catch {}
+    cleanup(); purge(); attribution = null;
+    if (!qa) location.reload(); else displayQA();
+  }
+}
+window.addEventListener('storage', event => { if ([OPT,CONSENT].includes(event.key)) reconcileChoice(); });
+document.addEventListener('visibilitychange', reconcileChoice);
 const seen = new Set();
 window.dataLayer = window.dataLayer || [];
 window.gtag = function () { window.dataLayer.push(arguments); };
@@ -109,6 +125,8 @@ function observe() {
   }), { threshold: 0.1 });
   document.querySelectorAll('section[id], a[href="#audit"], a[href="/#audit"]').forEach(el => visible.observe(el));
   const tick = () => {
+    reconcileChoice();
+    if (!granted) return;
     const now = performance.now(); if (document.visibilityState === 'visible') activeMs += now - last; last = now;
     const max = document.documentElement.scrollHeight - innerHeight;
     depth = Math.max(depth, max > 100 ? Math.min(100, Math.round(scrollY / max * 100)) : 0);

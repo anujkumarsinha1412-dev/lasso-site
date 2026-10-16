@@ -6,7 +6,7 @@ const $ = id => document.getElementById(id);
 const show = n => { for (const i of [1, 2, 3, 4]) $('ws' + i).hidden = i !== n; };
 const track = (name, params = {}, onceKey = '') => { try { window.aqAnalytics?.track(name, params, onceKey); } catch {} };
 const escape = s => String(s ?? '').replace(/[<>&"']/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;', "'": '&#39;' }[c]));
-const feedback = message => { $('w-feedback').textContent = message; $('w-feedback').hidden = !message; };
+const feedback = (message, diagnostic = {}) => { $('w-feedback').textContent = message; $('w-feedback').hidden = !message; $('w-feedback').dataset.errorCode = diagnostic.error_code || ''; $('w-feedback').dataset.httpStatus = String(diagnostic.http_status || ''); };
 const state = { brand: '', website: '', questions: [], selected: [], report: null, unlocked: false };
 let flow = 0, attempt = 0, leadAttempt = 0, formStarted = false;
 const errorParams = (e, stage) => ({ stage, error_code: /^[A-Z_]{1,60}$/.test(e.code || '') ? e.code : 'REQUEST_FAILED', ...(e.http_status ? { http_status: e.http_status } : {}) });
@@ -63,7 +63,7 @@ $('w-gen').addEventListener('click', async () => {
     renderList();
     show(2);
     track('audit_prompts_generated', { category_group: categoryGroup(data.category), question_count: 8, duration_ms: performance.now() - started });
-  } catch (e) { feedback(e.message); track('audit_failed', { ...errorParams(e, 'research'), duration_ms: performance.now() - started }); }
+  } catch (e) { feedback(e.message, errorParams(e, 'research')); track('audit_failed', { ...errorParams(e, 'research'), duration_ms: performance.now() - started }); }
   $('w-gen').disabled = false;
   $('w-gen').textContent = 'Research my brand & build prompts';
 });
@@ -131,7 +131,7 @@ function renderReport() {
   $('w-gate').hidden = !overall.complete || state.unlocked;
   $('w-report').classList.toggle('w-blur', overall.complete && !state.unlocked);
   const rows = report.results.map(result => {
-    if (!isVerified(result)) return `<div class="w-row"><div class="w-rq">${escape(result.query)}</div><span class="w-badge w-failed">Check failed</span><p class="w-rn">${escape(result.error)}</p></div>`;
+    if (!isVerified(result)) return `<div class="w-row" data-error-code="${escape(result.error_code || 'REQUEST_FAILED')}" data-http-status="${Number(result.http_status) || 0}"><div class="w-rq">${escape(result.query)}</div><span class="w-badge w-failed">Check failed</span><p class="w-rn">${escape(result.error)}</p></div>`;
     const sources = result.sources.map(source => `<li><a href="${escape(source.url)}" target="_blank" rel="noopener noreferrer">${escape(source.title)}</a></li>`).join('');
     return `<div class="w-row"><div class="w-rq">${escape(result.query)}</div><span class="w-badge w-${escape(result.prominence)}">${escape(result.prominence)}</span><p class="w-rn">${escape(result.note)}</p><p class="w-rn">Brands named: ${escape(result.brands_named.join(', ') || 'None')}</p><small class="w-kind">${result.query_type === 'branded' ? 'Branded · excluded from discovery score' : 'Discovery'}</small><details class="w-evidence"><summary>Open observed answer and cited sources</summary><p class="w-answer">${escape(result.answer)}</p><ul>${sources}</ul><p class="w-rn">OpenAI API · ${escape(result.model)} · ${escape(result.checked_at)}</p></details></div>`;
   }).join('');
@@ -154,7 +154,7 @@ $('w-unlock').addEventListener('click', async () => {
     renderReport();
     feedback('Your report is unlocked. The email service accepted a copy for delivery; check your inbox or spam folder.');
     track('generate_lead', { ...counts(), form_id: 'audit_report', lead_source: 'free_audit', duration_ms: performance.now() - started }, `lead:${data.lead_id || flow}`);
-  } catch (e) { feedback(e.message); track('audit_failed', { ...errorParams(e, 'email'), duration_ms: performance.now() - started }); }
+  } catch (e) { feedback(e.message, errorParams(e, 'email')); track('audit_failed', { ...errorParams(e, 'email'), duration_ms: performance.now() - started }); }
   $('w-unlock').disabled = false;
   $('w-unlock').textContent = 'Unlock my report';
 });

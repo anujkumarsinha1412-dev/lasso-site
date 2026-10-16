@@ -1,5 +1,7 @@
 # Agenquest analytics operations
 
+Current status: the audit funnel below is historical. Its public `/api/suggest`, `/api/audit` and `/api/lead` routes now return 410 without running the audit or sending a report. Preserve historical lead records, reports and analytics; do not use a complete public audit as a release check. Current inquiries use `/contact/` and `/api/inquiry`. The existing one-minute scheduler and failure alerts are documented in [the mail retry runbook](../workers/mail-retry/README.md). Automatic retention cleanup remains off.
+
 Production: `agenquest.com` and `www.agenquest.com`. GTM `GTM-5RDHZMWP`, GA4 `G-DD18JLWTDD`, Clarity `yyh6q0ibct`. GA4 property 552715361; GSC domain `agenquest.com`.
 
 ## Collection and consent
@@ -20,7 +22,7 @@ Cloudflare D1 `agenquest-leads-production` is bound as `LEAD_DB`. Preview uses a
 
 An authenticated owner can mark a test by adding a `test_submission` entry to `lead_events`. `lead_funnel_daily` excludes those records while preserving the complete test evidence. The 16 October launch test is marked this way; its one report was independently verified in the receiving Gmail inbox. Browser QA visits use `qa / internal / tracking-launch`; exclude that source in business reports. The GA4 numeric score parameter is `audit_score`, leaving the historical `score` dimension intact. The saved ten-step exploration is `Agenquest — audit enquiry funnel`.
 
-`notification_outbox` keeps failed owner alerts. Due alerts retry on document visits and `/api/health`, with leases, exponential backoff and stable idempotency keys. Eight failures, or a retry outside the safe provider window, require owner review. This is traffic-triggered; no scheduled monitor was created. Check failed or old pending rows when reviewing leads:
+`notification_outbox` keeps failed owner alerts. Due alerts retry on document visits and `/api/health`, with leases, exponential backoff and stable idempotency keys. Eight failures, or a retry outside the safe provider window, require owner review. These historical jobs also retry on the existing one-minute scheduled drain; see the mail retry runbook. Check failed or old pending rows when reviewing leads:
 
 ```sql
 SELECT id,lead_id,state,attempts,next_attempt_at,last_error
@@ -28,7 +30,7 @@ FROM notification_outbox WHERE state <> 'accepted' ORDER BY next_attempt_at;
 SELECT * FROM lead_funnel_daily ORDER BY day DESC;
 ```
 
-Owner alerts keep the existing recipient from `functions/api/lead.js`. Report delivery goes to the address submitted in the audit. Contact sync, where configured, saves contacts as unsubscribed; audit requests do not imply marketing opt-in.
+Historical queued owner notifications retain their saved recipient and payload. No new audit reports, lead records or contact sync are initiated through the retired public routes. Current consultation notifications use the separate inquiry email configuration.
 
 ## Confirmed later outcomes
 
@@ -61,4 +63,4 @@ Cloudflare's native Web Analytics dashboard was verified with bot-excluded visit
 
 Publish the reviewed GTM version, then deploy the code that removes direct gtag loading. The previous site does not load this GTM container. Do not reinstall a second direct Google or Clarity snippet. Keep the imported container JSON with this release.
 
-For rollback, revert the website commit and restore GTM published version 1 (Empty Container) as a coordinated operation. Keep D1 lead data; schema changes are additive. Check the served `/deployment.json` SHA, `/api/health`, consent rejection/acceptance, preview exclusion and one authorized complete audit. Never send repeated live test reports to third-party prospects.
+For rollback, revert the website commit and restore GTM published version 1 (Empty Container) as a coordinated operation. Keep D1 lead data; schema changes are additive. Check the served `/deployment.json` SHA, `/api/health`, consent rejection/acceptance, preview exclusion and safe consultation validation plus the retired routes returning 410. Use an authorized consultation test only when a new delivery check is needed. Never send repeated live test reports to third-party prospects.

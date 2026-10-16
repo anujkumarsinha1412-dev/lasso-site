@@ -107,7 +107,7 @@ function choose(value) {
 function preferences() {
   document.getElementById('aq-consent')?.remove();
   const box = document.createElement('div'); box.id = 'aq-consent'; box.setAttribute('role','region'); box.setAttribute('aria-label','Privacy choices');
-  box.innerHTML = '<p><strong>Your privacy choices</strong><br>With your permission, Google Analytics measures visits and Microsoft Clarity shows masked interaction recordings. Your audit works either way. <a href="/privacy">Read our privacy note</a>.</p><div><button type="button" data-choice="granted">Accept analytics</button><button type="button" data-choice="denied">Reject analytics</button></div>';
+  box.innerHTML = '<p><strong>Your privacy choices</strong><br>With your permission, Google Analytics measures visits and Microsoft Clarity shows masked interaction recordings. The contact form works either way. <a href="/privacy">Read our privacy note</a>.</p><div><button type="button" data-choice="granted">Accept analytics</button><button type="button" data-choice="denied">Reject analytics</button></div>';
   box.addEventListener('click', e => { const button = e.target.closest('[data-choice]'); if (button) choose(button.dataset.choice); });
   document.body.appendChild(box);
 }
@@ -128,9 +128,11 @@ function observe() {
     const heading = section.querySelector('h1,h2');
     if (heading) { exposure.set(heading, {event:'section_view',params:{section_id:section.id},key:`section:${section.id}`}); visible.observe(heading); }
   });
-  document.querySelectorAll('a[href="#audit"], a[href="/#audit"]').forEach((el,i) => {
-    exposure.set(el, {event:'cta_view',params:{placement:placement(el),action:'start_audit'},key:`cta_view:${i}`}); visible.observe(el);
+  document.querySelectorAll('a[href="#audit"], a[href="/#audit"], a[href="/contact/"], a[href="/contact"]').forEach((el,i) => {
+    exposure.set(el, {event:'cta_view',params:{placement:placement(el),action:el.pathname.replace(/\/$/,'') === '/contact' ? 'request_consultation' : 'start_audit'},key:`cta_view:${i}`}); visible.observe(el);
   });
+  const inquiry = document.querySelector('#inquiry-form input[name="website"]');
+  if (inquiry) { exposure.set(inquiry,{event:'lead_gate_view',params:{form_id:'consultation',gate_step:'consultation'},key:'consultation:view'}); visible.observe(inquiry); }
   const tick = () => {
     reconcileChoice();
     if (!granted) return;
@@ -149,6 +151,7 @@ document.addEventListener('click', e => {
   const a = e.target.closest('a[href]'); if (!a || a.closest('#w-report')) return;
   const href = a.getAttribute('href'); const p = placement(a);
   if (href === '#audit' || href === '/#audit') track('cta_click', { placement: p, action: 'start_audit' });
+  else if (href === '/contact/' || href === '/contact') track('cta_click', { placement: p, action: 'request_consultation' });
   else if (/^mailto:/i.test(href)) track('contact_click', { placement: p, contact_method: 'email' });
   else if (/^tel:/i.test(href)) track('contact_click', { placement: p, contact_method: 'phone' });
   else {

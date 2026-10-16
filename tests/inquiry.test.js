@@ -6,7 +6,7 @@ import { validateInquiry,normalizeWebsite } from '../src/lib/inquiry.js';
 import { onRequestPost } from '../functions/api/inquiry.js';
 import { flushInquiryMail,inquiryEmails } from '../functions/lib/inquiry-store.js';
 
-function database(){const db=memoryD1();db.sql.exec(readFileSync(new URL('../migrations/0002_consultation_inquiries.sql',import.meta.url),'utf8'));return db;}
+function database(){const db=memoryD1();for(const migration of ['0002_consultation_inquiries','0003_consultation_attribution'])db.sql.exec(readFileSync(new URL(`../migrations/${migration}.sql`,import.meta.url),'utf8'));return db;}
 const input=()=>({request_key:crypto.randomUUID(),website:'example.com',name:'अनुज',email:'person@example.com',message:'A consultation, please.',source_page:'/blog/what-is-aeo/'});
 function context(body,db,headers={}){const pending=[];return {request:new Request('https://agenquest.com/api/inquiry',{method:'POST',headers:{origin:'https://agenquest.com','content-type':'application/json','cf-connecting-ip':'192.0.2.1',...headers},body:JSON.stringify(body)}),env:{LEAD_DB:db},waitUntil:p=>pending.push(p),pending};}
 
@@ -46,6 +46,20 @@ test('duplicate and concurrent requests save one inquiry and cannot silently rep
 
 test('storage errors never report success or send an email',async()=>{
   const ctx=context(input(),{prepare(){throw new Error('Database unavailable');}});const response=await onRequestPost(ctx);assert.equal(response.status,503);assert.equal((await response.json()).ok,undefined);assert.equal(ctx.pending.length,0);
+});
+
+test('consultation attribution requires consent, strips private values and does not break a retry',async()=>{
+  for(const consent of [false,true]){
+    const db=database(),body={...input(),analytics_consent:consent,attribution:{first:{source:'linkedin',medium:'social',campaign:'person@example.com',landing_page:'https://agenquest.com/?private=secret',at:Date.now()},session:{source:'linkedin',medium:'social',landing_page:'https://agenquest.com/contact/?email=private',at:Date.now()}}};
+    assert.equal((await onRequestPost(context(body,db))).status,200);
+    const row=db.sql.prepare('SELECT * FROM consultation_attribution').get();
+    assert.equal(row.analytics_consent,consent?1:0);
+    if(!consent)assert.equal(row.attribution_json,null);
+    else{const saved=JSON.parse(row.attribution_json);assert.equal(saved.first.source,'linkedin');assert.equal(saved.first.campaign,'');assert.equal(saved.first.landing_page,'https://agenquest.com/');assert.ok(!row.attribution_json.includes('private'));}
+    assert.equal((await onRequestPost(context({...body,analytics_consent:!consent},db))).status,200);
+    assert.equal(db.sql.prepare('SELECT count(*) AS n FROM consultation_attribution').get().n,1);
+    assert.equal(db.sql.prepare('SELECT count(*) AS n FROM consultation_mail').get().n,2);
+  }
 });
 
 test('a failed mail-job insert rolls back the inquiry transaction',async()=>{

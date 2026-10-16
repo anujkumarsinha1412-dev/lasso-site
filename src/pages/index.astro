@@ -50,9 +50,14 @@ import { GUIDE_RATE } from '../data/consultancy.js';
 <script>
 const rail=document.querySelector('#industry-rail');const prev=document.querySelector('#industry-prev');const next=document.querySelector('#industry-next');
 if(rail instanceof HTMLElement && prev instanceof HTMLButtonElement && next instanceof HTMLButtonElement){
-document.querySelector('.rail-controls')?.removeAttribute('hidden');
-const update=()=>{prev.disabled=rail.scrollLeft<2;next.disabled=rail.scrollLeft+rail.clientWidth>=rail.scrollWidth-2;};
+const controls=document.querySelector('.rail-controls');
+// Read geometry together after layout, then change button state. In particular,
+// do not reveal the controls and synchronously force layout during page startup.
+const update=()=>{const left=rail.scrollLeft,width=rail.clientWidth,total=rail.scrollWidth;const start=left<2,end=left+width>=total-2;if(prev.disabled!==start)prev.disabled=start;if(next.disabled!==end)next.disabled=end;controls?.removeAttribute('hidden');};
+let frame=0;
+const scheduleUpdate=()=>{if(!frame)frame=requestAnimationFrame(()=>{frame=0;update();});};
 prev.addEventListener('click',()=>rail.scrollBy({left:-rail.clientWidth*.75,behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth'}));
 next.addEventListener('click',()=>rail.scrollBy({left:rail.clientWidth*.75,behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth'}));
-rail.addEventListener('scroll',update,{passive:true});new ResizeObserver(update).observe(rail);update();}
+rail.addEventListener('scroll',scheduleUpdate,{passive:true});new ResizeObserver(update).observe(rail);}
 </script>
+

@@ -11,5 +11,11 @@
   "kv_namespaces": [
     { "binding": "RETRY_STATUS", "id": "04d302dca5ec47a48a6ff79b783648f7" }
   ],
+  "d1_databases": [
+    { "binding": "LEAD_DB", "database_name": "agenquest-leads-production", "database_id": "1a138db1-9bd3-4020-9030-a708f87633b2", "migrations_dir": "../../migrations" }
+  ],
+  "send_email": [
+    { "name": "FAILURE_EMAIL", "destination_address": "agenquest@gmail.com" }
+  ],
   "observability": { "enabled": true, "head_sampling_rate": 1 }
 }

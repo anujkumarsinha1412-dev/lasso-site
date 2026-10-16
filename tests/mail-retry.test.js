@@ -1,12 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
 import worker from '../workers/mail-retry/index.js';
 import { onRequestGet as health } from '../functions/api/health.js';
 import { onRequest as middleware } from '../functions/_middleware.js';
 import { saveInquiry } from '../functions/lib/inquiry-store.js';
 import { recordLead, acceptReport } from '../functions/lib/lead-store.js';
-import { memoryD1 } from './d1-helper.js';
+import { memoryMailD1 } from './d1-helper.js';
 
 const checkpoint = { scheduledTime: Date.parse('2026-10-16T13:05:00Z') };
 function statusStore() {
@@ -14,14 +13,15 @@ function statusStore() {
   return { writes, async put(key, value) { writes.push({ key, value: JSON.parse(value) }); } };
 }
 async function queuedMail() {
-  const db = memoryD1();
-  for (const name of ['0002_consultation_inquiries','0003_consultation_attribution']) {
-    db.sql.exec(readFileSync(new URL(`../migrations/${name}.sql`,import.meta.url),'utf8'));
-  }
+  const db = memoryMailD1();
   await saveInquiry(db,{website:'https://example.test/',name:'Test',email:'prospect@example.test',message:'Test',source_page:'/contact/'},'inquiry-key','hash',{});
   const lead = await recordLead(db,{key:'audit-key',email:'audit@example.test',brand:'Test',website:'',phone:'',consent:false,score:0,checked:1});
   await acceptReport(db,lead.id,'already-sent-report',{from:'sender@example.test',to:['owner@example.test'],subject:'Test',html:'Test'});
   return db;
+}
+
+function schedulerEnv(RETRY_STATUS, db = memoryMailD1()) {
+  return { RETRY_STATUS, LEAD_DB:db, FAILURE_EMAIL:{async send(){assert.fail('No terminal failures expected');}} };
 }
 
 test('quiet-site scheduled ticks retry both queues, respect backoff and do not resend accepted mail', async t => {
@@ -37,20 +37,20 @@ test('quiet-site scheduled ticks retry both queues, respect backoff and do not r
     sends.push(init.headers['Idempotency-Key']);
     return Response.json(good ? {id:'provider-'+sends.length} : {error:'temporary'},{status:good ? 200 : 503});
   });
-  await worker.scheduled(checkpoint,{RETRY_STATUS});
+  await worker.scheduled(checkpoint,schedulerEnv(RETRY_STATUS,db));
   assert.equal(sends.length,3);
   assert.equal(db.sql.prepare("SELECT count(*) n FROM consultation_mail WHERE state='pending' AND attempts=1").get().n,2);
   assert.equal(db.sql.prepare('SELECT state FROM notification_outbox').get().state,'pending');
-  await worker.scheduled(checkpoint,{RETRY_STATUS});
+  await worker.scheduled(checkpoint,schedulerEnv(RETRY_STATUS,db));
   assert.equal(sends.length,3,'early ticks must respect stored backoff');
   const firstKeys = [...sends].sort();
   db.sql.exec("UPDATE consultation_mail SET next_attempt_at='2000-01-01'; UPDATE notification_outbox SET next_attempt_at='2000-01-01'");
   good = true;
-  await worker.scheduled(checkpoint,{RETRY_STATUS});
+  await worker.scheduled(checkpoint,schedulerEnv(RETRY_STATUS,db));
   assert.deepEqual(sends.slice(3).sort(),firstKeys,'retry keeps provider idempotency keys');
   assert.equal(db.sql.prepare("SELECT count(*) n FROM consultation_mail WHERE state='accepted'").get().n,2);
   assert.equal(db.sql.prepare('SELECT notification_status FROM leads').get().notification_status,'accepted');
-  await worker.scheduled(checkpoint,{RETRY_STATUS});
+  await worker.scheduled(checkpoint,schedulerEnv(RETRY_STATUS,db));
   assert.equal(sends.length,6);
   assert.equal(RETRY_STATUS.writes.at(-1).value.code,'DRAIN_COMPLETED');
   assert.ok(!JSON.stringify(RETRY_STATUS.writes).includes('example.test'));
@@ -72,16 +72,16 @@ test('cron reports bad HTTP, unexpected JSON and network/timeout failures; a lat
   const RETRY_STATUS = statusStore();
   for (const behavior of [()=>new Response(null,{status:302,headers:{location:'https://unrelated.example/'}}),()=>new Response('private gateway',{status:503}),()=>Response.json({ok:true}),()=>new Response('not json'),()=>{throw new DOMException('private timeout','TimeoutError');}]) {
     t.mock.method(globalThis,'fetch',async()=>behavior());
-    await assert.rejects(worker.scheduled(checkpoint,{RETRY_STATUS}),/^Error: MAIL_RETRY_/);
+    await assert.rejects(worker.scheduled(checkpoint,schedulerEnv(RETRY_STATUS)),/^Error: MAIL_RETRY_/);
     assert.equal(RETRY_STATUS.writes.at(-1).value.ok,false);
     assert.ok(!JSON.stringify(RETRY_STATUS.writes).includes('private'));
     t.mock.restoreAll();
   }
   t.mock.method(globalThis,'fetch',async()=>Response.json({ok:true,service:'agenquest-api',mail_retry:'completed'}));
-  await worker.scheduled(checkpoint,{RETRY_STATUS});
+  await worker.scheduled(checkpoint,schedulerEnv(RETRY_STATUS));
   assert.equal(RETRY_STATUS.writes.at(-1).value.ok,true);
   const n=RETRY_STATUS.writes.length;
-  await worker.scheduled({scheduledTime:checkpoint.scheduledTime+60000},{RETRY_STATUS});
+  await worker.scheduled({scheduledTime:checkpoint.scheduledTime+60000},schedulerEnv(RETRY_STATUS));
   assert.equal(RETRY_STATUS.writes.length,n,'checkpoint writes stay within the KV free daily allowance');
   assert.equal((await worker.fetch()).status,404);
 });

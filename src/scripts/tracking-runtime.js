@@ -113,17 +113,24 @@ function preferences() {
 }
 function observe() {
   const timers = new Map(); let activeMs = 0, last = performance.now(), depth = 0, lastPersisted = Date.now();
+  const exposure = new WeakMap();
   const visible = new IntersectionObserver(entries => entries.forEach(entry => {
     const el = entry.target;
-    if (entry.isIntersecting && !timers.has(el)) timers.set(el, setTimeout(() => {
+    if (entry.isIntersecting && entry.intersectionRatio >= 0.5 && !timers.has(el)) timers.set(el, setTimeout(() => {
       if (document.visibilityState !== 'visible') { timers.delete(el); return; }
-      if (el.matches('section[id]')) track('section_view', { section_id: el.id }, `section:${el.id}`);
-      else track('cta_view', { placement: placement(el), action: 'start_audit' }, `cta_view:${placement(el)}`);
+      const detail = exposure.get(el);
+      if (detail) track(detail.event, detail.params, detail.key);
       visible.unobserve(el); timers.delete(el);
     }, 1000));
-    else if (!entry.isIntersecting) { clearTimeout(timers.get(el)); timers.delete(el); }
-  }), { threshold: 0.1 });
-  document.querySelectorAll('section[id], a[href="#audit"], a[href="/#audit"]').forEach(el => visible.observe(el));
+    else if (!entry.isIntersecting || entry.intersectionRatio < 0.5) { clearTimeout(timers.get(el)); timers.delete(el); }
+  }), { threshold: 0.5 });
+  document.querySelectorAll('section[id]').forEach(section => {
+    const heading = section.querySelector('h1,h2');
+    if (heading) { exposure.set(heading, {event:'section_view',params:{section_id:section.id},key:`section:${section.id}`}); visible.observe(heading); }
+  });
+  document.querySelectorAll('a[href="#audit"], a[href="/#audit"]').forEach((el,i) => {
+    exposure.set(el, {event:'cta_view',params:{placement:placement(el),action:'start_audit'},key:`cta_view:${i}`}); visible.observe(el);
+  });
   const tick = () => {
     reconcileChoice();
     if (!granted) return;

@@ -120,7 +120,10 @@ for (const id of ['w-email', 'w-phone']) $(id).addEventListener('input', () => {
   if (!formStarted) { formStarted = true; track('lead_form_start', { form_id: 'audit_report', gate_step: 'email' }); }
 });
 $('w-report').addEventListener('toggle', event => {
-  if (event.target.matches('details') && event.target.open) track('report_detail_open', { detail_type: 'cited_answer' });
+  if (event.target.matches('details') && event.target.open) {
+    const index = Array.from($('w-report').querySelectorAll('details')).indexOf(event.target);
+    track('report_detail_open', { detail_type: 'cited_answer' }, `detail:${flow}:${index}`);
+  }
 }, true);
 
 function renderReport() {

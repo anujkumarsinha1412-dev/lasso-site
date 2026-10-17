@@ -15,7 +15,8 @@ export function inquiryEmails(data,id,env){
 
 export async function saveInquiry(db,data,key,payloadHash,env,measurement={}){
   const id=crypto.randomUUID(),now=new Date().toISOString();
-  const statements=[db.prepare('INSERT OR IGNORE INTO consultation_inquiries (id,request_key,payload_hash,created_at,website,name,email,message,source_page) VALUES (?,?,?,?,?,?,?,?,?)').bind(id,key,payloadHash,now,data.website,data.name,data.email,data.message,data.source_page)];
+  const status=['test','internal'].includes(measurement.trafficClass)?measurement.trafficClass:'new';
+  const statements=[db.prepare('INSERT OR IGNORE INTO consultation_inquiries (id,request_key,payload_hash,created_at,website,name,email,message,source_page,status) VALUES (?,?,?,?,?,?,?,?,?,?)').bind(id,key,payloadHash,now,data.website,data.name,data.email,data.message,data.source_page,status)];
   statements.push(db.prepare('INSERT OR IGNORE INTO consultation_attribution (inquiry_id,analytics_consent,attribution_json) SELECT id,?,? FROM consultation_inquiries WHERE request_key=? AND id=?').bind(measurement.consent===true?1:0,measurement.consent===true && measurement.attribution?JSON.stringify(measurement.attribution):null,key,id));
   for(const email of inquiryEmails(data,id,env))statements.push(db.prepare('INSERT OR IGNORE INTO consultation_mail (id,inquiry_id,payload_json,created_at,next_attempt_at) SELECT ?,id,?,?,? FROM consultation_inquiries WHERE request_key=? AND id=?').bind(`inquiry/${id}/${email.kind}`,JSON.stringify(email.payload),now,now,key,id));
   await db.batch(statements);

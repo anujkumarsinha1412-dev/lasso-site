@@ -1,5 +1,5 @@
 // Public analytics contract. Never pass form values, report text or arbitrary URLs.
-export const VERSION = '2026-10-16.2';
+export const VERSION = '2026-10-17.1';
 export const HOSTS = ['agenquest.com', 'www.agenquest.com'];
 export const EVENTS = ['page_view', 'section_view', 'scroll_depth', 'content_engaged', 'cta_view', 'cta_click', 'contact_click', 'outbound_click', 'audit_prefilled', 'audit_started', 'audit_prompts_generated', 'audit_question_added', 'audit_question_selection', 'audit_run', 'audit_partial', 'audit_completed', 'lead_gate_view', 'lead_form_start', 'lead_validation_error', 'lead_submit_attempt', 'generate_lead', 'audit_failed', 'report_detail_open', 'booking_started'];
 export const PARAMS = ['placement', 'action', 'contact_method', 'section_id', 'percent_scrolled', 'has_prefill', 'question_count', 'category_group', 'selected_count', 'question_type', 'attempt_no', 'is_retry', 'checked_count', 'failed_count', 'duration_ms', 'score', 'form_id', 'gate_step', 'field_name', 'error_code', 'stage', 'http_status', 'lead_source', 'detail_type', 'scheduler', 'destination_domain', 'link_group'];

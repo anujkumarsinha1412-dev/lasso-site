@@ -26,7 +26,8 @@ if(form instanceof HTMLFormElement){
       let source_page='';try{const source=new URL(document.referrer);if(source.origin===location.origin)source_page=source.pathname;}catch{}
       const analytics_consent=window.aqAnalytics?.allowed()===true;
       const attribution=analytics_consent ? window.aqAnalytics.attribution() : null;
-      const response=await fetch('/api/inquiry',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({...data,fax:values.fax,request_key:requestKey,source_page,analytics_consent,attribution}),signal:controller.signal});
+      const traffic_class=window.aqAnalytics?.trafficClass() || 'visitor';
+      const response=await fetch('/api/inquiry',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({...data,fax:values.fax,request_key:requestKey,source_page,analytics_consent,attribution,traffic_class}),signal:controller.signal});
       const result=await response.json().catch(()=>{throw new Error('Your request hasn’t been confirmed. Please try again, or email hello@agenquest.com.');});
       if(!response.ok || !result.ok || result.stored!==true)throw new Error(result.error||'Your request hasn’t been sent. Please try again, or email hello@agenquest.com.');
       track('generate_lead',{lead_source:'consultation'},'consultation:accepted');

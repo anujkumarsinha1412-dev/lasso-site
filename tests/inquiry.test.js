@@ -10,6 +10,21 @@ function database(){const db=memoryD1();for(const migration of ['0002_consultati
 const input=()=>({request_key:crypto.randomUUID(),website:'example.com',name:'अनुज',email:'person@example.com',message:'A consultation, please.',source_page:'/blog/what-is-aeo/'});
 function context(body,db,headers={}){const pending=[];return {request:new Request('https://agenquest.com/api/inquiry',{method:'POST',headers:{origin:'https://agenquest.com','content-type':'application/json','cf-connecting-ip':'192.0.2.1',...headers},body:JSON.stringify(body)}),env:{LEAD_DB:db},waitUntil:p=>pending.push(p),pending};}
 
+test('explicit internal and test enquiries retain evidence but cannot enter business lead totals or attribution',async()=>{
+  const db=database();db.sql.exec(readFileSync(new URL('../migrations/0006_clean_consultation_reporting.sql',import.meta.url),'utf8'));
+  for(const traffic_class of ['test','internal']){
+    const response=await onRequestPost(context({...input(),traffic_class,analytics_consent:true},db));assert.equal(response.status,200);
+  }
+  await onRequestPost(context({...input(),analytics_consent:false},db));
+  await onRequestPost(context(input(),db,{cookie:'aq_test=1; aq_optout=1'}));
+  assert.equal(db.sql.prepare("SELECT count(*) n FROM consultation_inquiries WHERE status='test'").get().n,2);
+  assert.equal(db.sql.prepare("SELECT count(*) n FROM consultation_attribution WHERE analytics_consent=1").get().n,0);
+  const totals=db.sql.prepare('SELECT * FROM consultation_business_daily').get();
+  assert.equal(totals.non_test_enquiries,1);assert.equal(totals.awaiting_review,1);assert.equal(totals.verified_genuine,0);
+  db.sql.exec("UPDATE consultation_inquiries SET status='genuine' WHERE status='new'");
+  assert.equal(db.sql.prepare('SELECT verified_genuine FROM consultation_business_daily').get().verified_genuine,1);
+});
+
 test('consultation accepts an international single name and a domain without making a live lookup',()=>{
   const result=validateInquiry(input());assert.equal(result.valid,true);assert.equal(result.data.website,'https://example.com/');assert.equal(result.data.name,'अनुज');
   for(const value of ['http://127.0.0.1/','localhost','https://user:pass@example.com','javascript:alert(1)','https://private.local','http://[::1]','https://example.com:4321'])assert.equal(normalizeWebsite(value),'');

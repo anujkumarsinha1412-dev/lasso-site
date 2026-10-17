@@ -1,4 +1,5 @@
 import { VERSION, HOSTS, EVENTS, PARAMS, cleanParams, cleanUrl, pageContext, acquisition, attributionRecord } from '../lib/tracking.js';
+import { trafficIntent } from '../lib/traffic-policy.js';
 
 const qp = new URLSearchParams(location.search);
 const qa = ['localhost', '127.0.0.1'].includes(location.hostname) && qp.get('aq_qa') === '1';
@@ -8,9 +9,12 @@ const read = key => { try { return localStorage.getItem(key); } catch { return n
 const cookie = key => { try { return decodeURIComponent(document.cookie.split('; ').find(x => x.startsWith(key + '='))?.split('=').slice(1).join('=') || ''); } catch { return ''; } };
 function writeCookie(key, value, days) { document.cookie = `${key}=${encodeURIComponent(value)}; Path=/; Max-Age=${days * 86400}; SameSite=Lax${production ? '; Domain=.agenquest.com; Secure' : ''}`; }
 function save(key, value, days = 180) { try { value ? localStorage.setItem(key, value) : localStorage.removeItem(key); } catch {} writeCookie(key, value, value ? days : 0); }
-if (['1', '0'].includes(qp.get('noanalytics'))) save(OPT, qp.get('noanalytics') === '1' ? '1' : '', 730);
+const intent = trafficIntent(location.href, document.referrer);
+if (intent.reset) for (const key of [OPT,'aq_internal','aq_test']) save(key, '', 730);
+if (intent.internal && !qa) { save(OPT,'1',730); save('aq_internal','1',730); if (intent.test) save('aq_test','1',730); }
 const excluded = read(OPT) === '1' || cookie(OPT) === '1';
 if (excluded) save(OPT, '1', 730);
+const trafficClass = intent.test || read('aq_test') === '1' || cookie('aq_test') === '1' ? 'test' : excluded || !production ? 'internal' : 'visitor';
 window.__aqOptedOut = excluded;
 const eligible = (production || qa) && !excluded;
 function choice() {
@@ -55,7 +59,8 @@ function track(event, params = {}, onceKey = '') {
   try { window.clarity?.('event', event); } catch {}
   displayQA();
 }
-window.aqAnalytics = { track, attribution: () => granted && eligible ? attribution : null, context: () => context, allowed: () => granted && eligible, version: VERSION };
+window.aqAnalytics = { track, attribution: () => granted && eligible ? attribution : null, context: () => context, allowed: () => granted && eligible, trafficClass: () => trafficClass, version: VERSION };
+if (excluded) purge();
 function purge() {
   save(ATTR, '');
   for (const part of document.cookie.split('; ')) {
@@ -68,7 +73,7 @@ function purge() {
   }
 }
 function activate() {
-  if (!eligible || !granted || started) return;
+  if (!eligible || !granted || started || read(OPT) === '1' || cookie(OPT) === '1') return;
   let previous; try { previous = JSON.parse(read(ATTR) || cookie(ATTR)); } catch {}
   attribution = attributionRecord(previous, acquisition(location.href, document.referrer));
   save(ATTR, JSON.stringify(attribution), 90);
@@ -86,6 +91,14 @@ function activate() {
     window.dataLayer.push({ 'gtm.start': Date.now(), event: 'gtm.js' });
     window.dataLayer.push({ event: 'aq_ready' });
     const script = document.createElement('script'); script.async = true; script.src = 'https://www.googletagmanager.com/gtm.js?id=GTM-5RDHZMWP'; document.head.appendChild(script);
+    // Manual RUM replaces Cloudflare auto-injection so the same consent and
+    // internal/test exclusions govern all three browser measurement tools.
+    if (!document.querySelector('script[data-cf-beacon]')) {
+      const beacon = document.createElement('script'); beacon.type = 'module';
+      beacon.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+      beacon.setAttribute('data-cf-beacon', JSON.stringify({token:'84e2d52a5cea434d90ff4dc0b6d8e16b',spa:false}));
+      document.head.appendChild(beacon);
+    }
   }
   cleanup = observe();
   displayQA();
@@ -107,7 +120,7 @@ function choose(value) {
 function preferences() {
   document.getElementById('aq-consent')?.remove();
   const box = document.createElement('div'); box.id = 'aq-consent'; box.setAttribute('role','region'); box.setAttribute('aria-label','Privacy choices');
-  box.innerHTML = '<p><strong>Your privacy choices</strong><br>With your permission, Google Analytics measures visits and Microsoft Clarity shows masked interaction recordings. The contact form works either way. <a href="/privacy">Read our privacy note</a>.</p><div><button type="button" data-choice="granted">Accept analytics</button><button type="button" data-choice="denied">Reject analytics</button></div>';
+  box.innerHTML = '<p><strong>Your privacy choices</strong><br>With your permission, Google Analytics measures visits, Microsoft Clarity shows masked interaction recordings, and Cloudflare measures page performance. The contact form works either way. <a href="/privacy">Read our privacy note</a>.</p><div><button type="button" data-choice="granted">Accept analytics</button><button type="button" data-choice="denied">Reject analytics</button></div>';
   box.addEventListener('click', e => { const button = e.target.closest('[data-choice]'); if (button) choose(button.dataset.choice); });
   document.body.appendChild(box);
 }
